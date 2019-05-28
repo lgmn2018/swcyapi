@@ -13,6 +13,6 @@ public class ApplicationConfig {
      */
     @Bean
     public GlobalTransactionScanner globalTransactionScanner(){
-        return new GlobalTransactionScanner("swcy-provider", "my_test_tx_group");
+        return new GlobalTransactionScanner("swcy-api-provider", "my_test_tx_group");
     }
 }

@@ -1,4 +1,4 @@
-package com.lgmn;
+package com.lgmn.swcyapi;
 
 import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
 import org.springframework.boot.SpringApplication;

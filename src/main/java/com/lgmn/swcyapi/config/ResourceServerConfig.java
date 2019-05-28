@@ -26,26 +26,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
                 .requestMatchers().antMatchers(
-                                      "/auth/**/api/**",
-                                                    "/personal/api/getLoginUser",
-                                                    "/personal/api/updateAvatar",
-                                                    "/personal/api/updateNikeName",
-                                                    "/personal/api/getBalance",
-                                                    "/personal/api/getBankMsg",
-                                                    "/personal/api/addBankMsg",
-                                                    "/personal/api/deleteBankMsg",
-                                                    "/personal/api/withdrawal")
+                                      "/auth/**/api/**")
                 .and()
                 .authorizeRequests()
-                .antMatchers( "/auth/**/api/**",
-                                            "/personal/api/getLoginUser",
-                                            "/personal/api/updateAvatar",
-                                            "/personal/api/updateNikeName",
-                                            "/personal/api/getBalance",
-                                            "/personal/api/getBankMsg",
-                                            "/personal/api/addBankMsg",
-                                            "/personal/api/deleteBankMsg",
-                                            "/personal/api/withdrawal").authenticated()
+                .antMatchers( "/auth/**/api/**").authenticated()
                 .and()
                 .httpBasic();
     }

@@ -1,4 +1,4 @@
-package com.lgmn.controller;
+package com.lgmn.swcyapi.controller;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.PostMapping;
