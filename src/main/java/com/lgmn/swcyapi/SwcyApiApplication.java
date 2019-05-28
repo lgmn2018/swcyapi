@@ -10,10 +10,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @NacosPropertySource(dataId = "swcyapi", autoRefreshed = true)
 @EnableSwagger2
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class swcy-apiApplication {
+public class SwcyApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(swcy-apiApplication.class, args);
+        SpringApplication.run(SwcyApiApplication.class, args);
     }
 
 }
