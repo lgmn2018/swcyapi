@@ -31,19 +31,9 @@ security:
       id: swcyapi
       user-info-uri: http://localhost:8088/api/member
       prefer-token-info: false
-lgmn:
-  token-url: http://localhost:8088/oauth/token
-  exitLogin-url: http://localhost:8088/api/exit
-logging:
-  path: /lgmn/shandian/log
-juhe:
+yzx:
   service:
-    bank-card-key: 858f63471dbcdeef9c920d0ed34b7361
-qiniu:
-  service:
-    bucket: shandian
-    access-key: JIDgvq8Sy7bNvW5wDFePtMfv_UEqXvz3DGhw9aUQ
-    secret-key: ZbggGQuuvcBwj_pmSo1wOCuGGKXFyw0h0xfHZFXq
-    url: http://qncdn.gdsdec.com/
-recommend:
-  url: http://www.gdsdec.com/
+    appid: 69f904bf709c434fb8923ed44af1154c
+    sid: c87d5001668c2bd825a8239ee283de7d
+    templateid: 472275
+    token: a140b7aafb3714828f6c5a46ad30719e

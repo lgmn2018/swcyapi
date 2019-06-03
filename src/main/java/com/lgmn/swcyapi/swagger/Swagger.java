@@ -33,7 +33,7 @@ public class Swagger {
                 .apiInfo(apiInfo())
                 .select()
                 //为当前包路径
-                .apis(RequestHandlerSelectors.basePackage("com.lgmn.admin.api.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.lgmn.swcyapi.controller"))
                 .paths(PathSelectors.regex("^(?!auth).*$"))
                 .paths(PathSelectors.any())
                 .build()
@@ -45,7 +45,7 @@ public class Swagger {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 //页面标题
-                .title("两个码农后台管理API")
+                .title("两个码农$亿家居联合项目：三维创业API")
                 //创建人
                 .contact(new Contact("Lgmn", "", ""))
                 //版本号
