@@ -124,11 +124,22 @@
         <dependency>
             <groupId>com.lgmn</groupId>
             <artifactId>common</artifactId>
+            <version>1.0.2</version>
         </dependency>
         <dependency>
             <groupId>com.lgmn.starter</groupId>
             <artifactId>yzx-spring-boot-starter</artifactId>
             <version>0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lgmn</groupId>
+            <artifactId>user-services-basic</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lgmn</groupId>
+            <artifactId>basic-services-basic</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 
