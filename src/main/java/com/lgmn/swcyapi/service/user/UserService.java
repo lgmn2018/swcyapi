@@ -62,23 +62,20 @@ public class UserService {
 
     private LgmnUserEntity getUser (String phone, String password) {
         LgmnUserEntity lgmnUserEntity = new LgmnUserEntity();
-//        lgmnUserEntity.setAvatar("http://qncdn.gdsdec.com/default/avatar/man.png");
+        lgmnUserEntity.setAvatar("http://qncdn.gdsdec.com/default/avatar/man.png");
         lgmnUserEntity.setAccount(phone);
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         lgmnUserEntity.setPassword(bCryptPasswordEncoder.encode(password));
         lgmnUserEntity.setSalt("123456");
         lgmnUserEntity.setUserType(0);
+        lgmnUserEntity.setRegTime(new Timestamp(System.currentTimeMillis()));
         return lgmnUserEntity;
     }
 
     @GlobalTransactional
     private void saveUserAndUpdateSmsCode (LgmnUserEntity lgmnUserEntity, LgmnSmsCodeEntity lgmnSmsCodeEntity) {
-        try {
-            smsCodeService.saveBySmsCode(lgmnSmsCodeEntity);
-            lgmnUserEntityService.saveEntity(lgmnUserEntity);
-        } catch (Exception e) {
-            throw new RuntimeException("this is error");
-        }
+        smsCodeService.saveBySmsCode(lgmnSmsCodeEntity);
+        lgmnUserEntityService.saveEntity(lgmnUserEntity);
     }
 
 }
