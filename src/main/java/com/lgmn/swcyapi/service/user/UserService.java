@@ -65,14 +65,24 @@ public class UserService {
         if (lgmnSmsCodeEntity.getCode().equals(registerDto.getSmsCode()) && lgmnSmsCodeEntity.getIsExprie() == 1 || !new Timestamp(System.currentTimeMillis()).before(lgmnSmsCodeEntities.get(0).getExpireTime())) return Result.error(ResultEnum.MSG_CODE_ERROR);
 
         List<LgmnUserEntity> lgmnUserEntities = getUserByPhone(phone);
-        if (lgmnUserEntities.size() > 0) return Result.error(ResultEnum.DATA_EXISTS);
-
+        LgmnUserEntity lgmnUserEntity = null;
+        String msg = "注册成功";
+        if (lgmnUserEntities.size() > 0) {
+            if (registerDto.getType() == 0) {
+                return Result.error(ResultEnum.DATA_EXISTS);
+            } else {
+                lgmnUserEntity = lgmnUserEntities.get(0);
+                BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+                lgmnUserEntity.setPassword(bCryptPasswordEncoder.encode(password));
+                msg = "重置成功";
+            }
+        } else {
+            lgmnUserEntity = getUser(phone, password);
+        }
         // 修改验证码状态并保存用户
         lgmnSmsCodeEntity.setIsExprie(1);
-        LgmnUserEntity lgmnUserEntity = getUser(phone, password);
         saveUserAndUpdateSmsCode(lgmnUserEntity, lgmnSmsCodeEntity);
-
-        return Result.success("注册成功");
+        return Result.success(msg);
     }
 
     public Result login (LoginDto loginDto) throws Exception {
