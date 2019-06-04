@@ -37,3 +37,6 @@ yzx:
     sid: c87d5001668c2bd825a8239ee283de7d
     templateid: 472275
     token: a140b7aafb3714828f6c5a46ad30719e
+lgmn:
+  token-url: http://127.0.0.1:8088/oauth/token
+  exitLogin-url: http://127.0.0.1:8088/api/exit
