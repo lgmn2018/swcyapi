@@ -4,6 +4,8 @@ import com.lgmn.common.result.Result;
 import com.lgmn.swcyapi.dto.login.RegisterDto;
 import com.lgmn.swcyapi.dto.login.SmsCodeDto;
 import com.lgmn.swcyapi.service.sms.SmsCodeService;
+import com.lgmn.swcyapi.service.user.UserService;
+import io.seata.spring.annotation.GlobalTransactional;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +16,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/account")
 public class LoginController {
 
-    static String regxPhone = "^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
-    static String regxPass = "^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?!([^(0-9a-zA-Z)])+$).{8,32}$";
-
     @Autowired
     private SmsCodeService smsCodeService;
 
+    @Autowired
+    private UserService userService;
+
     @ApiOperation(value = "注册")
     @PostMapping("/register")
-    public String login(@RequestBody RegisterDto registerDto){
-
-        return "login";
+    public Result login(@RequestBody RegisterDto registerDto){
+        try {
+            return userService.register(registerDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
     }
 
+    @ApiOperation(value = "获取验证码")
     @PostMapping("/getSmsCode")
     public Result getSmsCode (@RequestBody SmsCodeDto smsCodeDto) {
         try {

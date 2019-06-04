@@ -64,6 +64,10 @@ public class SmsCodeService {
         return lgmnSmsCodeService.saveEntity(lgmnSmsCodeEntity);
     }
 
+    public LgmnSmsCodeEntity saveBySmsCode (LgmnSmsCodeEntity lgmnSmsCodeEntity) {
+        return lgmnSmsCodeService.saveEntity(lgmnSmsCodeEntity);
+    }
+
     public List<LgmnSmsCodeEntity> getByPhone (String phone) throws Exception {
         LgmnSmsCodeDto lgmnSmsCodeDto = new LgmnSmsCodeDto();
         lgmnSmsCodeDto.setPhone(phone);
