@@ -1,6 +1,8 @@
 package com.lgmn.swcyapi.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lgmn.common.result.Result;
+import com.lgmn.swcyapi.dto.login.ExitLoginDto;
 import com.lgmn.swcyapi.dto.login.LoginDto;
 import com.lgmn.swcyapi.dto.login.RegisterDto;
 import com.lgmn.swcyapi.dto.login.SmsCodeDto;
@@ -9,7 +11,13 @@ import com.lgmn.swcyapi.service.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.DefaultResponseErrorHandler;
+import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
 
 @Api(description = "登录注册")
 @RestController
@@ -50,6 +58,12 @@ public class LoginController {
         } catch (Exception e) {
             return Result.serverError(e.getMessage());
         }
+    }
+
+    @ApiOperation(value = "退出登录")
+    @PostMapping("/exitLogin")
+    public Result exitLogin(@RequestBody ExitLoginDto exitLoginDto) {
+        return userService.exitLogin(exitLoginDto);
     }
 
 }

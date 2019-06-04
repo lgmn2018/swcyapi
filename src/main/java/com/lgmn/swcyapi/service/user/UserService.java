@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lgmn.basicservices.basic.entity.LgmnSmsCodeEntity;
 import com.lgmn.common.result.Result;
 import com.lgmn.common.result.ResultEnum;
+import com.lgmn.swcyapi.dto.login.ExitLoginDto;
 import com.lgmn.swcyapi.dto.login.LoginDto;
 import com.lgmn.swcyapi.dto.login.RegisterDto;
 import com.lgmn.swcyapi.service.sms.SmsCodeService;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -42,6 +44,9 @@ public class UserService {
 
     @Value("${lgmn.token-url}")
     String tokenUrl;
+
+    @Value("${lgmn.exitLogin-url}")
+    String exitLoginUrl;
 
     static String regxPhone = "^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
     static String regxPass = "^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?!([^(0-9a-zA-Z)])+$).{8,32}$";
@@ -80,17 +85,7 @@ public class UserService {
         postParameters.add("username", loginDto.getPhone());
         postParameters.add("password", loginDto.getPassword());
 
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
-            @Override
-            // Ignore 400
-            public void handleError(ClientHttpResponse response) throws IOException {
-                if (response.getRawStatusCode() != 400 && response.getRawStatusCode() != 401 && response.getRawStatusCode() != 402 && response.getRawStatusCode() != 403 && response.getRawStatusCode() != 405 && response.getRawStatusCode() != 500) {
-                    super.handleError(response);
-                }
-            }
-        });
-
+        RestTemplate restTemplate = getRestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setBasicAuth("android", "android", StandardCharsets.UTF_8);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity(postParameters, httpHeaders);
@@ -101,11 +96,41 @@ public class UserService {
         return Result.success(responseResult);
     }
 
+    public Result exitLogin (ExitLoginDto exitLoginDto) {
+        RestTemplate restTemplate = getRestTemplate();
+        ResponseEntity<JSONObject> responseEntity = restTemplate.getForEntity(exitLoginUrl + "?access_token=" + exitLoginDto.getAccessToken(), JSONObject.class);
+        JSONObject responseResult = responseEntity.getBody();
+        String msg = "";
+        if (responseResult.containsKey("message")) {
+            msg = responseResult.getString("message");
+        } else if (responseResult.containsKey("error")) {
+            msg = "token无效";
+        }
+        Result result = new Result();
+        result.setMessage(msg);
+        result.setCode(String.valueOf(responseEntity.getStatusCodeValue()));
+        return result;
+    }
+
 
     public List<LgmnUserEntity> getUserByPhone (String phone) throws Exception {
         LgmnUserDto lgmnUserDto = new LgmnUserDto();
         lgmnUserDto.setAccount(phone);
         return lgmnUserEntityService.getListByDto(lgmnUserDto);
+    }
+
+    private RestTemplate getRestTemplate () {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
+            @Override
+            // Ignore 400
+            public void handleError(ClientHttpResponse response) throws IOException {
+                if (response.getRawStatusCode() != 400 && response.getRawStatusCode() != 401 && response.getRawStatusCode() != 402 && response.getRawStatusCode() != 403 && response.getRawStatusCode() != 405 && response.getRawStatusCode() != 500) {
+                    super.handleError(response);
+                }
+            }
+        });
+        return restTemplate;
     }
 
     private LgmnUserEntity getUser (String phone, String password) {
