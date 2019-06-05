@@ -9,7 +9,7 @@ public class RegisterDto {
     private String smsCode;
     private String password;
     private String confirmPassword;
-
+    private String puid;
     @ApiModelProperty(value = "0 注册，1忘记密码")
     private Integer type;
 }

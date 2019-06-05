@@ -5,9 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.lgmn.basicservices.basic.entity.LgmnSmsCodeEntity;
 import com.lgmn.common.result.Result;
 import com.lgmn.common.result.ResultEnum;
+import com.lgmn.swcy.basic.entity.SwcyAppUserEntity;
 import com.lgmn.swcyapi.dto.login.ExitLoginDto;
 import com.lgmn.swcyapi.dto.login.LoginDto;
 import com.lgmn.swcyapi.dto.login.RegisterDto;
+import com.lgmn.swcyapi.service.appuser.AppUserService;
 import com.lgmn.swcyapi.service.sms.SmsCodeService;
 import com.lgmn.userservices.basic.dto.LgmnUserDto;
 import com.lgmn.userservices.basic.entity.LgmnUserEntity;
@@ -41,6 +43,9 @@ public class UserService {
 
     @Autowired
     SmsCodeService smsCodeService;
+
+    @Autowired
+    AppUserService appUserService;
 
     @Value("${lgmn.token-url}")
     String tokenUrl;
@@ -81,7 +86,7 @@ public class UserService {
         }
         // 修改验证码状态并保存用户
         lgmnSmsCodeEntity.setIsExprie(1);
-        saveUserAndUpdateSmsCode(lgmnUserEntity, lgmnSmsCodeEntity);
+        saveUserAndUpdateSmsCode(lgmnUserEntity, lgmnSmsCodeEntity, registerDto.getPuid());
         return Result.success(msg);
     }
 
@@ -155,9 +160,23 @@ public class UserService {
         return lgmnUserEntity;
     }
 
+    private SwcyAppUserEntity getAppUser (String uid, String puid) {
+        SwcyAppUserEntity swcyAppUserEntity = new SwcyAppUserEntity();
+        swcyAppUserEntity.setUid(uid);
+        swcyAppUserEntity.setPuid(puid);
+        swcyAppUserEntity.setGender(0);
+        swcyAppUserEntity.setPersonPower(0);
+        swcyAppUserEntity.setScore(0);
+        swcyAppUserEntity.setUserType(0);
+        swcyAppUserEntity.setStar(0);
+        return swcyAppUserEntity;
+    }
+
     @GlobalTransactional
-    private void saveUserAndUpdateSmsCode (LgmnUserEntity lgmnUserEntity, LgmnSmsCodeEntity lgmnSmsCodeEntity) {
+    private void saveUserAndUpdateSmsCode (LgmnUserEntity lgmnUserEntity, LgmnSmsCodeEntity lgmnSmsCodeEntity, String puid) {
         smsCodeService.saveBySmsCode(lgmnSmsCodeEntity);
-        lgmnUserEntityService.saveEntity(lgmnUserEntity);
+        LgmnUserEntity userEntity = lgmnUserEntityService.saveEntity(lgmnUserEntity);
+        SwcyAppUserEntity swcyAppUserEntity = getAppUser(userEntity.getId(), puid);
+        appUserService.save(swcyAppUserEntity);
     }
 }
