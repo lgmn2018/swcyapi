@@ -27,11 +27,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
                 .requestMatchers().antMatchers(
                                       "/auth/**/api/**",
-                                                    "/home/getHomePage")
+                                                    "/home/getHomePage",
+                                                    "/order/*")
                 .and()
                 .authorizeRequests()
                 .antMatchers( "/auth/**/api/**",
-                                            "/home/getHomePage").authenticated()
+                                            "/home/getHomePage",
+                                            "/order/*").authenticated()
                 .and()
                 .httpBasic();
     }
