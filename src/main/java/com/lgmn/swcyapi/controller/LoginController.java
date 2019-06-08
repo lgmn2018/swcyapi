@@ -5,8 +5,8 @@ import com.lgmn.swcyapi.dto.login.ExitLoginDto;
 import com.lgmn.swcyapi.dto.login.LoginDto;
 import com.lgmn.swcyapi.dto.login.RegisterDto;
 import com.lgmn.swcyapi.dto.login.SmsCodeDto;
+import com.lgmn.swcyapi.service.LoginService;
 import com.lgmn.swcyapi.service.sms.SmsCodeService;
-import com.lgmn.swcyapi.service.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +24,13 @@ public class LoginController {
     private SmsCodeService smsCodeService;
 
     @Autowired
-    private UserService userService;
+    private LoginService loginService;
 
     @ApiOperation(value = "注册/重置密码")
     @PostMapping("/register")
     public Result login(@RequestBody RegisterDto registerDto){
         try {
-            return userService.register(registerDto);
+            return loginService.register(registerDto);
         } catch (Exception e) {
             return Result.serverError(e.getMessage());
         }
@@ -50,7 +50,7 @@ public class LoginController {
     @PostMapping("/login")
     public Result login (@RequestBody LoginDto loginDto) {
         try {
-            return userService.login(loginDto);
+            return loginService.login(loginDto);
         } catch (Exception e) {
             return Result.serverError(e.getMessage());
         }
@@ -59,7 +59,7 @@ public class LoginController {
     @ApiOperation(value = "退出登录")
     @PostMapping("/exitLogin")
     public Result exitLogin(@RequestBody ExitLoginDto exitLoginDto) {
-        return userService.exitLogin(exitLoginDto);
+        return loginService.exitLogin(exitLoginDto);
     }
 
 }

@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class HomeAdVo extends LgmnVo<SwcyAdEntity, HomeAdVo> {
-    private Integer adId;
+    private Integer id;
     private String title;
     private String cover;
     private Integer type;
