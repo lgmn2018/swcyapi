@@ -33,7 +33,7 @@ public class OrderController {
     }
 
     @ApiOperation(value = "获取订单详情")
-    @PostMapping("/getOrderPage")
+    @PostMapping("/getOrderDetailById")
     public Result getOrderDetailById (@RequestHeader String Authorization, Principal principal, @RequestBody OrderDetailDto orderDetailDto) {
         try {
             return orderService.getOrderDetailById(orderDetailDto);

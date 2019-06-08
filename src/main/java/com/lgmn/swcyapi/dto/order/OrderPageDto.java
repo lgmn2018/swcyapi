@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class OrderPageDto {
-    private Integer pageNumber;
-    private Integer pageSize;
+    private int pageNumber;
+    private int pageSize;
 }

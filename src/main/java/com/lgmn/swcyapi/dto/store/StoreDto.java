@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class StoreDto extends LgmnDto {
     private Integer industryId;
-    private Integer pageNumber;
-    private Integer pageSize;
+    private int pageNumber;
+    private int pageSize;
     private String lat;
     private String lng;
 }

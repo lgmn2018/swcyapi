@@ -140,7 +140,7 @@ public class LoginService {
 
     private LgmnUserEntity getUser (String phone, String password) {
         LgmnUserEntity lgmnUserEntity = new LgmnUserEntity();
-        lgmnUserEntity.setAvatar("http://qncdn.gdsdec.com/default/avatar/man.png");
+//        lgmnUserEntity.setAvatar("http://qncdn.gdsdec.com/default/avatar/man.png");
         lgmnUserEntity.setAccount(phone);
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         lgmnUserEntity.setPassword(bCryptPasswordEncoder.encode(password));
@@ -162,7 +162,7 @@ public class LoginService {
         return swcyAppUserEntity;
     }
 
-    @GlobalTransactional
+    @GlobalTransactional(rollbackFor = Exception.class,name = "dubbo-demo-tx")
     private void saveUserAndUpdateSmsCode (LgmnUserEntity lgmnUserEntity, LgmnSmsCodeEntity lgmnSmsCodeEntity, String puid) {
         smsCodeService.saveBySmsCode(lgmnSmsCodeEntity);
         LgmnUserEntity userEntity = userService.save(lgmnUserEntity);
