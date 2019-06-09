@@ -1,24 +1,26 @@
 package com.lgmn.swcyapi.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lgmn.basicservices.basic.entity.LgmnComplaintsEntity;
+import com.lgmn.common.domain.LgmnPage;
 import com.lgmn.common.domain.LgmnUserInfo;
+import com.lgmn.common.domain.LgmnVo;
 import com.lgmn.common.result.Result;
 import com.lgmn.common.result.ResultEnum;
 import com.lgmn.juhe.starter.service.JuHe_IdCardQuery_SarterService;
 import com.lgmn.qiniu.starter.service.QiNiu_UpLoad_Img_StarterService;
-import com.lgmn.swcy.basic.entity.SwcyAdEntity;
-import com.lgmn.swcy.basic.entity.SwcyAppUserEntity;
+import com.lgmn.swcy.basic.entity.*;
 import com.lgmn.swcyapi.dto.login.LoginDto;
-import com.lgmn.swcyapi.dto.person.AuthenticationDto;
-import com.lgmn.swcyapi.dto.person.UpDatePasswordDto;
-import com.lgmn.swcyapi.dto.person.UpdateMailboxDto;
+import com.lgmn.swcyapi.dto.person.*;
 import com.lgmn.swcyapi.service.ad.AdService;
 import com.lgmn.swcyapi.service.appuser.AppUserService;
+import com.lgmn.swcyapi.service.assets.AssetsService;
+import com.lgmn.swcyapi.service.complaints.ComplaintsService;
+import com.lgmn.swcyapi.service.message.MessageService;
+import com.lgmn.swcyapi.service.order.SOrderService;
 import com.lgmn.swcyapi.service.user.UserService;
 import com.lgmn.swcyapi.vo.home.HomeAdVo;
-import com.lgmn.swcyapi.vo.person.AuthenticationInfoVo;
-import com.lgmn.swcyapi.vo.person.PersonAndAdVo;
-import com.lgmn.swcyapi.vo.person.PersonInfoVo;
+import com.lgmn.swcyapi.vo.person.*;
 import com.lgmn.userservices.basic.entity.LgmnUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,6 +29,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -53,6 +56,18 @@ public class PersonService {
 
     @Autowired
     LoginService loginService;
+
+    @Autowired
+    AssetsService assetsService;
+
+    @Autowired
+    SOrderService sOrderService;
+
+    @Autowired
+    MessageService messageService;
+
+    @Autowired
+    ComplaintsService complaintsService;
 
     public Result getPersonAndAdList(LgmnUserInfo lgmnUserInfo) throws Exception {
         List<SwcyAdEntity> swcyAdEntities = adService.getAdListByType(3);
@@ -139,5 +154,76 @@ public class PersonService {
         lgmnUserEntity.setPassword(bCryptPasswordEncoder.encode(upDatePasswordDto.getNewPassword()));
         userService.save(lgmnUserEntity);
         return Result.success("修改成功");
+    }
+
+    public Result getMyAssets (LgmnUserInfo lgmnUserInfo) throws Exception {
+        SwcyAssetsEntity swcyAssetsEntity = assetsService.getAsstesByUid(lgmnUserInfo.getId());
+        return Result.success(swcyAssetsEntity);
+    }
+
+    public Result getMyTeamAchievement (LgmnUserInfo lgmnUserInfo) throws Exception {
+        List<SwcyAppUserEntity> swcyAppUserEntities = appUserService.getAppUserListByPuid(lgmnUserInfo.getId());
+        List<String> ids = new ArrayList<>();
+        ids.add(lgmnUserInfo.getId());
+        for (SwcyAppUserEntity swcyAppUserEntity : swcyAppUserEntities) {
+            ids.add(swcyAppUserEntity.getUid());
+        }
+        List<SwcyOrderEntity> swcyOrderEntities = sOrderService.getAllByUid(ids);
+        BigDecimal teamAchievement = new BigDecimal(0);
+        for (SwcyOrderEntity swcyOrderEntity : swcyOrderEntities) {
+            teamAchievement.add(swcyOrderEntity.getMoney());
+        }
+        TeamAchievementVo teamAchievementVo = new TeamAchievementVo();
+        teamAchievementVo.setTeamSum(swcyAppUserEntities.size() + 1);
+        teamAchievementVo.setTeamAchievement(teamAchievement);
+        return Result.success(teamAchievementVo);
+    }
+
+    public Result getMyTeam (LgmnUserInfo lgmnUserInfo, MyTeamDto myTeamDto) throws Exception {
+        LgmnPage<SwcyAppUserEntity> swcyAppUserEntities = appUserService.getAppUserPageByPuid(lgmnUserInfo.getId(), myTeamDto.getPageNumber(), myTeamDto.getPageSize());
+        LgmnPage<MyTeamVo> myTeamVoLgmnPage = new MyTeamVo().getVoPage(swcyAppUserEntities, MyTeamVo.class);
+        for (MyTeamVo myTeamVo : myTeamVoLgmnPage.getList()) {
+            LgmnUserEntity lgmnUserEntity = userService.getUserById(myTeamVo.getUid());
+            List<String> ids = new ArrayList<>();
+            ids.add(myTeamVo.getUid());
+            List<SwcyOrderEntity> swcyOrderEntityList = sOrderService.getAllByUid(ids);
+            BigDecimal achievement = new BigDecimal(0);
+            for (SwcyOrderEntity swcyOrderEntity : swcyOrderEntityList) {
+                achievement.add(swcyOrderEntity.getMoney());
+            }
+            myTeamVo.setAvatar(lgmnUserEntity.getAvatar());
+            myTeamVo.setNikeName(lgmnUserEntity.getNikeName());
+            myTeamVo.setPhone(lgmnUserEntity.getAccount());
+            myTeamVo.setAchievement(achievement);
+
+        }
+        return Result.success(myTeamVoLgmnPage);
+    }
+
+    public Result getMessage (LgmnUserInfo lgmnUserInfo, MessageDto messageDto) throws Exception {
+        if (messageDto.getType() == 0) {
+            LgmnPage<SwcyMessageEntity> swcyMessageEntityLgmnPage = messageService.getMyMessagePageByUid(lgmnUserInfo.getId(), messageDto.getPageNumber(), messageDto.getPageSize());
+            LgmnPage<MessageVo> messageVoLgmnPage = new MessageVo().getVoPage(swcyMessageEntityLgmnPage, MessageVo.class);
+            return Result.success(messageVoLgmnPage);
+        } else {
+            LgmnPage<SwcyMessageEntity> swcyMessageEntityLgmnPage = messageService.getMessagePage(messageDto.getPageNumber(), messageDto.getPageSize());
+            LgmnPage<MessageVo> messageVoLgmnPage = new MessageVo().getVoPage(swcyMessageEntityLgmnPage, MessageVo.class);
+            return Result.success(messageVoLgmnPage);
+        }
+    }
+
+    public Result upDateMessageHadRead (UpDateMessageHadReadDto upDateMessageHadReadDto) {
+        SwcyMessageEntity swcyMessageEntity = messageService.getMessageById(upDateMessageHadReadDto.getId());
+        swcyMessageEntity.setHadRead(1);
+        messageService.save(swcyMessageEntity);
+        return Result.success("修改成功");
+    }
+
+    public Result complaints (LgmnUserInfo lgmnUserInfo, ComplaintsDto complaintsDto) {
+        LgmnComplaintsEntity lgmnComplaintsEntity = new LgmnComplaintsEntity();
+        lgmnComplaintsEntity.setContext(complaintsDto.getContext());
+        lgmnComplaintsEntity.setUid(lgmnUserInfo.getId());
+        complaintsService.save(lgmnComplaintsEntity);
+        return Result.success("投诉成功");
     }
 }

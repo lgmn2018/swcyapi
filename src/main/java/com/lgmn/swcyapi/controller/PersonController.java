@@ -2,10 +2,7 @@ package com.lgmn.swcyapi.controller;
 
 import com.lgmn.common.domain.LgmnUserInfo;
 import com.lgmn.common.result.Result;
-import com.lgmn.swcyapi.dto.person.AuthenticationDto;
-import com.lgmn.swcyapi.dto.person.UpDateNikeNameDto;
-import com.lgmn.swcyapi.dto.person.UpDatePasswordDto;
-import com.lgmn.swcyapi.dto.person.UpdateMailboxDto;
+import com.lgmn.swcyapi.dto.person.*;
 import com.lgmn.swcyapi.service.PersonService;
 import com.lgmn.userservices.basic.util.UserUtil;
 import io.swagger.annotations.Api;
@@ -105,4 +102,61 @@ public class PersonController {
         return personService.upDatePassword(lgmnUserInfo, upDatePasswordDto);
     }
 
+    @ApiOperation(value = "获取我的资产")
+    @PostMapping("/getMyAssets")
+    public Result getMyAssets (@RequestHeader String Authorization, Principal principal) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        try {
+            return personService.getMyAssets(lgmnUserInfo);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "获取团队总业绩")
+    @PostMapping("/getMyTeamAchievement")
+    public Result getMyTeamAchievement (@RequestHeader String Authorization, Principal principal) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        try {
+            return personService.getMyTeamAchievement(lgmnUserInfo);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "获取团队")
+    @PostMapping("/getMyTeam")
+    public Result getMyTeam (@RequestHeader String Authorization, Principal principal, @RequestBody MyTeamDto myTeamDto) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        try {
+            return personService.getMyTeam(lgmnUserInfo, myTeamDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "获取个人信息/通知公告")
+    @PostMapping("/getMessage")
+    public Result getMessage (@RequestHeader String Authorization, Principal principal, @RequestBody MessageDto messageDto) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        try {
+            return personService.getMessage(lgmnUserInfo, messageDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "修改消息未读状态")
+    @PostMapping("/upDateMessageHadRead")
+    public Result upDateMessageHadRead (@RequestHeader String Authorization, Principal principal, @RequestBody UpDateMessageHadReadDto upDateMessageHadReadDto) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        return personService.upDateMessageHadRead(upDateMessageHadReadDto);
+    }
+
+    @ApiOperation(value = "意见投诉")
+    @PostMapping("/complaints")
+    public Result complaints (@RequestHeader String Authorization, Principal principal, @RequestBody ComplaintsDto complaintsDto) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        return personService.complaints(lgmnUserInfo, complaintsDto);
+    }
 }
