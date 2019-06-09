@@ -2,7 +2,9 @@ package com.lgmn.swcyapi.controller;
 
 import com.lgmn.common.domain.LgmnUserInfo;
 import com.lgmn.common.result.Result;
+import com.lgmn.swcyapi.dto.person.AuthenticationDto;
 import com.lgmn.swcyapi.dto.person.UpDateNikeNameDto;
+import com.lgmn.swcyapi.dto.person.UpDatePasswordDto;
 import com.lgmn.swcyapi.dto.person.UpdateMailboxDto;
 import com.lgmn.swcyapi.service.PersonService;
 import com.lgmn.userservices.basic.util.UserUtil;
@@ -23,12 +25,23 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
-    @ApiOperation(value = "获取订单列表")
-    @PostMapping("/getOrderPage")
+    @ApiOperation(value = "获取基本信息与广告")
+    @PostMapping("/getPersonAndAdList")
     public Result getPersonAndAdList (@RequestHeader String Authorization, Principal principal) {
         LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
         try {
             return personService.getPersonAndAdList(lgmnUserInfo);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "获取基本信息")
+    @PostMapping("/getPersonInfo")
+    public Result getPersonInfo (@RequestHeader String Authorization, Principal principal) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        try {
+            return personService.getPersonInfo(lgmnUserInfo);
         } catch (Exception e) {
             return Result.serverError(e.getMessage());
         }
@@ -61,6 +74,35 @@ public class PersonController {
         } catch (Exception e) {
             return Result.serverError(e.getMessage());
         }
+    }
+
+    @ApiOperation(value = "实名认证")
+    @PostMapping("/authentication")
+    public Result authentication (@RequestHeader String Authorization, Principal principal, @RequestBody AuthenticationDto authenticationDto) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        try {
+            return personService.authentication(lgmnUserInfo, authenticationDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "获取实名信息")
+    @PostMapping("/getAuthenticationInfo")
+    public Result getAuthenticationInfo (@RequestHeader String Authorization, Principal principal) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        try {
+            return personService.getAuthenticationInfo(lgmnUserInfo);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "修改密码")
+    @PostMapping("/upDatePassword")
+    public Result upDatePassword (@RequestHeader String Authorization, Principal principal, @RequestBody UpDatePasswordDto upDatePasswordDto) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        return personService.upDatePassword(lgmnUserInfo, upDatePasswordDto);
     }
 
 }

@@ -146,6 +146,11 @@
             <artifactId>swcy-basic</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.lgmn.starter</groupId>
+            <artifactId>juhe-spring-boot-starter</artifactId>
+            <version>0.0.3</version>
+        </dependency>
     </dependencies>
 
     <build>

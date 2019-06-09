@@ -40,3 +40,11 @@ yzx:
 lgmn:
   token-url: http://127.0.0.1:8088/oauth/token
   exitLogin-url: http://127.0.0.1:8088/api/exit
+qiniu:
+  service:
+    bucket: 未填写
+    access-key: 未填写
+    secret-key: 未填写
+juhe:
+  service:
+    real-name-key: 未填写

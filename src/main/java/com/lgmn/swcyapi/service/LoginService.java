@@ -104,9 +104,18 @@ public class LoginService {
     }
 
     public Result login (LoginDto loginDto) throws Exception {
+        if (!Pattern.matches(regxPhone, loginDto.getPhone())) return Result.error(ResultEnum.PHONE_ERROR);
+        if (!Pattern.matches(regxPass, loginDto.getPassword())) return Result.error(ResultEnum.PASS_ERROR);
         List<LgmnUserEntity> lgmnUserEntities = userService.getUserByPhone(loginDto.getPhone());
         if (lgmnUserEntities.size() <= 0) return Result.error(ResultEnum.DATA_NOT_EXISTS);
+        JSONObject responseResult = restTemplateLogin(loginDto);
+        if (responseResult.containsKey("error_description")) {
+            return Result.error(ResultEnum.PASS_ERROR);
+        }
+        return Result.success(responseResult);
+    }
 
+    public JSONObject restTemplateLogin (LoginDto loginDto) {
         // 不能用Map,
         MultiValueMap<String, String> postParameters = new LinkedMultiValueMap<>();
         postParameters.add("grant_type", "password");
@@ -117,11 +126,7 @@ public class LoginService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setBasicAuth("android", "android", StandardCharsets.UTF_8);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity(postParameters, httpHeaders);
-        JSONObject responseResult = restTemplate.exchange(tokenUrl, HttpMethod.POST, httpEntity, JSONObject.class).getBody();
-        if (responseResult.containsKey("error_description")) {
-            return Result.error(ResultEnum.PASS_ERROR);
-        }
-        return Result.success(responseResult);
+        return restTemplate.exchange(tokenUrl, HttpMethod.POST, httpEntity, JSONObject.class).getBody();
     }
 
     public RestTemplate getRestTemplate () {
