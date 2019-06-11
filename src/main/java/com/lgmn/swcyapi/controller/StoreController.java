@@ -19,9 +19,9 @@ public class StoreController {
     @Autowired
     StoreService storeService;
 
-    @ApiOperation(value = "获取首页数据")
+    @ApiOperation(value = "获取单家广告")
     @PostMapping("/getStoreAdList")
-    public Result getStoreAdListAndIndustryList() {
+    public Result getStoreAdList() {
         try {
             return storeService.getStoreAdListAndIndustryList();
         } catch (Exception e) {
