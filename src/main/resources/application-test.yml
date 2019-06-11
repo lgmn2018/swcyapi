@@ -35,7 +35,7 @@ lgmn:
   token-url: http://authserver:8088/oauth/token
   exitLogin-url: http://authserver:8088/api/exit
 logging:
-  path: /lgmn/shandian/log
+  path: /lgmn/swcy/log
 juhe:
   service:
     bank-card-key: 858f63471dbcdeef9c920d0ed34b7361
