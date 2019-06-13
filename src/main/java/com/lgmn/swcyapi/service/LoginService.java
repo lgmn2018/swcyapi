@@ -81,9 +81,10 @@ public class LoginService {
         } else {
             lgmnUserEntity = getUser(phone, password);
         }
+
         // 修改验证码状态并保存用户
         lgmnSmsCodeEntity.setIsExprie(1);
-        saveUserAndUpdateSmsCode(lgmnUserEntity, lgmnSmsCodeEntity, registerDto.getPuid());
+        saveUserAndUpdateSmsCode(lgmnUserEntity, lgmnSmsCodeEntity, registerDto.getPuid(), registerDto.getType());
         return Result.success(msg);
     }
 
@@ -168,11 +169,13 @@ public class LoginService {
     }
 
     @GlobalTransactional(rollbackFor = Exception.class,name = "dubbo-demo-tx")
-    private void saveUserAndUpdateSmsCode (LgmnUserEntity lgmnUserEntity, LgmnSmsCodeEntity lgmnSmsCodeEntity, String puid) {
+    private void saveUserAndUpdateSmsCode (LgmnUserEntity lgmnUserEntity, LgmnSmsCodeEntity lgmnSmsCodeEntity, String puid, Integer type) {
         smsCodeService.saveBySmsCode(lgmnSmsCodeEntity);
         LgmnUserEntity userEntity = userService.save(lgmnUserEntity);
-        SwcyAppUserEntity swcyAppUserEntity = getAppUser(userEntity.getId(), puid);
-        appUserService.save(swcyAppUserEntity);
+        if (type == 0) {
+            SwcyAppUserEntity swcyAppUserEntity = getAppUser(userEntity.getId(), puid);
+            appUserService.save(swcyAppUserEntity);
+        }
     }
 
 }

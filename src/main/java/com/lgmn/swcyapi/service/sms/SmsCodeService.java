@@ -37,7 +37,7 @@ public class SmsCodeService {
             return Result.error(ResultEnum.PHONE_ERROR);
         }
         List<LgmnSmsCodeEntity> lgmnSmsCodeEntities = getByPhone(phone);
-        if (lgmnSmsCodeEntities.size() > 0 && new Timestamp(System.currentTimeMillis()).before(lgmnSmsCodeEntities.get(0).getExpireTime())) {
+        if (lgmnSmsCodeEntities.size() > 0 && new Timestamp(System.currentTimeMillis()).before(lgmnSmsCodeEntities.get(0).getExpireTime()) && lgmnSmsCodeEntities.get(0).getIsExprie() == 0) {
             return Result.error(ResultEnum.OPERATION_FREQUENTLY_ERROR);
         }
 
