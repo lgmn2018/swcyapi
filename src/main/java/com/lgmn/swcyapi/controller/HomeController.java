@@ -27,7 +27,7 @@ public class HomeController {
     public Result getHomePage (@RequestHeader String Authorization, Principal principal) {
         LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
         try {
-            return Result.success(homeService.getHomePage(lgmnUserInfo));
+            return homeService.getHomePage(lgmnUserInfo);
         } catch (Exception e) {
             return Result.serverError(e.getMessage());
         }
