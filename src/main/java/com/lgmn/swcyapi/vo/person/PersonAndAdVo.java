@@ -10,4 +10,7 @@ import java.util.List;
 public class PersonAndAdVo {
     private LgmnUserInfo lgmnUserInfo;
     private List<HomeAdVo> homeAdVo;
+    private Integer star;
+    private Integer credit;
+
 }

@@ -29,7 +29,7 @@ security:
   oauth2:
     resource:
       id: swcyapi
-      user-info-uri: http://localhost:8088/api/member
+      user-info-uri: http://127.0.0.1:8088/api/member
       prefer-token-info: false
 yzx:
   service:
@@ -42,9 +42,10 @@ lgmn:
   exitLogin-url: http://127.0.0.1:8088/api/exit
 qiniu:
   service:
-    bucket: 未填写
-    access-key: 未填写
-    secret-key: 未填写
+    bucket: shandian
+    access-key: JIDgvq8Sy7bNvW5wDFePtMfv_UEqXvz3DGhw9aUQ
+    secret-key: ZbggGQuuvcBwj_pmSo1wOCuGGKXFyw0h0xfHZFXq
+    url: http://qncdn.gdsdec.com/
 juhe:
   service:
-    real-name-key: 未填写
+    real-name-key: f3b009b89f1b23f41d6751e743b691cb

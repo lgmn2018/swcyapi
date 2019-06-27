@@ -19,7 +19,7 @@ public class AdService {
 
     public List<SwcyAdEntity> getAdListByType (Integer type) throws Exception {
         SwcyAdDto swcyAdDto = new SwcyAdDto();
-        swcyAdDto.setStatus(0);
+        swcyAdDto.setStatus(1);
         swcyAdDto.setType(type);
         List<LgmnOrder> orders = new ArrayList<>();
         LgmnOrder lgmnOrder = new LgmnOrder();

@@ -1,6 +1,7 @@
 package com.lgmn.swcyapi.controller;
 
 import com.lgmn.common.result.Result;
+import com.lgmn.swcyapi.dto.store.SearchStoreDto;
 import com.lgmn.swcyapi.dto.store.StoreDto;
 import com.lgmn.swcyapi.service.StoreService;
 import io.swagger.annotations.Api;
@@ -19,11 +20,11 @@ public class StoreController {
     @Autowired
     StoreService storeService;
 
-    @ApiOperation(value = "获取单家广告")
-    @PostMapping("/getStoreAdList")
+    @ApiOperation(value = "获取门店类型")
+    @PostMapping("/getStoreIndustryList")
     public Result getStoreAdList() {
         try {
-            return storeService.getStoreAdListAndIndustryList();
+            return storeService.getStoreIndustryList();
         } catch (Exception e) {
             return Result.serverError(e.getMessage());
         }
@@ -34,6 +35,16 @@ public class StoreController {
     public Result getPageStore(@RequestBody StoreDto storeDto) {
         try {
             return storeService.getPageStore(storeDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "搜索门店列表")
+    @PostMapping("/getPageSearchStore")
+    public Result getPageSearchStore(@RequestBody SearchStoreDto searchStoreDto) {
+        try {
+            return storeService.getPageSearchStore(searchStoreDto);
         } catch (Exception e) {
             return Result.serverError(e.getMessage());
         }

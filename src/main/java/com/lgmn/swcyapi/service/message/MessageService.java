@@ -26,19 +26,21 @@ public class MessageService {
         return swcyMessageService.findById(id);
     }
 
-    public LgmnPage<SwcyMessageEntity> getMyMessagePageByUid (String uid, Integer pageNumber, Integer pageSize) throws Exception {
+    public LgmnPage<SwcyMessageEntity> getMyMessagePageByUid (String uid, Integer type, Integer pageNumber, Integer pageSize) throws Exception {
         List<LgmnOrder> orders = getOrders();
         SwcyMessageDto swcyMessageDto = new SwcyMessageDto();
         swcyMessageDto.setUid(uid);
+        swcyMessageDto.setType(type);
         swcyMessageDto.setPageNumber(pageNumber);
         swcyMessageDto.setPageSize(pageSize);
         swcyMessageDto.setOrders(orders);
         return swcyMessageService.getPageByDtoWithPageRequet(swcyMessageDto);
     }
 
-    public LgmnPage<SwcyMessageEntity> getMessagePage (Integer pageNumber, Integer pageSize) throws Exception {
+    public LgmnPage<SwcyMessageEntity> getMessagePage (Integer type, Integer pageNumber, Integer pageSize) throws Exception {
         List<LgmnOrder> orders = getOrders();
         SwcyMessageDto swcyMessageDto = new SwcyMessageDto();
+        swcyMessageDto.setType(type);
         swcyMessageDto.setOrders(orders);
         swcyMessageDto.setPageNumber(pageNumber);
         swcyMessageDto.setPageSize(pageSize);

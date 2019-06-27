@@ -5,6 +5,7 @@ import com.lgmn.common.result.Result;
 import com.lgmn.swcy.basic.entity.SwcyOrderDetailEntity;
 import com.lgmn.swcy.basic.entity.SwcyOrderEntity;
 import com.lgmn.swcy.basic.entity.SwcyStoreEntity;
+import com.lgmn.swcy.basic.service.SwcyStoreService;
 import com.lgmn.swcyapi.dto.order.OrderDetailDto;
 import com.lgmn.swcyapi.dto.order.OrderPageDto;
 import com.lgmn.swcyapi.service.order.SOrderDetailService;
@@ -47,6 +48,9 @@ public class OrderService {
         OrderPageVo orderPageVo = new OrderPageVo().getVo(swcyOrderEntity, OrderPageVo.class);
         List<SwcyOrderDetailEntity> swcyOrderDetailEntities = sOrderDetailService.getOrderDetailsByOrderId(swcyOrderEntity.getId());
         List<OrderDetailListVo> orderDetailListVos = new OrderDetailListVo().getVoList(swcyOrderDetailEntities, OrderDetailListVo.class);
+        SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(swcyOrderEntity.getStoreId());
+        orderPageVo.setImageUrl(swcyStoreEntity.getPhoto());
+        orderPageVo.setStoreName(swcyStoreEntity.getName());
         OrderDetailVo orderDetailVo = new OrderDetailVo();
         orderDetailVo.setOrderPageVo(orderPageVo);
         orderDetailVo.setOrderDetailListVo(orderDetailListVos);

@@ -146,7 +146,7 @@ public class LoginService {
 
     private LgmnUserEntity getUser (String phone, String password) {
         LgmnUserEntity lgmnUserEntity = new LgmnUserEntity();
-//        lgmnUserEntity.setAvatar("http://qncdn.gdsdec.com/default/avatar/man.png");
+        lgmnUserEntity.setAvatar("http://qncdn.gdsdec.com/default/avatar/man.png");
         lgmnUserEntity.setAccount(phone);
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         lgmnUserEntity.setPassword(bCryptPasswordEncoder.encode(password));
@@ -159,7 +159,8 @@ public class LoginService {
     private SwcyAppUserEntity getAppUser (String uid, String puid) {
         SwcyAppUserEntity swcyAppUserEntity = new SwcyAppUserEntity();
         swcyAppUserEntity.setUid(uid);
-        swcyAppUserEntity.setPuid(puid);
+//        swcyAppUserEntity.setPuid(puid);
+        swcyAppUserEntity.setPuid("402881e86b26a9cb016b26b2e7410001");
         swcyAppUserEntity.setGender(0);
         swcyAppUserEntity.setPersonPower(0);
         swcyAppUserEntity.setScore(0);

@@ -5,6 +5,7 @@ import com.lgmn.common.result.Result;
 import com.lgmn.swcy.basic.entity.SwcyAdEntity;
 import com.lgmn.swcy.basic.entity.SwcyIndustryEntity;
 import com.lgmn.swcy.basic.entity.SwcyStoreEntity;
+import com.lgmn.swcyapi.dto.store.SearchStoreDto;
 import com.lgmn.swcyapi.dto.store.StoreDto;
 import com.lgmn.swcyapi.service.ad.AdService;
 import com.lgmn.swcyapi.service.industry.IndustryService;
@@ -30,19 +31,23 @@ public class StoreService {
     @Autowired
     SStoreService sStoreService;
 
-    public Result getStoreAdListAndIndustryList() throws Exception {
+    public Result getStoreIndustryList() throws Exception {
         List<SwcyIndustryEntity> swcyIndustryEntities = industryService.getIndustryList();
-        List<SwcyAdEntity> swcyAdEntities = adService.getAdListByType(2);
+//        List<SwcyAdEntity> swcyAdEntities = adService.getAdListByType(2);
         List<StoreIndustryVo> storeIndustryVos = new StoreIndustryVo().getVoList(swcyIndustryEntities, StoreIndustryVo.class);
-        List<HomeAdVo> homeAdVos = new HomeAdVo().getVoList(swcyAdEntities, HomeAdVo.class);
-        AdAndIndustryVo adAndIndustryVo = new AdAndIndustryVo();
-        adAndIndustryVo.setHomeAdVos(homeAdVos);
-        adAndIndustryVo.setStoreIndustryVos(storeIndustryVos);
-        return Result.success(adAndIndustryVo);
+//        List<HomeAdVo> homeAdVos = new HomeAdVo().getVoList(swcyAdEntities, HomeAdVo.class);
+//        AdAndIndustryVo adAndIndustryVo = new AdAndIndustryVo();
+//        adAndIndustryVo.setHomeAdVos(homeAdVos);
+//        adAndIndustryVo.setStoreIndustryVos(storeIndustryVos);
+        return Result.success(storeIndustryVos);
     }
 
     public Result getPageStore (StoreDto storeDto) {
         LgmnPage<Map> swcyStoreEntityLgmnPage = sStoreService.getStoreByIndustryId(storeDto);
+        return Result.success(swcyStoreEntityLgmnPage);
+    }
+    public Result getPageSearchStore (SearchStoreDto searchStoreDto) {
+        LgmnPage<Map> swcyStoreEntityLgmnPage = sStoreService.getPageSearchStore(searchStoreDto);
         return Result.success(swcyStoreEntityLgmnPage);
     }
 

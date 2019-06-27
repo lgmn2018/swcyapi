@@ -23,6 +23,7 @@ import com.lgmn.swcyapi.vo.home.HomeAdVo;
 import com.lgmn.swcyapi.vo.person.*;
 import com.lgmn.userservices.basic.entity.LgmnUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -38,6 +39,8 @@ import java.util.regex.Pattern;
 public class PersonService {
 
     static String regxPass = "^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?!([^(0-9a-zA-Z)])+$).{8,32}$";
+    @Value("${qiniu.service.url}")
+    String qiniuUrl;
 
     @Autowired
     AdService adService;
@@ -70,11 +73,14 @@ public class PersonService {
     ComplaintsService complaintsService;
 
     public Result getPersonAndAdList(LgmnUserInfo lgmnUserInfo) throws Exception {
+        SwcyAppUserEntity swcyAppUserEntity = appUserService.getAppUserByUid(lgmnUserInfo.getId());
         List<SwcyAdEntity> swcyAdEntities = adService.getAdListByType(3);
         List<HomeAdVo> homeAdVos = new HomeAdVo().getVoList(swcyAdEntities, HomeAdVo.class);
         PersonAndAdVo personAndAdVo = new PersonAndAdVo();
         personAndAdVo.setHomeAdVo(homeAdVos);
         personAndAdVo.setLgmnUserInfo(lgmnUserInfo);
+        personAndAdVo.setStar(swcyAppUserEntity.getStar());
+        personAndAdVo.setCredit(swcyAppUserEntity.getCredit());
         return Result.success(personAndAdVo);
     }
 
@@ -91,7 +97,7 @@ public class PersonService {
         path.add("avatar");
         String kePath = qiNiu_upLoad_img_starterService.upLoadImg(avatar, path);
         LgmnUserEntity lgmnUserEntity = userService.getUserById(lgmnUserInfo.getId());
-        lgmnUserEntity.setAvatar(kePath);
+        lgmnUserEntity.setAvatar(qiniuUrl + kePath);
         userService.save(lgmnUserEntity);
         return Result.success("修改成功");
     }
@@ -109,7 +115,7 @@ public class PersonService {
         personInfoVo.setAvatar(lgmnUserInfo.getAvatar());
         personInfoVo.setNikeName(lgmnUserInfo.getNikeName());
         SwcyAppUserEntity swcyAppUserEntity = appUserService.getAppUserByUid(lgmnUserInfo.getId());
-        personInfoVo.setAuthentication(StringUtils.isEmpty(swcyAppUserEntity.getName()));
+        personInfoVo.setAuthentication(!StringUtils.isEmpty(swcyAppUserEntity.getName()));
         personInfoVo.setEmail(swcyAppUserEntity.getEmail());
         return Result.success(personInfoVo);
     }
@@ -169,7 +175,7 @@ public class PersonService {
             ids.add(swcyAppUserEntity.getUid());
         }
         List<SwcyOrderEntity> swcyOrderEntities = sOrderService.getAllByUid(ids);
-        BigDecimal teamAchievement = new BigDecimal(0);
+        BigDecimal teamAchievement = new BigDecimal(0.0);
         for (SwcyOrderEntity swcyOrderEntity : swcyOrderEntities) {
             teamAchievement.add(swcyOrderEntity.getMoney());
         }
@@ -202,11 +208,11 @@ public class PersonService {
 
     public Result getMessage (LgmnUserInfo lgmnUserInfo, MessageDto messageDto) throws Exception {
         if (messageDto.getType() == 0) {
-            LgmnPage<SwcyMessageEntity> swcyMessageEntityLgmnPage = messageService.getMyMessagePageByUid(lgmnUserInfo.getId(), messageDto.getPageNumber(), messageDto.getPageSize());
+            LgmnPage<SwcyMessageEntity> swcyMessageEntityLgmnPage = messageService.getMyMessagePageByUid(lgmnUserInfo.getId(), messageDto.getType(), messageDto.getPageNumber(), messageDto.getPageSize());
             LgmnPage<MessageVo> messageVoLgmnPage = new MessageVo().getVoPage(swcyMessageEntityLgmnPage, MessageVo.class);
             return Result.success(messageVoLgmnPage);
         } else {
-            LgmnPage<SwcyMessageEntity> swcyMessageEntityLgmnPage = messageService.getMessagePage(messageDto.getPageNumber(), messageDto.getPageSize());
+            LgmnPage<SwcyMessageEntity> swcyMessageEntityLgmnPage = messageService.getMessagePage( messageDto.getType(), messageDto.getPageNumber(), messageDto.getPageSize());
             LgmnPage<MessageVo> messageVoLgmnPage = new MessageVo().getVoPage(swcyMessageEntityLgmnPage, MessageVo.class);
             return Result.success(messageVoLgmnPage);
         }
