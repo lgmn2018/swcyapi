@@ -161,7 +161,7 @@ public class LoginService {
         swcyAppUserEntity.setUid(uid);
 //        swcyAppUserEntity.setPuid(puid);
         swcyAppUserEntity.setPuid("402881e86b26a9cb016b26b2e7410001");
-        swcyAppUserEntity.setGender(0);
+        swcyAppUserEntity.setGroupPower(0);
         swcyAppUserEntity.setPersonPower(0);
         swcyAppUserEntity.setScore(0);
         swcyAppUserEntity.setUserType(0);

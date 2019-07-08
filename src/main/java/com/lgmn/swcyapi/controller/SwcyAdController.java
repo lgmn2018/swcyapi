@@ -36,7 +36,7 @@ public class SwcyAdController {
     @PostMapping("/update")
     public Result update (@RequestBody SwcyAdDto swcyAdDto) {
         try {
-            SwcyAdEntity swcyAdEntity = new SwcyAdEntity();
+            SwcyAdEntity swcyAdEntity = sSwcyAdService.getById(swcyAdDto.getId());
             ObjectTransfer.transValue(swcyAdDto, swcyAdEntity);
             sSwcyAdService.update(swcyAdEntity);
             return Result.success("修改成功");
