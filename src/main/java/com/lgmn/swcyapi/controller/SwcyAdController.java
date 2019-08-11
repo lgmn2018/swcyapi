@@ -1,32 +1,39 @@
 package com.lgmn.swcyapi.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
-import com.lgmn.common.domain.LgmnPage;
-import com.lgmn.common.utils.ObjectTransfer;
 import com.lgmn.swcy.basic.dto.SwcyAdDto;
 import com.lgmn.swcy.basic.entity.SwcyAdEntity;
+import com.lgmn.swcyapi.dto.swcyAd.SwcyAdSaveDto;
+import com.lgmn.swcyapi.dto.swcyAd.SwcyAdUpDateDto;
 import com.lgmn.swcyapi.excel.ExcelData;
 import com.lgmn.swcyapi.excel.ExportExcelUtils;
-import com.lgmn.swcyapi.service.SSwcyAdService;
+import com.lgmn.swcyapi.service.SwcyAdApiService;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
+import com.lgmn.common.result.Result;
+import java.util.ArrayList;
+import java.util.List;
+import com.lgmn.common.domain.LgmnPage;
+import com.lgmn.common.utils.ObjectTransfer;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.lgmn.common.result.Result;
+import javax.websocket.server.PathParam;
 
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping("/SwcyAdController")
+@RequestMapping("/swcyAdApi")
 public class SwcyAdController {
 
     @Autowired
-    SSwcyAdService sSwcyAdService;
+    SwcyAdApiService service;
 
     @PostMapping("/page")
-    public Result page (@RequestBody SwcyAdDto swcyAdDto) {
+    public Result page (@RequestBody SwcyAdDto dto) {
         try {
-            LgmnPage<SwcyAdEntity> page = sSwcyAdService.page(swcyAdDto);
+            LgmnPage<SwcyAdEntity> page = service.page(dto);
             return Result.success(page);
         } catch (Exception e) {
             return Result.serverError(e.getMessage());
@@ -34,11 +41,11 @@ public class SwcyAdController {
     }
 
     @PostMapping("/update")
-    public Result update (@RequestBody SwcyAdDto swcyAdDto) {
+    public Result update (@RequestBody SwcyAdUpDateDto upDateDto) {
         try {
-            SwcyAdEntity swcyAdEntity = new SwcyAdEntity();
-            ObjectTransfer.transValue(swcyAdDto, swcyAdEntity);
-            sSwcyAdService.update(swcyAdEntity);
+            SwcyAdEntity entity = new SwcyAdEntity();
+            ObjectTransfer.transValue(upDateDto, entity);
+            service.update(entity);
             return Result.success("修改成功");
         } catch (Exception e) {
             return Result.serverError(e.getMessage());
@@ -46,11 +53,11 @@ public class SwcyAdController {
     }
 
     @PostMapping("/add")
-    public Result add (@RequestBody SwcyAdDto swcyAdDto) {
+    public Result add (@RequestBody SwcyAdSaveDto saveDto) {
         try {
-            SwcyAdEntity swcyAdEntity = new SwcyAdEntity();
-            ObjectTransfer.transValue(swcyAdDto, swcyAdEntity);
-            sSwcyAdService.add(swcyAdEntity);
+            SwcyAdEntity entity = new SwcyAdEntity();
+            ObjectTransfer.transValue(saveDto, entity);
+            service.add(entity);
             return Result.success("添加成功");
         } catch (Exception e) {
             return Result.serverError(e.getMessage());
@@ -58,35 +65,34 @@ public class SwcyAdController {
     }
 
     @PostMapping("/delete")
-    public Result delete (@RequestBody SwcyAdDto swcyAdDto) {
-        sSwcyAdService.deleteById(swcyAdDto.getId());
+    public Result delete (@PathParam("id") Integer id) {
+        service.deleteById(id);
         return Result.success("删除成功");
     }
 
     @PostMapping("/detail")
-    public Result detail (@RequestBody SwcyAdDto swcyAdDto) {
-        SwcyAdEntity swcyAdEntity = sSwcyAdService.getById(swcyAdDto.getId());
-        return Result.success(swcyAdEntity);
+    public Result detail (@PathParam("id") Integer id) {
+        SwcyAdEntity entity = service.getById(id);
+        return Result.success(entity);
     }
 
 
     @PostMapping("/excel")
     public void excel(@RequestBody SwcyAdDto swcyAdDto, HttpServletResponse response) throws Exception {
         List<List<Object>> rows = new ArrayList();
-        LgmnPage<SwcyAdEntity> page = sSwcyAdService.page(swcyAdDto);
-        for (SwcyAdEntity swcyAdEntity : page.getList()) {
+        LgmnPage<SwcyAdEntity> page = service.page(swcyAdDto);
+        for (SwcyAdEntity entity : page.getList()) {
             List<Object> row = new ArrayList();
-            row.add(swcyAdEntity.getId());
-            row.add(swcyAdEntity.getTitle());
-            row.add(swcyAdEntity.getType());
-            row.add(swcyAdEntity.getCreateTime());
-            row.add(swcyAdEntity.getContent());
-            row.add(swcyAdEntity.getCover());
-            row.add(swcyAdEntity.getStatus());
-            rows.add(row);
-        }
+                        row.add(entity.getId());
+                        row.add(entity.getTitle());
+                        row.add(entity.getContent());
+                        row.add(entity.getCover());
+                        row.add(entity.getCreateTime());
+                        row.add(entity.getStatus());
+                        row.add(entity.getType());
+                    }
         ExcelData data = new ExcelData();
-        data.setName("APP用户数据导出");
+        data.setName("数据");
         List<String> titles = new ArrayList();
         titles.add("昵称");
         titles.add("手机号");
