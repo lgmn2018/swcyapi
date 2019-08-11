@@ -3,7 +3,7 @@ package com.lgmn.swcyapi.service.user;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.lgmn.userservices.basic.dto.LgmnUserDto;
 import com.lgmn.userservices.basic.entity.LgmnUserEntity;
-import com.lgmn.userservices.basic.service.LgmnUserEntityService;
+import com.lgmn.userservices.basic.service.LgmnUserService;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class UserService {
 
     @Reference(version = "${demo.service.version}")
-    private LgmnUserEntityService lgmnUserEntityService;
+    private LgmnUserService lgmnUserEntityService;
 
     public List<LgmnUserEntity> getUserByPhone (String phone) throws Exception {
         LgmnUserDto lgmnUserDto = new LgmnUserDto();
