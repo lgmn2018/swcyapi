@@ -29,13 +29,17 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                                       "/auth/**/api/**",
                                                     "/home/getHomePage",
                                                     "/order/*",
-                                                    "/person/*")
+                                                    "/person/*",
+                                                    "/store/getShopTypeAndEssentialMessage",
+                                                    "/store/followAndCleanFollow")
                 .and()
                 .authorizeRequests()
                 .antMatchers( "/auth/**/api/**",
                                             "/home/getHomePage",
                                             "/order/*",
-                                            "/person/*").authenticated()
+                                            "/person/*",
+                                            "/store/getShopTypeAndEssentialMessage",
+                                            "/store/followAndCleanFollow").authenticated()
                 .and()
                 .httpBasic();
     }

@@ -12,6 +12,10 @@
     <name>swcy-api</name>
     <description>Demo project for Spring Boot</description>
 
+
+    <properties>
+        <lgmn-common.version>1.0.1</lgmn-common.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>io.seata</groupId>
