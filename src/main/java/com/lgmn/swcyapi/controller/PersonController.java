@@ -159,4 +159,36 @@ public class PersonController {
         LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
         return personService.complaints(lgmnUserInfo, complaintsDto);
     }
+
+    @ApiOperation(value = "添加收货地址")
+    @PostMapping("/saveReceivingAddress")
+    public Result saveReceivingAddress(@RequestHeader String Authorization, Principal principal, @RequestBody SaveReceivingAddressDto saveReceivingAddressDto) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        return personService.saveReceivingAddress(lgmnUserInfo, saveReceivingAddressDto);
+    }
+
+    @ApiOperation(value = "删除收货地址")
+    @PostMapping("/deleteReceivingAddressById")
+    public Result deleteReceivingAddressById(@RequestHeader String Authorization, Principal principal, @RequestBody DeleteReceivingAddressDto deleteReceivingAddressDto) {
+        return personService.deleteReceivingAddressById(deleteReceivingAddressDto);
+    }
+
+    @ApiOperation(value = "修改收货地址")
+    @PostMapping("/updateReceivingAddress")
+    public Result updateReceivingAddress(@RequestHeader String Authorization, Principal principal, @RequestBody UpdateReceivingAddressDto updateReceivingAddressDto) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        return personService.updateReceivingAddress(lgmnUserInfo, updateReceivingAddressDto);
+    }
+
+    @ApiOperation(value = "获取收货地址列表")
+    @PostMapping("/getReceivingAddressListByUId")
+    public Result getReceivingAddressListByUId(@RequestHeader String Authorization, Principal principal) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        try {
+            return personService.getReceivingAddressListByUId(lgmnUserInfo);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
+
 }

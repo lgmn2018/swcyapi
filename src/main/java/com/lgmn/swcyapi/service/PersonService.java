@@ -4,15 +4,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.lgmn.basicservices.basic.entity.LgmnComplaintsEntity;
 import com.lgmn.common.domain.LgmnPage;
 import com.lgmn.common.domain.LgmnUserInfo;
-import com.lgmn.common.domain.LgmnVo;
 import com.lgmn.common.result.Result;
 import com.lgmn.common.result.ResultEnum;
+import com.lgmn.common.utils.ObjectTransfer;
 import com.lgmn.juhe.starter.service.JuHe_IdCardQuery_SarterService;
 import com.lgmn.qiniu.starter.service.QiNiu_UpLoad_Img_StarterService;
 import com.lgmn.swcy.basic.entity.*;
 import com.lgmn.swcyapi.dto.login.LoginDto;
 import com.lgmn.swcyapi.dto.person.*;
 import com.lgmn.swcyapi.service.ad.AdService;
+import com.lgmn.swcyapi.service.address.SwcyReceivingAddressApiService;
 import com.lgmn.swcyapi.service.appuser.AppUserService;
 import com.lgmn.swcyapi.service.assets.AssetsService;
 import com.lgmn.swcyapi.service.complaints.ComplaintsService;
@@ -71,6 +72,9 @@ public class PersonService {
 
     @Autowired
     ComplaintsService complaintsService;
+
+    @Autowired
+    SwcyReceivingAddressApiService swcyReceivingAddressApiService;
 
     public Result getPersonAndAdList(LgmnUserInfo lgmnUserInfo) throws Exception {
         SwcyAppUserEntity swcyAppUserEntity = appUserService.getAppUserByUid(lgmnUserInfo.getId());
@@ -231,5 +235,33 @@ public class PersonService {
         lgmnComplaintsEntity.setUid(lgmnUserInfo.getId());
         complaintsService.save(lgmnComplaintsEntity);
         return Result.success("投诉成功");
+    }
+
+    public Result saveReceivingAddress(LgmnUserInfo lgmnUserInfo, SaveReceivingAddressDto saveReceivingAddressDto) {
+        SwcyReceivingAddressEntity swcyReceivingAddressEntity = new SwcyReceivingAddressEntity();
+        ObjectTransfer.transValue(saveReceivingAddressDto, swcyReceivingAddressEntity);
+        swcyReceivingAddressEntity.setUid(lgmnUserInfo.getId());
+        swcyReceivingAddressEntity.setDelFlag(0);
+        swcyReceivingAddressApiService.saveReceivingAddress(swcyReceivingAddressEntity);
+        return Result.success("保存成功");
+    }
+
+    public Result deleteReceivingAddressById(DeleteReceivingAddressDto deleteReceivingAddressDto) {
+        swcyReceivingAddressApiService.deleteReceivingAddressById(deleteReceivingAddressDto.getId());
+        return Result.success("删除成功");
+    }
+
+    public Result updateReceivingAddress(LgmnUserInfo lgmnUserInfo, UpdateReceivingAddressDto updateReceivingAddressDto) {
+        SwcyReceivingAddressEntity swcyReceivingAddressEntity = new SwcyReceivingAddressEntity();
+        ObjectTransfer.transValue(updateReceivingAddressDto, swcyReceivingAddressEntity);
+        swcyReceivingAddressEntity.setUid(lgmnUserInfo.getId());
+        swcyReceivingAddressEntity.setDelFlag(0);
+        swcyReceivingAddressApiService.updateReceivingAddress(swcyReceivingAddressEntity);
+        return Result.success("修改成功");
+    }
+
+    public Result getReceivingAddressListByUId(LgmnUserInfo lgmnUserInfo) throws Exception {
+        List<SwcyReceivingAddressEntity> list = swcyReceivingAddressApiService.getReceivingAddressListByUId(lgmnUserInfo.getId());
+        return Result.success(list);
     }
 }
