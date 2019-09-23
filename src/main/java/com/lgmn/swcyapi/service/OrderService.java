@@ -37,7 +37,7 @@ public class OrderService {
         for (OrderPageVo orderPageVo : orderPageVoLgmnPage.getList()) {
             SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(orderPageVo.getStoreId());
             List<SwcyOrderDetailEntity> orderDetailEntities = sOrderDetailService.getOrderDetailsByOrderId(orderPageVo.getId());
-            orderPageVo.setStoreName(swcyStoreEntity.getName());
+            orderPageVo.setStoreName(swcyStoreEntity.getStoreName());
             orderPageVo.setImageUrl(orderDetailEntities.get(0).getCover());
         }
         return Result.success(orderPageVoLgmnPage);
@@ -50,7 +50,7 @@ public class OrderService {
         List<OrderDetailListVo> orderDetailListVos = new OrderDetailListVo().getVoList(swcyOrderDetailEntities, OrderDetailListVo.class);
         SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(swcyOrderEntity.getStoreId());
         orderPageVo.setImageUrl(swcyStoreEntity.getPhoto());
-        orderPageVo.setStoreName(swcyStoreEntity.getName());
+        orderPageVo.setStoreName(swcyStoreEntity.getStoreName());
         OrderDetailVo orderDetailVo = new OrderDetailVo();
         orderDetailVo.setOrderPageVo(orderPageVo);
         orderDetailVo.setOrderDetailListVo(orderDetailListVos);

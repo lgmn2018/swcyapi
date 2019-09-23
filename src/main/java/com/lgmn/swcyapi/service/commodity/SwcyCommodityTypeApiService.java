@@ -19,4 +19,19 @@ public class SwcyCommodityTypeApiService {
         swcyCommodityTypeDto.setStatus(1);
         return swcyCommodityTypeService.getListByDto(swcyCommodityTypeDto);
     }
+
+    public SwcyCommodityTypeEntity save(SwcyCommodityTypeEntity swcyCommodityTypeEntity) {
+        return swcyCommodityTypeService.saveEntity(swcyCommodityTypeEntity);
+    }
+
+    public void delete(Integer id) {
+        SwcyCommodityTypeEntity swcyCommodityTypeEntity = swcyCommodityTypeService.findById(id);
+        swcyCommodityTypeEntity.setStatus(0);
+        swcyCommodityTypeService.saveEntity(swcyCommodityTypeEntity);
+    }
+
+    public SwcyCommodityTypeEntity getCommodityTypeById(Integer id) {
+        SwcyCommodityTypeEntity swcyCommodityTypeEntity = swcyCommodityTypeService.findById(id);
+        return swcyCommodityTypeEntity;
+    }
 }

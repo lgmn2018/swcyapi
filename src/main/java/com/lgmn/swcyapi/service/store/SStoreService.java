@@ -63,4 +63,16 @@ public class SStoreService {
     public SwcyStoreEntity getStoreById (Integer id) {
         return swcyStoreService.findById(id);
     }
+
+    public SwcyStoreEntity save(SwcyStoreEntity swcyStoreEntity) {
+        return swcyStoreService.saveEntity(swcyStoreEntity);
+    }
+
+    public LgmnPage<SwcyStoreEntity> getMyStorePage(String uid, Integer pageNumber, Integer pageSize) throws Exception {
+        SwcyStoreDto swcyStoreDto = new SwcyStoreDto();
+        swcyStoreDto.setUid(uid);
+        swcyStoreDto.setPageNumber(pageNumber);
+        swcyStoreDto.setPageSize(pageSize);
+        return swcyStoreService.getPageByDtoWithPageRequet(swcyStoreDto);
+    }
 }

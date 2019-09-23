@@ -31,6 +31,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                                                     "/order/*",
                                                     "/person/*",
                                                     "/store/getShopTypeAndEssentialMessage",
+                                                    "/store/addStoreForUnlicensed",
+                                                    "/store/addStore",
+                                                    "/store/getMyStorePage",
                                                     "/store/followAndCleanFollow")
                 .and()
                 .authorizeRequests()
@@ -39,6 +42,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                                             "/order/*",
                                             "/person/*",
                                             "/store/getShopTypeAndEssentialMessage",
+                                            "/store/addStoreForUnlicensed",
+                                            "/store/addStore",
+                                            "/store/getMyStorePage",
                                             "/store/followAndCleanFollow").authenticated()
                 .and()
                 .httpBasic();
