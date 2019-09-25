@@ -49,3 +49,13 @@ qiniu:
 juhe:
   service:
     real-name-key: f3b009b89f1b23f41d6751e743b691cb
+
+justauth:
+  enabled: true
+  type:
+    WECHAT:
+      client-id: wx6135b0ad2c35654c
+      client-secret: 0ad25062707c8e928e590dbb57f27ea3
+      redirect-uri: http://test.tunnel.uma511.com/oauth/qq/callback
+  cache:
+    type: default

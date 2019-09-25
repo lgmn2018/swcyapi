@@ -36,14 +36,28 @@ lgmn:
   exitLogin-url: http://authserver:8088/api/exit
 logging:
   path: /lgmn/shandian/log
-juhe:
+yzx:
   service:
-    bank-card-key: 858f63471dbcdeef9c920d0ed34b7361
+    appid: 69f904bf709c434fb8923ed44af1154c
+    sid: c87d5001668c2bd825a8239ee283de7d
+    templateid: 472275
+    token: a140b7aafb3714828f6c5a46ad30719e
 qiniu:
   service:
     bucket: shandian
     access-key: JIDgvq8Sy7bNvW5wDFePtMfv_UEqXvz3DGhw9aUQ
     secret-key: ZbggGQuuvcBwj_pmSo1wOCuGGKXFyw0h0xfHZFXq
     url: http://qncdn.gdsdec.com/
-recommend:
-  url: http://www.gdsdec.com/
+juhe:
+  service:
+    real-name-key: f3b009b89f1b23f41d6751e743b691cb
+
+justauth:
+  enabled: true
+  type:
+    WECHAT:
+      client-id: wx6135b0ad2c35654c
+      client-secret: 0ad25062707c8e928e590dbb57f27ea3
+      redirect-uri: http://oauth.xkcoding.com/oauth/qq/callback
+  cache:
+    type: default
