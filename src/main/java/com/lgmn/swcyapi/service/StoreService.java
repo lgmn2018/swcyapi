@@ -182,4 +182,11 @@ public class StoreService {
         swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
         return Result.success("编辑详情成功");
     }
+
+    public Result editStoreDescription(EditStoreDescriptionDto editStoreDescriptionDto) {
+        SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(editStoreDescriptionDto.getId());
+        swcyStoreEntity.setDescription(editStoreDescriptionDto.getDescription());
+        sStoreService.save(swcyStoreEntity);
+        return Result.success("编辑详情成功");
+    }
 }

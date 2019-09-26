@@ -182,4 +182,10 @@ public class StoreController {
     public Result getStoreById(@RequestBody GetStoreByIdDto getStoreByIdDto) {
         return storeService.getStoreById(getStoreByIdDto);
     }
+
+    @ApiOperation(value = "编辑门店详情")
+    @PostMapping("/editStoreDescription")
+    public Result editStoreDescription(@RequestBody EditStoreDescriptionDto editStoreDescriptionDto) {
+        return storeService.editStoreDescription(editStoreDescriptionDto);
+    }
 }
