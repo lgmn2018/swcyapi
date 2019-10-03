@@ -59,6 +59,27 @@ justauth:
       redirect-uri: http://test.tunnel.uma511.com/oauth/qq/callback
   cache:
     type: default
+
+wx:
+  mp:
+    redirect-uri: http://mj.tunnel.uma511.com/mp/accesstoken
+    configs:
+      - appId: wxc16c319d5aee2286
+        secret: 5294ff5324380be6e277eae203660383
+        token: lgmn_swcy_mp
+        aesKey: e2vNqiORECUydCmdbH3DVEL0eJB6kfN5AU3w2rCueot
+      - appId: wx6135b0ad2c35654c
+        secret: 0ad25062707c8e928e590dbb57f27ea3
+        token: lgmn_swcy_mp
+        aesKey: e2vNqiORECUydCmdbH3DVEL0eJB6kfN5AU3w2rCueot
+
+  pay:
+    appId: wx6135b0ad2c35654c
+    mchId: 1556355751
+    mchKey: sanweichuangyeapp201900000000000
+    subAppId:
+    subMchId:
+    keyPath:
 wxparame:
   appid: wx6135b0ad2c35654c
   mchid: 1556355751
