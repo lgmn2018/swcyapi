@@ -20,10 +20,17 @@ public class SOrderService {
     private SwcyOrderService swcyOrderService;
 
     public LgmnPage<SwcyOrderEntity> getOrderPage (OrderPageDto orderPageDto, String uid) throws Exception {
-        List<String> ids = new ArrayList<>();
-        ids.add(uid);
+        List<String> uids = new ArrayList<>();
+        uids.add(uid);
+        List<Integer> status = new ArrayList<>();
+        status.add(1);
+        status.add(2);
+        status.add(3);
+        status.add(4);
+        status.add(5);
         SwcyOrderDto swcyOrderDto = new SwcyOrderDto();
-        swcyOrderDto.setUid(ids);
+        swcyOrderDto.setUid(uids);
+        swcyOrderDto.setStatus(status);
         swcyOrderDto.setPageNumber(orderPageDto.getPageNumber());
         swcyOrderDto.setPageSize(orderPageDto.getPageSize());
         List<LgmnOrder> lgmnOrderList = new ArrayList<>();
@@ -43,5 +50,9 @@ public class SOrderService {
         SwcyOrderDto swcyOrderDto = new SwcyOrderDto();
         swcyOrderDto.setUid(uids);
         return swcyOrderService.getListByDto(swcyOrderDto);
+    }
+
+    public SwcyOrderEntity save(SwcyOrderEntity swcyOrderEntity) {
+        return swcyOrderService.saveEntity(swcyOrderEntity);
     }
 }

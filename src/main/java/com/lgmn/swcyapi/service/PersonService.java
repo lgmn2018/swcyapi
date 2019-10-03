@@ -242,8 +242,8 @@ public class PersonService {
         ObjectTransfer.transValue(saveReceivingAddressDto, swcyReceivingAddressEntity);
         swcyReceivingAddressEntity.setUid(lgmnUserInfo.getId());
         swcyReceivingAddressEntity.setDelFlag(0);
-        swcyReceivingAddressApiService.saveReceivingAddress(swcyReceivingAddressEntity);
-        return Result.success("保存成功");
+        SwcyReceivingAddressEntity newReceivingAddress = swcyReceivingAddressApiService.saveReceivingAddress(swcyReceivingAddressEntity);
+        return Result.success(newReceivingAddress);
     }
 
     public Result deleteReceivingAddressById(DeleteReceivingAddressDto deleteReceivingAddressDto) {

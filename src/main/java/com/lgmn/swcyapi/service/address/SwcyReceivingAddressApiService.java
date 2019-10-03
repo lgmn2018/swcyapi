@@ -1,11 +1,14 @@
 package com.lgmn.swcyapi.service.address;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.lgmn.common.domain.LgmnOrder;
 import com.lgmn.swcy.basic.dto.SwcyReceivingAddressDto;
 import com.lgmn.swcy.basic.entity.SwcyReceivingAddressEntity;
 import com.lgmn.swcy.basic.service.SwcyReceivingAddressService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -31,6 +34,12 @@ public class SwcyReceivingAddressApiService {
         SwcyReceivingAddressDto swcyReceivingAddressDto = new SwcyReceivingAddressDto();
         swcyReceivingAddressDto.setUid(uid);
         swcyReceivingAddressDto.setDelFlag(0);
+        List<LgmnOrder> orderList = new ArrayList<>();
+        LgmnOrder lgmnOrder = new LgmnOrder();
+        lgmnOrder.setDirection(Sort.Direction.DESC);
+        lgmnOrder.setProperty("id");
+        orderList.add(lgmnOrder);
+        swcyReceivingAddressDto.setOrders(orderList);
         return swcyReceivingAddressService.getListByDto(swcyReceivingAddressDto);
     }
 
