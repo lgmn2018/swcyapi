@@ -105,8 +105,8 @@ public class LoginService {
     }
 
     public Result login (LoginDto loginDto) throws Exception {
-        if (!Pattern.matches(regxPhone, loginDto.getPhone())) return Result.error(ResultEnum.PHONE_ERROR);
-        if (!Pattern.matches(regxPass, loginDto.getPassword())) return Result.error(ResultEnum.PASS_ERROR);
+//        if (!Pattern.matches(regxPhone, loginDto.getPhone())) return Result.error(ResultEnum.PHONE_ERROR);
+//        if (!Pattern.matches(regxPass, loginDto.getPassword())) return Result.error(ResultEnum.PASS_ERROR);
         List<LgmnUserEntity> lgmnUserEntities = userService.getUserByPhone(loginDto.getPhone());
         if (lgmnUserEntities.size() <= 0) return Result.error(ResultEnum.DATA_NOT_EXISTS);
         JSONObject responseResult = restTemplateLogin(loginDto);
