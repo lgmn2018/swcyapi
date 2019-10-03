@@ -5,10 +5,7 @@ import com.lgmn.common.domain.LgmnUserInfo;
 import com.lgmn.common.result.Result;
 import com.lgmn.common.utils.ObjectTransfer;
 import com.lgmn.qiniu.starter.service.QiNiu_UpLoad_Img_StarterService;
-import com.lgmn.swcy.basic.entity.SwcyCommodityEntity;
-import com.lgmn.swcy.basic.entity.SwcyCommodityTypeEntity;
-import com.lgmn.swcy.basic.entity.SwcyIndustryEntity;
-import com.lgmn.swcy.basic.entity.SwcyStoreEntity;
+import com.lgmn.swcy.basic.entity.*;
 import com.lgmn.swcyapi.dto.store.*;
 import com.lgmn.swcyapi.service.ad.AdService;
 import com.lgmn.swcyapi.service.commodity.SwcyCommodityApiService;
@@ -22,6 +19,7 @@ import com.lgmn.swcyapi.vo.store.StoreIndustryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -188,5 +186,21 @@ public class StoreService {
         swcyStoreEntity.setDescription(editStoreDescriptionDto.getDescription());
         sStoreService.save(swcyStoreEntity);
         return Result.success("编辑详情成功");
+    }
+
+    public Result getMyFollowPage(LgmnUserInfo lgmnUserInfo, MyFollowPageDto myFollowPageDto) throws Exception {
+        LgmnPage<SwcyFollowEntity> swcyFollowEntityLgmnPage = swcyFollowApiService.getMyFollowPage(lgmnUserInfo.getId(), myFollowPageDto.getPageNumber(), myFollowPageDto.getPageSize());
+        LgmnPage<SwcyStoreEntity> swcyStoreEntityLgmnPage = new LgmnPage<>();
+        swcyStoreEntityLgmnPage.setPageNumber(swcyFollowEntityLgmnPage.getPageNumber());
+        swcyStoreEntityLgmnPage.setPageSize(swcyFollowEntityLgmnPage.getPageSize());
+        swcyStoreEntityLgmnPage.setCount(swcyFollowEntityLgmnPage.getCount());
+        swcyStoreEntityLgmnPage.setTotalPage(swcyFollowEntityLgmnPage.getTotalPage());
+        List<SwcyStoreEntity> swcyStoreEntities = new ArrayList<>();
+        for(SwcyFollowEntity swcyFollowEntity : swcyFollowEntityLgmnPage.getList()) {
+            SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(swcyFollowEntity.getStoreId());
+            swcyStoreEntities.add(swcyStoreEntity);
+        }
+        swcyStoreEntityLgmnPage.setList(swcyStoreEntities);
+        return Result.success(swcyStoreEntityLgmnPage);
     }
 }

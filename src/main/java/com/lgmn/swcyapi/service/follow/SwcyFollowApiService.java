@@ -1,6 +1,7 @@
 package com.lgmn.swcyapi.service.follow;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.lgmn.common.domain.LgmnPage;
 import com.lgmn.swcy.basic.dto.SwcyFollowDto;
 import com.lgmn.swcy.basic.entity.SwcyFollowEntity;
 import com.lgmn.swcy.basic.service.SwcyFollowService;
@@ -42,5 +43,13 @@ public class SwcyFollowApiService {
         swcyFollowDto.setUid(userId);
         swcyFollowDto.setStoreId(storeId);
         return swcyFollowDto;
+    }
+
+    public LgmnPage<SwcyFollowEntity> getMyFollowPage(String id, Integer pageNumber, Integer pageSize) throws Exception {
+        SwcyFollowDto swcyFollowDto = new SwcyFollowDto();
+        swcyFollowDto.setUid(id);
+        swcyFollowDto.setPageNumber(pageNumber);
+        swcyFollowDto.setPageSize(pageSize);
+        return swcyFollowService.getPageByDtoWithPageRequet(swcyFollowDto);
     }
 }

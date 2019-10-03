@@ -35,6 +35,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                                                     "/store/addStore",
                                                     "/store/getMyStorePage",
                                                     "/store/followAndCleanFollow",
+                                                    "/store/getMyFollowPage",
                                                     "/wxApi/wxPay")
                 .and()
                 .authorizeRequests()
@@ -47,6 +48,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                                             "/store/addStore",
                                             "/store/getMyStorePage",
                                             "/store/followAndCleanFollow",
+                                            "/store/getMyFollowPage",
                                             "/wxApi/wxPay").authenticated()
                 .and()
                 .httpBasic();

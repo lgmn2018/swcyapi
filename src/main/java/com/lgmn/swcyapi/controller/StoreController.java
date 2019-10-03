@@ -188,4 +188,15 @@ public class StoreController {
     public Result editStoreDescription(@RequestBody EditStoreDescriptionDto editStoreDescriptionDto) {
         return storeService.editStoreDescription(editStoreDescriptionDto);
     }
+
+    @ApiOperation(value = "获取关注门店列表")
+    @PostMapping("/getMyFollowPage")
+    public Result getMyFollowPage(@RequestHeader String Authorization, Principal principal, @RequestBody MyFollowPageDto myFollowPageDto) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        try {
+            return storeService.getMyFollowPage(lgmnUserInfo, myFollowPageDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
 }
