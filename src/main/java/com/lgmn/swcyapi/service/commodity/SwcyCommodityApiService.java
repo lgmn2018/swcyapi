@@ -5,10 +5,15 @@ import com.lgmn.common.domain.LgmnPage;
 import com.lgmn.swcy.basic.dto.SwcyCommodityDto;
 import com.lgmn.swcy.basic.entity.SwcyCommodityEntity;
 import com.lgmn.swcy.basic.service.SwcyCommodityService;
+import com.lgmn.swcyapi.dto.order.UnifiedOrderDto;
 import com.lgmn.swcyapi.dto.store.CommodityNewestPriceDto;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class SwcyCommodityApiService {
@@ -55,6 +60,23 @@ public class SwcyCommodityApiService {
 
     public SwcyCommodityEntity getCommodityById(Integer id) {
         return swcyCommodityService.findById(id);
+    }
+
+    public Map<String, Object> getCommodityByUnifiedOrderDto(UnifiedOrderDto unifiedOrderDto) {
+        List<SwcyCommodityEntity> list = new ArrayList<>();
+//        BigDecimal sunPrice = new BigDecimal(0);
+        double sunPrice = 0.0;
+        for (Integer id : unifiedOrderDto.getIdAndCount().keySet()) {
+            SwcyCommodityEntity swcyCommodityEntity = swcyCommodityService.findById(id);
+            list.add(swcyCommodityEntity);
+            Integer number = unifiedOrderDto.getIdAndCount().get(id);
+            BigDecimal tempPrice = swcyCommodityEntity.getPrice().multiply(new BigDecimal(number));
+            sunPrice += tempPrice.doubleValue();
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", list);
+        map.put("sunPrice", sunPrice);
+        return map;
     }
 
 }
