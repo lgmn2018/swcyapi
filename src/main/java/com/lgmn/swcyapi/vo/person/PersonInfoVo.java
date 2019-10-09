@@ -9,4 +9,5 @@ public class PersonInfoVo {
     private String nikeName;
     private boolean isAuthentication;
     private String email;
+    private String phone;
 }

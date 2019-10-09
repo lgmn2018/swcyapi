@@ -2,6 +2,7 @@ package com.lgmn.swcyapi.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lgmn.basicservices.basic.entity.LgmnComplaintsEntity;
+import com.lgmn.basicservices.basic.entity.LgmnSmsCodeEntity;
 import com.lgmn.common.domain.LgmnPage;
 import com.lgmn.common.domain.LgmnUserInfo;
 import com.lgmn.common.result.Result;
@@ -19,6 +20,7 @@ import com.lgmn.swcyapi.service.assets.AssetsService;
 import com.lgmn.swcyapi.service.complaints.ComplaintsService;
 import com.lgmn.swcyapi.service.message.MessageService;
 import com.lgmn.swcyapi.service.order.SOrderService;
+import com.lgmn.swcyapi.service.sms.SmsCodeService;
 import com.lgmn.swcyapi.service.user.UserService;
 import com.lgmn.swcyapi.vo.home.HomeAdVo;
 import com.lgmn.swcyapi.vo.person.*;
@@ -32,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -75,6 +78,9 @@ public class PersonService {
 
     @Autowired
     SwcyReceivingAddressApiService swcyReceivingAddressApiService;
+
+    @Autowired
+    SmsCodeService smsCodeService;
 
     public Result getPersonAndAdList(LgmnUserInfo lgmnUserInfo) throws Exception {
         SwcyAppUserEntity swcyAppUserEntity = appUserService.getAppUserByUid(lgmnUserInfo.getId());
@@ -121,6 +127,7 @@ public class PersonService {
         SwcyAppUserEntity swcyAppUserEntity = appUserService.getAppUserByUid(lgmnUserInfo.getId());
         personInfoVo.setAuthentication(!StringUtils.isEmpty(swcyAppUserEntity.getName()));
         personInfoVo.setEmail(swcyAppUserEntity.getEmail());
+        personInfoVo.setPhone(swcyAppUserEntity.getPhone());
         return Result.success(personInfoVo);
     }
 
@@ -263,5 +270,22 @@ public class PersonService {
     public Result getReceivingAddressListByUId(LgmnUserInfo lgmnUserInfo) throws Exception {
         List<SwcyReceivingAddressEntity> list = swcyReceivingAddressApiService.getReceivingAddressListByUId(lgmnUserInfo.getId());
         return Result.success(list);
+    }
+
+    public Result authenticationPhone(LgmnUserInfo lgmnUserInfo, AuthenticationPhoneDto authenticationPhoneDto) throws Exception {
+        List<LgmnSmsCodeEntity> lgmnSmsCodes = smsCodeService.getByPhone(authenticationPhoneDto.getPhone());
+        if (lgmnSmsCodes.size() <= 0) return Result.error(ResultEnum.MSG_CODE_ERROR);
+        LgmnSmsCodeEntity lgmnSmsCode = lgmnSmsCodes.get(0);
+        if (lgmnSmsCode.getCode().equals(authenticationPhoneDto.getSmsCode()) && lgmnSmsCode.getIsExprie() == 1 || !new Timestamp(System.currentTimeMillis()).before(lgmnSmsCodes.get(0).getExpireTime())) return Result.error(ResultEnum.MSG_CODE_ERROR);
+
+        // 认证手机号
+        SwcyAppUserEntity swcyAppUserEntity = appUserService.getAppUserByUid(lgmnUserInfo.getId());
+        swcyAppUserEntity.setPhone(authenticationPhoneDto.getPhone());
+
+        // 修改验证码状态
+        lgmnSmsCode.setIsExprie(1);
+        smsCodeService.saveBySmsCode(lgmnSmsCode);
+        appUserService.save(swcyAppUserEntity);
+        return Result.success("认证成功");
     }
 }

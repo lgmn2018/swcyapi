@@ -191,4 +191,15 @@ public class PersonController {
         }
     }
 
+    @ApiOperation(value = "手机号认证")
+    @PostMapping("/authenticationPhone")
+    public Result authenticationPhone(@RequestHeader String Authorization, Principal principal, @RequestBody AuthenticationPhoneDto authenticationPhoneDto) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        try {
+            return personService.authenticationPhone(lgmnUserInfo, authenticationPhoneDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
+
 }
