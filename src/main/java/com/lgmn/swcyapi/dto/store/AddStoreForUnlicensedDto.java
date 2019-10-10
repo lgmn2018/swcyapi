@@ -18,4 +18,6 @@ public class AddStoreForUnlicensedDto {
     private BigDecimal area;
     private String lat;
     private String lng;
+    private String phone;
+    private Integer starCode;
 }

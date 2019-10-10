@@ -107,6 +107,7 @@ public class StoreService {
     public Result authenticationStore(AuthenticationStoreDto authenticationStoreDto) {
         SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(authenticationStoreDto.getId());
         ObjectTransfer.transValue(authenticationStoreDto, swcyStoreEntity);
+        swcyStoreEntity.setIsChecked(0);
         sStoreService.save(swcyStoreEntity);
         return Result.success("提交认证成功");
     }
@@ -133,10 +134,13 @@ public class StoreService {
     }
 
     public Result addCommodity(AddCommodityDto addCommodityDto) {
+        SwcyCommodityTypeEntity swcyCommodityTypeEntity = swcyCommodityTypeApiService.getCommodityTypeById(addCommodityDto.getTypeId());
+        SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(swcyCommodityTypeEntity.getStoreId());
         SwcyCommodityEntity swcyCommodityEntity = new SwcyCommodityEntity();
         ObjectTransfer.transValue(addCommodityDto, swcyCommodityEntity);
         swcyCommodityEntity.setStatus(1);
         swcyCommodityEntity.setDelFlag(0);
+        swcyCommodityEntity.setStarCode(swcyStoreEntity.getStarCode());
         SwcyCommodityEntity newCommodity = swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
         return Result.success(newCommodity);
     }
