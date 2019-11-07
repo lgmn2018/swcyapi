@@ -197,7 +197,9 @@ public class PersonService {
     }
 
     public Result getMyTeam (LgmnUserInfo lgmnUserInfo, MyTeamDto myTeamDto) throws Exception {
+        SwcyAppUserEntity swcyAppUserEntity = appUserService.getAppUserByUid(lgmnUserInfo.getId());
         LgmnPage<SwcyAppUserEntity> swcyAppUserEntities = appUserService.getAppUserPageByPuid(lgmnUserInfo.getId(), myTeamDto.getPageNumber(), myTeamDto.getPageSize());
+        swcyAppUserEntities.getList().add(swcyAppUserEntity);
         LgmnPage<MyTeamVo> myTeamVoLgmnPage = new MyTeamVo().getVoPage(swcyAppUserEntities, MyTeamVo.class);
         for (MyTeamVo myTeamVo : myTeamVoLgmnPage.getList()) {
             LgmnUserEntity lgmnUserEntity = userService.getUserById(myTeamVo.getUid());
@@ -210,7 +212,7 @@ public class PersonService {
             }
             myTeamVo.setAvatar(lgmnUserEntity.getAvatar());
             myTeamVo.setNikeName(lgmnUserEntity.getNikeName());
-            myTeamVo.setPhone(lgmnUserEntity.getAccount());
+            myTeamVo.setPhone(myTeamVo.getPhone());
             myTeamVo.setAchievement(achievement);
 
         }
