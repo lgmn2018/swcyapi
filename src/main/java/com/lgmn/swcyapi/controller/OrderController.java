@@ -42,4 +42,12 @@ public class OrderController {
         }
     }
 
+    @ApiOperation(value = "确认收货")
+    @PostMapping("/confirmReceipt")
+    public Result confirmReceipt (@RequestHeader String Authorization, Principal principal, @RequestBody OrderDetailDto orderDetailDto) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        return orderService.confirmReceipt(orderDetailDto, lgmnUserInfo);
+    }
+
+
 }

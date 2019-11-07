@@ -130,6 +130,16 @@ public class OrderService {
         return Result.success(nutMap);
     }
 
+    public Result confirmReceipt(OrderDetailDto orderDetailDto, LgmnUserInfo lgmnUserInfo) {
+        SwcyOrderEntity swcyOrderEntity = sOrderService.getOrderById(orderDetailDto.getOrderId());
+        if (swcyOrderEntity.getStatus() != 3 || !lgmnUserInfo.getId().equals(swcyOrderEntity.getUid())) {
+            return Result.error(ResultEnum.NOT_SCHEDULED_ERROR);
+        }
+        swcyOrderEntity.setStatus(4);
+        sOrderService.save(swcyOrderEntity);
+        return Result.success("确认收货成功");
+    }
+
     /**
      * 统一下单
      * @param req
