@@ -199,4 +199,14 @@ public class StoreController {
             return Result.serverError(e.getMessage());
         }
     }
+
+    @ApiOperation(value = "获取关注门店列表")
+    @PostMapping("/newsGetPageStore")
+    public Result newsGetPageStore (@RequestBody NewsGetPageStoreDto newsGetPageStoreDto) {
+        try {
+            return storeService.newsGetPageStore(newsGetPageStoreDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
 }

@@ -14,6 +14,7 @@ import com.lgmn.swcyapi.service.follow.SwcyFollowApiService;
 import com.lgmn.swcyapi.service.industry.IndustryService;
 import com.lgmn.swcyapi.service.store.SStoreService;
 import com.lgmn.swcyapi.vo.person.QiNiuTokenVo;
+import com.lgmn.swcyapi.vo.store.NewsGetPageStoreVo;
 import com.lgmn.swcyapi.vo.store.ShopTypeAndEssentialMessageVo;
 import com.lgmn.swcyapi.vo.store.StoreIndustryVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -206,5 +207,26 @@ public class StoreService {
         }
         swcyStoreEntityLgmnPage.setList(swcyStoreEntities);
         return Result.success(swcyStoreEntityLgmnPage);
+    }
+
+    public Result newsGetPageStore(NewsGetPageStoreDto newsGetPageStoreDto) throws Exception {
+        List<NewsGetPageStoreVo> newsGetPageStoreVos = new ArrayList<>();
+        List<SwcyIndustryEntity> swcyIndustryEntities = industryService.getIndustryList();
+        for (SwcyIndustryEntity swcyIndustryEntity : swcyIndustryEntities) {
+            StoreDto storeDto = new StoreDto();
+            storeDto.setIndustryId(swcyIndustryEntity.getId());
+            storeDto.setPageNumber(0);
+            storeDto.setPageSize(10);
+            storeDto.setLat(newsGetPageStoreDto.getLat());
+            storeDto.setLng(newsGetPageStoreDto.getLng());
+            LgmnPage<Map> lgmnPage = sStoreService.getStoreByIndustryId(storeDto);
+
+            NewsGetPageStoreVo newsGetPageStoreTempVo = new NewsGetPageStoreVo();
+            newsGetPageStoreTempVo.setSwcyIndustryEntity(swcyIndustryEntity);
+            newsGetPageStoreTempVo.setStoreMap(lgmnPage);
+            newsGetPageStoreTempVo.setNewsGetPageStoreDto(newsGetPageStoreDto);
+            newsGetPageStoreVos.add(newsGetPageStoreTempVo);
+        }
+        return Result.success(newsGetPageStoreVos);
     }
 }
