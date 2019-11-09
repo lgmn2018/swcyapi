@@ -2,6 +2,7 @@ package com.lgmn.swcyapi.controller;
 
 import com.lgmn.common.domain.LgmnUserInfo;
 import com.lgmn.common.result.Result;
+import com.lgmn.swcyapi.dto.order.GetOrderPageByStoreIdDto;
 import com.lgmn.swcyapi.dto.order.OrderDetailDto;
 import com.lgmn.swcyapi.dto.order.OrderPageDto;
 import com.lgmn.swcyapi.service.OrderService;
@@ -49,5 +50,15 @@ public class OrderController {
         return orderService.confirmReceipt(orderDetailDto, lgmnUserInfo);
     }
 
+    @ApiOperation(value = "获取门店订单Page")
+    @PostMapping("/getOrderPageByShopId")
+    public Result getOrderPageByShopId(@RequestHeader String Authorization, Principal principal, @RequestBody GetOrderPageByStoreIdDto getOrderPageByStoreIdDto) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        try {
+            return orderService.getOrderPageByStoreId(lgmnUserInfo, getOrderPageByStoreIdDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
 
 }

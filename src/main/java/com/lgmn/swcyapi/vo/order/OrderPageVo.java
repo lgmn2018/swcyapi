@@ -22,5 +22,7 @@ public class OrderPageVo extends LgmnVo<SwcyOrderEntity, OrderPageVo> {
     private String payNum;
     private String uid;
     private String logisticsNum;
+    private Integer addressId;
+    private String address;
 
 }

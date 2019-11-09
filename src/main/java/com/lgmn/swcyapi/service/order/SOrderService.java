@@ -6,6 +6,7 @@ import com.lgmn.common.domain.LgmnPage;
 import com.lgmn.swcy.basic.dto.SwcyOrderDto;
 import com.lgmn.swcy.basic.entity.SwcyOrderEntity;
 import com.lgmn.swcy.basic.service.SwcyOrderService;
+import com.lgmn.swcyapi.dto.order.GetOrderPageByStoreIdDto;
 import com.lgmn.swcyapi.dto.order.OrderPageDto;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -54,5 +55,24 @@ public class SOrderService {
 
     public SwcyOrderEntity save(SwcyOrderEntity swcyOrderEntity) {
         return swcyOrderService.saveEntity(swcyOrderEntity);
+    }
+
+    public LgmnPage<SwcyOrderEntity> getOrderPageByStoreId(GetOrderPageByStoreIdDto getOrderPageByStoreIdDto) throws Exception {
+        SwcyOrderDto swcyOrderDto = new SwcyOrderDto();
+        swcyOrderDto.setStoreId(getOrderPageByStoreIdDto.getStoreId());
+        swcyOrderDto.setPageNumber(getOrderPageByStoreIdDto.getPageNumber());
+        swcyOrderDto.setPageSize(getOrderPageByStoreIdDto.getPageSize());
+        List<Integer> statusArr = new ArrayList<>();
+        statusArr.add(1);
+        statusArr.add(2);
+        statusArr.add(3);
+        statusArr.add(4);
+        statusArr.add(5);
+        swcyOrderDto.setStatus(statusArr);
+        List<LgmnOrder> lgmnOrders = new ArrayList<>();
+        LgmnOrder lgmnOrder = new LgmnOrder(Sort.Direction.DESC, "orderTime");
+        lgmnOrders.add(lgmnOrder);
+        swcyOrderDto.setOrders(lgmnOrders);
+        return swcyOrderService.getPageByDtoWithPageRequet(swcyOrderDto);
     }
 }

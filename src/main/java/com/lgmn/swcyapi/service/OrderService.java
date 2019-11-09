@@ -4,21 +4,27 @@ import com.lgmn.common.domain.LgmnPage;
 import com.lgmn.common.domain.LgmnUserInfo;
 import com.lgmn.common.result.Result;
 import com.lgmn.common.result.ResultEnum;
+import com.lgmn.common.utils.ObjectTransfer;
 import com.lgmn.swcy.basic.entity.*;
-import com.lgmn.swcy.basic.service.SwcyStoreService;
+import com.lgmn.swcy.basic.service.SwcyReceivingAddressService;
+import com.lgmn.swcyapi.dto.order.GetOrderPageByStoreIdDto;
 import com.lgmn.swcyapi.dto.order.OrderDetailDto;
 import com.lgmn.swcyapi.dto.order.OrderPageDto;
 import com.lgmn.swcyapi.dto.order.UnifiedOrderDto;
+import com.lgmn.swcyapi.service.address.SwcyReceivingAddressApiService;
 import com.lgmn.swcyapi.service.commodity.SwcyCommodityApiService;
 import com.lgmn.swcyapi.service.commodity.SwcyCommodityTypeApiService;
 import com.lgmn.swcyapi.service.flow.SwcyFlowApiService;
 import com.lgmn.swcyapi.service.order.SOrderDetailService;
 import com.lgmn.swcyapi.service.order.SOrderService;
 import com.lgmn.swcyapi.service.store.SStoreService;
+import com.lgmn.swcyapi.service.user.UserService;
+import com.lgmn.swcyapi.vo.order.GetOrderPageByStoreIdVo;
 import com.lgmn.swcyapi.vo.order.OrderDetailListVo;
 import com.lgmn.swcyapi.vo.order.OrderDetailVo;
 import com.lgmn.swcyapi.vo.order.OrderPageVo;
-import org.apache.logging.log4j.util.PropertiesUtil;
+import com.lgmn.userservices.basic.entity.LgmnUserEntity;
+import com.lgmn.userservices.basic.service.LgmnUserService;
 import org.nutz.lang.Lang;
 import org.nutz.lang.random.R;
 import org.nutz.lang.util.NutMap;
@@ -28,7 +34,6 @@ import org.nutz.weixin.util.WxPaySign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -67,6 +72,13 @@ public class OrderService {
     @Autowired
     SwcyFlowApiService swcyFlowApiService;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    SwcyReceivingAddressApiService swcyReceivingAddressApiService;
+
+
     @Value("${wxparame.appid}")
     private String appid;
 
@@ -85,8 +97,10 @@ public class OrderService {
         for (OrderPageVo orderPageVo : orderPageVoLgmnPage.getList()) {
             SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(orderPageVo.getStoreId());
             List<SwcyOrderDetailEntity> orderDetailEntities = sOrderDetailService.getOrderDetailsByOrderId(orderPageVo.getId());
+            SwcyReceivingAddressEntity swcyReceivingAddressEntity = swcyReceivingAddressApiService.getReceivingAddressById(orderPageVo.getAddressId());
             orderPageVo.setStoreName(swcyStoreEntity.getStoreName());
             orderPageVo.setImageUrl(orderDetailEntities.get(0).getCover());
+            orderPageVo.setAddress(swcyReceivingAddressEntity.getProvinceName() + swcyReceivingAddressEntity.getCityName() + swcyReceivingAddressEntity.getAreaName() + swcyReceivingAddressEntity.getAddress());
         }
         return Result.success(orderPageVoLgmnPage);
     }
@@ -97,6 +111,8 @@ public class OrderService {
         List<SwcyOrderDetailEntity> swcyOrderDetailEntities = sOrderDetailService.getOrderDetailsByOrderId(swcyOrderEntity.getId());
         List<OrderDetailListVo> orderDetailListVos = new OrderDetailListVo().getVoList(swcyOrderDetailEntities, OrderDetailListVo.class);
         SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(swcyOrderEntity.getStoreId());
+        SwcyReceivingAddressEntity swcyReceivingAddressEntity = swcyReceivingAddressApiService.getReceivingAddressById(swcyOrderEntity.getAddressId());
+        orderPageVo.setAddress(swcyReceivingAddressEntity.getProvinceName() + swcyReceivingAddressEntity.getCityName() + swcyReceivingAddressEntity.getAreaName() + swcyReceivingAddressEntity.getAddress());
         orderPageVo.setImageUrl(swcyStoreEntity.getPhoto());
         orderPageVo.setStoreName(swcyStoreEntity.getStoreName());
         OrderDetailVo orderDetailVo = new OrderDetailVo();
@@ -138,6 +154,29 @@ public class OrderService {
         swcyOrderEntity.setStatus(4);
         sOrderService.save(swcyOrderEntity);
         return Result.success("确认收货成功");
+    }
+
+    public Result getOrderPageByStoreId(LgmnUserInfo lgmnUserInfo, GetOrderPageByStoreIdDto getOrderPageByStoreIdDto) throws Exception {
+        SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(getOrderPageByStoreIdDto.getStoreId());
+        if (!swcyStoreEntity.getUid().equals(lgmnUserInfo.getId())) {
+            return Result.error(ResultEnum.DATA_NOT_EXISTS);
+        }
+        LgmnPage<SwcyOrderEntity> swcyOrderEntityLgmnPage = sOrderService.getOrderPageByStoreId(getOrderPageByStoreIdDto);
+        LgmnPage<GetOrderPageByStoreIdVo> getOrderPageByStoreIdVoLgmnPage = new LgmnPage<>();
+        ObjectTransfer.transValue(swcyOrderEntityLgmnPage, getOrderPageByStoreIdVoLgmnPage);
+        List<GetOrderPageByStoreIdVo> getOrderPageByStoreIdVos = new ArrayList<>();
+        for(SwcyOrderEntity swcyOrderEntity : swcyOrderEntityLgmnPage.getList()) {
+            GetOrderPageByStoreIdVo getOrderPageByStoreIdVo = new GetOrderPageByStoreIdVo();
+            LgmnUserEntity lgmnUserEntity = userService.getUserById(swcyOrderEntity.getUid());
+            SwcyReceivingAddressEntity swcyReceivingAddressEntity = swcyReceivingAddressApiService.getReceivingAddressById(swcyOrderEntity.getAddressId());
+            ObjectTransfer.transValue(swcyOrderEntity, getOrderPageByStoreIdVo);
+            ObjectTransfer.transValue(lgmnUserEntity, getOrderPageByStoreIdVo);
+            ObjectTransfer.transValue(swcyReceivingAddressEntity, getOrderPageByStoreIdVo);
+            getOrderPageByStoreIdVos.add(getOrderPageByStoreIdVo);
+        }
+        getOrderPageByStoreIdVoLgmnPage.getList().clear();
+        getOrderPageByStoreIdVoLgmnPage.setList(getOrderPageByStoreIdVos);
+        return Result.success(getOrderPageByStoreIdVoLgmnPage);
     }
 
     /**

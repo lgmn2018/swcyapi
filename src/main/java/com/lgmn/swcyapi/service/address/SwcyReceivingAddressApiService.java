@@ -43,4 +43,8 @@ public class SwcyReceivingAddressApiService {
         return swcyReceivingAddressService.getListByDto(swcyReceivingAddressDto);
     }
 
+    public SwcyReceivingAddressEntity getReceivingAddressById(Integer id) {
+        return swcyReceivingAddressService.findById(id);
+    }
+
 }
