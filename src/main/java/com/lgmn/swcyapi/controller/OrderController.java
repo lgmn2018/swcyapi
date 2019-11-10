@@ -6,6 +6,7 @@ import com.lgmn.swcyapi.dto.order.GetOrderPageByStoreIdDto;
 import com.lgmn.swcyapi.dto.order.OrderDetailDto;
 import com.lgmn.swcyapi.dto.order.OrderPageDto;
 import com.lgmn.swcyapi.service.OrderService;
+import com.lgmn.swcyapi.vo.order.ConfirmShipmentDto;
 import com.lgmn.userservices.basic.util.UserUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -60,5 +61,28 @@ public class OrderController {
             return Result.serverError(e.getMessage());
         }
     }
+
+    @ApiOperation(value = "获取共享店订单详情")
+    @PostMapping("/getShopOrderDetailByOrderId")
+    public Result getShopOrderDetailByOrderId(@RequestHeader String Authorization, Principal principal, @RequestBody OrderDetailDto orderDetailDto) {
+        try {
+            return orderService.getShopOrderDetailByOrderId(orderDetailDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "确认订单")
+    @PostMapping("/confirmationOfOrder")
+    public Result confirmationOfOrder (@RequestHeader String Authorization, Principal principal, @RequestBody OrderDetailDto orderDetailDto) {
+        return orderService.confirmationOfOrder(orderDetailDto);
+    }
+
+    @ApiOperation(value = "确认发货")
+    @PostMapping("/confirmShipment")
+    public Result confirmShipment(@RequestHeader String Authorization, Principal principal, @RequestBody ConfirmShipmentDto confirmShipmentDto) {
+        return orderService.confirmShipment(confirmShipmentDto);
+    }
+
 
 }

@@ -19,10 +19,7 @@ import com.lgmn.swcyapi.service.order.SOrderDetailService;
 import com.lgmn.swcyapi.service.order.SOrderService;
 import com.lgmn.swcyapi.service.store.SStoreService;
 import com.lgmn.swcyapi.service.user.UserService;
-import com.lgmn.swcyapi.vo.order.GetOrderPageByStoreIdVo;
-import com.lgmn.swcyapi.vo.order.OrderDetailListVo;
-import com.lgmn.swcyapi.vo.order.OrderDetailVo;
-import com.lgmn.swcyapi.vo.order.OrderPageVo;
+import com.lgmn.swcyapi.vo.order.*;
 import com.lgmn.userservices.basic.entity.LgmnUserEntity;
 import com.lgmn.userservices.basic.service.LgmnUserService;
 import org.nutz.lang.Lang;
@@ -169,14 +166,56 @@ public class OrderService {
             GetOrderPageByStoreIdVo getOrderPageByStoreIdVo = new GetOrderPageByStoreIdVo();
             LgmnUserEntity lgmnUserEntity = userService.getUserById(swcyOrderEntity.getUid());
             SwcyReceivingAddressEntity swcyReceivingAddressEntity = swcyReceivingAddressApiService.getReceivingAddressById(swcyOrderEntity.getAddressId());
-            ObjectTransfer.transValue(swcyOrderEntity, getOrderPageByStoreIdVo);
             ObjectTransfer.transValue(lgmnUserEntity, getOrderPageByStoreIdVo);
             ObjectTransfer.transValue(swcyReceivingAddressEntity, getOrderPageByStoreIdVo);
+            ObjectTransfer.transValue(swcyOrderEntity, getOrderPageByStoreIdVo);
             getOrderPageByStoreIdVos.add(getOrderPageByStoreIdVo);
         }
         getOrderPageByStoreIdVoLgmnPage.getList().clear();
         getOrderPageByStoreIdVoLgmnPage.setList(getOrderPageByStoreIdVos);
         return Result.success(getOrderPageByStoreIdVoLgmnPage);
+    }
+
+    public Result getShopOrderDetailByOrderId(OrderDetailDto orderDetailDto) throws Exception {
+        SwcyOrderEntity swcyOrderEntity = sOrderService.getOrderById(orderDetailDto.getOrderId());
+        OrderEssentialInfoVo orderEssentialInfoVo = new OrderEssentialInfoVo().getVo(swcyOrderEntity, OrderEssentialInfoVo.class);
+
+        SwcyReceivingAddressEntity swcyReceivingAddressEntity = swcyReceivingAddressApiService.getReceivingAddressById(swcyOrderEntity.getAddressId());
+        ReceivingAddressVo receivingAddressVo = new ReceivingAddressVo().getVo(swcyReceivingAddressEntity, ReceivingAddressVo.class);
+
+        List<SwcyOrderDetailEntity> swcyOrderDetailEntities = sOrderDetailService.getOrderDetailsByOrderId(swcyOrderEntity.getId());
+        List<OrderDetailListVo> orderDetailListVos = new OrderDetailListVo().getVoList(swcyOrderDetailEntities, OrderDetailListVo.class);
+
+        LgmnUserEntity lgmnUserEntity = userService.getUserById(swcyOrderEntity.getUid());
+
+        GetShopOrderDetailByOrderIdVo getShopOrderDetailByOrderIdVo = new GetShopOrderDetailByOrderIdVo();
+        getShopOrderDetailByOrderIdVo.setAvatar(lgmnUserEntity.getAvatar());
+        getShopOrderDetailByOrderIdVo.setNikeName(lgmnUserEntity.getNikeName());
+        getShopOrderDetailByOrderIdVo.setOrderDetailListVos(orderDetailListVos);
+        getShopOrderDetailByOrderIdVo.setReceivingAddressVo(receivingAddressVo);
+        getShopOrderDetailByOrderIdVo.setOrderEssentialInfoVo(orderEssentialInfoVo);
+        return Result.success(getShopOrderDetailByOrderIdVo);
+    }
+
+    public Result confirmationOfOrder(OrderDetailDto orderDetailDto) {
+        SwcyOrderEntity swcyOrderEntity = sOrderService.getOrderById(orderDetailDto.getOrderId());
+        if (swcyOrderEntity.getStatus() != 1) {
+            return Result.error(ResultEnum.NOT_SCHEDULED_ERROR);
+        }
+        swcyOrderEntity.setStatus(2);
+        sOrderService.save(swcyOrderEntity);
+        return Result.success("订单确认成功");
+    }
+
+    public Result confirmShipment(ConfirmShipmentDto confirmShipmentDto) {
+        SwcyOrderEntity swcyOrderEntity = sOrderService.getOrderById(confirmShipmentDto.getOrderId());
+        if (swcyOrderEntity.getStatus() != 2) {
+            return Result.error(ResultEnum.NOT_SCHEDULED_ERROR);
+        }
+        swcyOrderEntity.setStatus(3);
+        swcyOrderEntity.setLogisticsNum(confirmShipmentDto.getLogisticsNum());
+        sOrderService.save(swcyOrderEntity);
+        return Result.success("发货成功");
     }
 
     /**
