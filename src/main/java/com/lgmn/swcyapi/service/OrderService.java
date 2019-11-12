@@ -6,7 +6,6 @@ import com.lgmn.common.result.Result;
 import com.lgmn.common.result.ResultEnum;
 import com.lgmn.common.utils.ObjectTransfer;
 import com.lgmn.swcy.basic.entity.*;
-import com.lgmn.swcy.basic.service.SwcyReceivingAddressService;
 import com.lgmn.swcyapi.dto.order.GetOrderPageByStoreIdDto;
 import com.lgmn.swcyapi.dto.order.OrderDetailDto;
 import com.lgmn.swcyapi.dto.order.OrderPageDto;
@@ -21,7 +20,6 @@ import com.lgmn.swcyapi.service.store.SStoreService;
 import com.lgmn.swcyapi.service.user.UserService;
 import com.lgmn.swcyapi.vo.order.*;
 import com.lgmn.userservices.basic.entity.LgmnUserEntity;
-import com.lgmn.userservices.basic.service.LgmnUserService;
 import org.nutz.lang.Lang;
 import org.nutz.lang.random.R;
 import org.nutz.lang.util.NutMap;
@@ -86,7 +84,7 @@ public class OrderService {
     private String key;
 
     @Value("${wxparame.notifyurl}")
-    private String notifyurl;
+    public String notifyurl;
 
     public Result getOrderPage (OrderPageDto orderPageDto, String uid) throws Exception {
         LgmnPage<SwcyOrderEntity> lgmnPage = sOrderService.getOrderPage(orderPageDto, uid);
@@ -125,7 +123,7 @@ public class OrderService {
         // 全局订单号
         String orderNo = "SPGM" + System.currentTimeMillis();
         // 统一下单
-        NutMap nutMap = unifiedOrder(req, sunPrice, orderNo);
+        NutMap nutMap = unifiedOrder(req, sunPrice, orderNo, "商品购买", notifyurl, appid, mchid, key);
         if (!nutMap.get("return_code").equals("SUCCESS")) {
             System.err.println(nutMap.toString());
             return Result.error(ResultEnum.NOT_SCHEDULED_ERROR);
@@ -224,20 +222,20 @@ public class OrderService {
      * @param sunPrice
      * @return
      */
-    private NutMap unifiedOrder(HttpServletRequest req, BigDecimal sunPrice, String orderNo) {
+    public static NutMap unifiedOrder(HttpServletRequest req, BigDecimal sunPrice, String orderNo, String body, String callBackNotifyurl, String wxAppId, String wxMchId, String wxKey) {
         WxPayUnifiedOrder wxPayUnifiedOrder = new WxPayUnifiedOrder();
-        wxPayUnifiedOrder.setAppid(appid);                                       // APPID
-        wxPayUnifiedOrder.setMch_id(mchid);                                      // 商户号ID
+        wxPayUnifiedOrder.setAppid(wxAppId);                                     // APPID
+        wxPayUnifiedOrder.setMch_id(wxMchId);                                    // 商户号ID
         wxPayUnifiedOrder.setNonce_str(R.UU32());                                // 随机字符串
-        wxPayUnifiedOrder.setBody("商品购买");                                    // 描述
+        wxPayUnifiedOrder.setBody(body);                                         // 描述
         wxPayUnifiedOrder.setOut_trade_no(orderNo);                              // 订单号
         wxPayUnifiedOrder.setTotal_fee(1);                                       // 金额
 //        wxPayUnifiedOrder.setTotal_fee(sunPrice.multiply(new BigDecimal(100)).intValue());
         wxPayUnifiedOrder.setSpbill_create_ip(Lang.getIP(req));                  // 终端IP
-        wxPayUnifiedOrder.setNotify_url(notifyurl);                              // 回调URL
+        wxPayUnifiedOrder.setNotify_url(callBackNotifyurl);                      // 回调URL
         wxPayUnifiedOrder.setTrade_type("APP");                                  // 交易类型
         WxApi2Impl wxApi2Impl = new WxApi2Impl();
-        NutMap nutMap = wxApi2Impl.pay_unifiedorder(key, wxPayUnifiedOrder);
+        NutMap nutMap = wxApi2Impl.pay_unifiedorder(wxKey, wxPayUnifiedOrder);
         return nutMap;
     }
 
@@ -299,7 +297,7 @@ public class OrderService {
      * @param sunPrice
      * @return
      */
-    private SwcyFlowEntity getFlowEntity (String uid, String orderId, String payNo, String storeUid, BigDecimal sunPrice) {
+    public SwcyFlowEntity getFlowEntity (String uid, String orderId, String payNo, String storeUid, BigDecimal sunPrice) {
         // 流水
         SwcyFlowEntity swcyFlowEntity = new SwcyFlowEntity();
         swcyFlowEntity.setUid(uid);
@@ -329,7 +327,7 @@ public class OrderService {
                 SwcyOrderEntity swcyOrderEntity = sOrderService.getOrderById(swcyFlowEntity.getOrderId());
                 swcyFlowEntity.setResult(1);
                 swcyFlowApiService.save(swcyFlowEntity);
-                swcyOrderEntity.setStatus(2);
+                swcyOrderEntity.setStatus(1);
                 sOrderService.save(swcyOrderEntity);
             }
         }
@@ -345,7 +343,7 @@ public class OrderService {
      * @param request
      * @return
      */
-    private static String getXmlString(HttpServletRequest request) {
+    public static String getXmlString(HttpServletRequest request) {
         BufferedReader reader = null;
         String line = "";
         String xmlString = null;
@@ -400,7 +398,7 @@ public class OrderService {
      * @param return_code
      * @return
      */
-    private static String returnXML(String return_code) {
+    public static String returnXML(String return_code) {
 
         return "<xml><return_code><![CDATA["
 

@@ -12,5 +12,5 @@ public class PersonAndAdVo {
     private List<HomeAdVo> homeAdVo;
     private Integer star;
     private Integer credit;
-
+    private Boolean notBusiness;
 }
