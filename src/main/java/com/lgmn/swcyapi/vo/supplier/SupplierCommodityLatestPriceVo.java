@@ -12,6 +12,6 @@ public class SupplierCommodityLatestPriceVo extends LgmnVo<SwcySupplierCommodity
     private String name;
     private String cover;
     private BigDecimal retailPrice;
-    private String specs;
-    private int status;
+    private Integer status;
+    private Integer delFlag;
 }

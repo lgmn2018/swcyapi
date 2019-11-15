@@ -18,4 +18,5 @@ public class SupplierInfoVo extends LgmnVo<SwcySupplierEntity, SupplierInfoVo> {
     private String phone;
     private Integer status;
     private String logo;
+    private String description;
 }
