@@ -216,7 +216,7 @@ public class SupplierService {
             swcySupplierOrderDetailEntity.setCommodityName(swcySupplierCommodityEntity.getName());
             swcySupplierOrderDetailEntity.setCommodityType(swcySupplierCategoryEntity.getName());
             swcySupplierOrderDetailEntity.setCover(swcySupplierCommodityEntity.getCover());
-            swcySupplierOrderDetailEntity.setPrice(swcySupplierCommodityEntity.getBuyingPrice());
+            swcySupplierOrderDetailEntity.setPrice(swcySupplierCommodityEntity.getRetailPrice());
             swcySupplierOrderDetailEntity.setNum(commodityIdAndNum.get(swcySupplierCommodityEntity.getId()));
             list.add(swcySupplierOrderDetailEntity);
         }
