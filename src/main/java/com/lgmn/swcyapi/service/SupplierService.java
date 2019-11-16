@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -238,6 +239,7 @@ public class SupplierService {
                 SwcyFlowEntity swcyFlowEntity = swcyFlowApiService.getFlowByPayNo(map.get("out_trade_no").toString());
                 SwcySupplierOrderEntity swcySupplierOrderEntity = swcySupplierOrderAPIService.getSupplierOrderById(swcyFlowEntity.getOrderId());
                 swcySupplierOrderEntity.setStatus(2);
+                swcySupplierOrderEntity.setPayTime(new Timestamp(System.currentTimeMillis()));
                 swcySupplierOrderAPIService.save(swcySupplierOrderEntity);
                 swcyFlowEntity.setResult(1);
                 swcyFlowApiService.save(swcyFlowEntity);
