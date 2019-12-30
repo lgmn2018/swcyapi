@@ -75,4 +75,10 @@ public class SStoreService {
         swcyStoreDto.setPageSize(pageSize);
         return swcyStoreService.getPageByDtoWithPageRequet(swcyStoreDto);
     }
+
+    public List<SwcyStoreEntity> getMyStoreListByUid(String uid) throws Exception {
+        SwcyStoreDto swcyStoreDto = new SwcyStoreDto();
+        swcyStoreDto.setUid(uid);
+        return swcyStoreService.getListByDto(swcyStoreDto);
+    }
 }

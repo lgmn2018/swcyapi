@@ -21,6 +21,7 @@ import com.lgmn.swcyapi.service.complaints.ComplaintsService;
 import com.lgmn.swcyapi.service.message.MessageService;
 import com.lgmn.swcyapi.service.order.SOrderService;
 import com.lgmn.swcyapi.service.sms.SmsCodeService;
+import com.lgmn.swcyapi.service.store.SStoreService;
 import com.lgmn.swcyapi.service.user.UserService;
 import com.lgmn.swcyapi.vo.home.HomeAdVo;
 import com.lgmn.swcyapi.vo.person.*;
@@ -82,15 +83,20 @@ public class PersonService {
     @Autowired
     SmsCodeService smsCodeService;
 
+    @Autowired
+    SStoreService sStoreService;
+
     public Result getPersonAndAdList(LgmnUserInfo lgmnUserInfo) throws Exception {
         SwcyAppUserEntity swcyAppUserEntity = appUserService.getAppUserByUid(lgmnUserInfo.getId());
         List<SwcyAdEntity> swcyAdEntities = adService.getAdListByType(3);
+        List<SwcyStoreEntity> swcyStoreEntities = sStoreService.getMyStoreListByUid(lgmnUserInfo.getId());
         List<HomeAdVo> homeAdVos = new HomeAdVo().getVoList(swcyAdEntities, HomeAdVo.class);
         PersonAndAdVo personAndAdVo = new PersonAndAdVo();
         personAndAdVo.setHomeAdVo(homeAdVos);
         personAndAdVo.setLgmnUserInfo(lgmnUserInfo);
         personAndAdVo.setStar(swcyAppUserEntity.getStar());
         personAndAdVo.setCredit(swcyAppUserEntity.getCredit());
+        personAndAdVo.setNotBusiness(swcyStoreEntities.size() > 0 ? false : true);
         return Result.success(personAndAdVo);
     }
 

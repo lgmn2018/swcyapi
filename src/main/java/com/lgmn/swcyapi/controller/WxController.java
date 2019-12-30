@@ -7,8 +7,11 @@ import com.lgmn.common.result.Result;
 import com.lgmn.common.result.ResultEnum;
 import com.lgmn.swcyapi.dto.login.WxLoginDto;
 import com.lgmn.swcyapi.dto.order.UnifiedOrderDto;
+import com.lgmn.swcyapi.dto.supplier.SupplierUnifiedOrderDto;
 import com.lgmn.swcyapi.service.OrderService;
+import com.lgmn.swcyapi.service.SupplierService;
 import com.lgmn.swcyapi.service.SwcyAdApiService;
+import com.lgmn.swcyapi.service.supplier.SwcySupplierOrderAPIService;
 import com.lgmn.userservices.basic.util.UserUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
@@ -53,6 +56,9 @@ public class WxController {
     @Autowired
     OrderService orderService;
 
+    @Autowired
+    SupplierService supplierService;
+
     // 微信登录
     @PostMapping("/wxLogin")
     public Result wxLogin(@RequestBody WxLoginDto wxLoginDto) {
@@ -78,8 +84,14 @@ public class WxController {
         }
     }
 
-    // 统一下单
-
+    /**
+     * 共享店统一下单
+     * @param req
+     * @param unifiedOrderDto
+     * @param Authorization
+     * @param principal
+     * @return
+     */
     @PostMapping("/wxPay")
     public Result wxPay(HttpServletRequest req, @RequestBody UnifiedOrderDto unifiedOrderDto, @RequestHeader String Authorization, Principal principal) {
         LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
@@ -90,6 +102,34 @@ public class WxController {
     public void wxPayCallBack(HttpServletRequest req, HttpServletResponse response) {
         try {
             orderService.wxPayCallBack(req, response);
+        } catch (Exception e) {
+            System.out.println("\n\n>>>>>>>>>>>>>>>>>>>>>>>>微信支付回调失败>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n");
+        }
+    }
+
+    /**
+     * 供应商统一下单
+     * @param req
+     * @param unifiedOrderDto
+     * @param Authorization
+     * @param principal
+     * @return
+     */
+    @PostMapping("/supplierUnifiedOrderWxPay")
+    public Result supplierUnifiedOrderWxPay(HttpServletRequest req, @RequestBody SupplierUnifiedOrderDto unifiedOrderDto, @RequestHeader String Authorization, Principal principal) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        return supplierService.supplierUnifiedOrderWxPay(req, unifiedOrderDto, lgmnUserInfo);
+    }
+
+    /**
+     * 供应商支付回调
+     * @param req
+     * @param response
+     */
+    @RequestMapping("/supplierWxPayCallBack")
+    public void supplierWxPayCallBack(HttpServletRequest req, HttpServletResponse response) {
+        try {
+            supplierService.supplierWxPayCallBack(req, response);
         } catch (Exception e) {
             System.out.println("\n\n>>>>>>>>>>>>>>>>>>>>>>>>微信支付回调失败>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n");
         }

@@ -36,7 +36,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                                                     "/store/getMyStorePage",
                                                     "/store/followAndCleanFollow",
                                                     "/store/getMyFollowPage",
-                                                    "/wxApi/wxPay")
+                                                    "/wxApi/wxPay",
+                                                    "/wxApi/supplierUnifiedOrderWxPay",
+                                                    "/supplier/getSupplierOrderPage",
+                                                    "/supplier/supplierOrderConfirmReceipt",
+                                                    "/supplier/applyForReturn")
                 .and()
                 .authorizeRequests()
                 .antMatchers( "/auth/**/api/**",
@@ -49,7 +53,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                                             "/store/getMyStorePage",
                                             "/store/followAndCleanFollow",
                                             "/store/getMyFollowPage",
-                                            "/wxApi/wxPay").authenticated()
+                                            "/wxApi/wxPay",
+                                            "/wxApi/supplierUnifiedOrderWxPay",
+                                            "/supplier/getSupplierOrderPage",
+                                            "/supplier/supplierOrderConfirmReceipt",
+                                            "/supplier/applyForReturn").authenticated()
                 .and()
                 .httpBasic();
     }

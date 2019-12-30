@@ -85,3 +85,4 @@ wxparame:
   mchid: 1556355751
   key: LgmnSwcy201900000000000000000000
   notifyurl: http://xjb.tunnel.uma511.com/wxApi/wxPayCallBack
+  supplier_notifyurl: http://xjb.tunnel.uma511.com/wxApi/wxPayCallBack
