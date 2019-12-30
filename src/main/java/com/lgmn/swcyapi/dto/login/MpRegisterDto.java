@@ -12,4 +12,5 @@ public class MpRegisterDto {
     private String puid;
     @ApiModelProperty(value = "0 注册，1忘记密码")
     private Integer type;
+    private Integer gender;
 }

@@ -45,6 +45,7 @@ public class SubscribeHandler extends AbstractHandler {
                 registerDto.setAccount(unionid);
                 registerDto.setPassword(unionid);
                 registerDto.setNikeName(userWxInfo.getNickname());
+                registerDto.setGender(userWxInfo.getSex());
                 registerDto.setPuid(recommender);
                 registerDto.setType(0);
                 registerDto.setAvatar(userWxInfo.getHeadImgUrl());

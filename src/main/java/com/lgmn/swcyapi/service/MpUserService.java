@@ -38,8 +38,20 @@ public class MpUserService {
             lgmnUserEntity = getUser(account, password,registerDto.getAvatar(),registerDto.getNikeName());
         }
 
+        Integer gender=0;
+
+        switch (registerDto.getGender()){
+            case 0:
+            case 1:
+                gender=1;
+                break;
+            case 2:
+                gender=0;
+                break;
+        }
+
         // 保存用户
-        saveUser(lgmnUserEntity, registerDto.getPuid(), registerDto.getType());
+        saveUser(lgmnUserEntity, registerDto.getPuid(), registerDto.getType(),gender);
         return Result.success(msg);
     }
 
@@ -52,10 +64,11 @@ public class MpUserService {
         }
     }
 
-    private void saveUser (LgmnUserEntity lgmnUserEntity, String puid, Integer type) {
+    private void saveUser (LgmnUserEntity lgmnUserEntity, String puid, Integer type, Integer gender) {
         LgmnUserEntity userEntity = userService.save(lgmnUserEntity);
         if (type == 0) {
             SwcyAppUserEntity swcyAppUserEntity = getAppUser(userEntity.getId(), puid);
+            swcyAppUserEntity.setGender(gender);
             appUserService.save(swcyAppUserEntity);
         }
     }
