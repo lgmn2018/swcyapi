@@ -20,6 +20,8 @@ import com.lgmn.swcyapi.vo.store.StoreIndustryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -98,9 +100,16 @@ public class StoreService {
     }
 
     public Result addStore(LgmnUserInfo lgmnUserInfo, AddStoreForUnlicensedDto addStoreForUnlicensedDto) {
-        SwcyStoreEntity swcyStoreEntity = new SwcyStoreEntity();
+        SwcyStoreEntity swcyStoreEntity;
+        if (addStoreForUnlicensedDto.getId() == null) {
+            swcyStoreEntity = new SwcyStoreEntity();
+            swcyStoreEntity.setUid(lgmnUserInfo.getId());
+            swcyStoreEntity.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        } else {
+            swcyStoreEntity = sStoreService.getStoreById(addStoreForUnlicensedDto.getId());
+        }
         ObjectTransfer.transValue(addStoreForUnlicensedDto, swcyStoreEntity);
-        swcyStoreEntity.setUid(lgmnUserInfo.getId());
+        swcyStoreEntity.setArea(new BigDecimal(addStoreForUnlicensedDto.getArea()));
         SwcyStoreEntity newStore = sStoreService.save(swcyStoreEntity);
         return Result.success(newStore);
     }
@@ -228,5 +237,9 @@ public class StoreService {
             newsGetPageStoreVos.add(newsGetPageStoreTempVo);
         }
         return Result.success(newsGetPageStoreVos);
+    }
+
+    public Result getShareStoreMsg(ShareStoreMsgDto shareStoreMsgDto) {
+        return Result.success(sStoreService.getStoreById(shareStoreMsgDto.getId()));
     }
 }

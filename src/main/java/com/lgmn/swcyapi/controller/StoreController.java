@@ -22,7 +22,7 @@ public class StoreController {
 
     @ApiOperation(value = "获取门店类型")
     @PostMapping("/getStoreIndustryList")
-    public Result getStoreAdList() {
+    public Result getStoreIndustryList() {
         try {
             return storeService.getStoreIndustryList();
         } catch (Exception e) {
@@ -208,5 +208,11 @@ public class StoreController {
         } catch (Exception e) {
             return Result.serverError(e.getMessage());
         }
+    }
+
+    @ApiOperation(value = "获取共享店信息")
+    @PostMapping("/getShareStoreMsg")
+    public Result getShareStoreMsg(@RequestBody ShareStoreMsgDto shareStoreMsgDto) {
+        return storeService.getShareStoreMsg(shareStoreMsgDto);
     }
 }

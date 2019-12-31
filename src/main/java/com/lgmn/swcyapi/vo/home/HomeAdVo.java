@@ -10,4 +10,5 @@ public class HomeAdVo extends LgmnVo<SwcyAdEntity, HomeAdVo> {
     private String title;
     private String cover;
     private Integer type;
+    private String content;
 }

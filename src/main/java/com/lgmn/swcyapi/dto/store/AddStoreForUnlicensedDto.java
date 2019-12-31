@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 @Data
 public class AddStoreForUnlicensedDto {
+    private Integer id;
     private String storeName;
     private String legalPerson;
     private String provinceName;
@@ -15,7 +16,7 @@ public class AddStoreForUnlicensedDto {
     private String photo;
     private Integer industryId;
     private String industryName;
-    private BigDecimal area;
+    private double area;
     private String lat;
     private String lng;
     private String phone;
