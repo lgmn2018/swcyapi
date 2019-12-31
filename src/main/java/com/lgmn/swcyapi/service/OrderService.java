@@ -1,11 +1,13 @@
 package com.lgmn.swcyapi.service;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.lgmn.common.domain.LgmnPage;
 import com.lgmn.common.domain.LgmnUserInfo;
 import com.lgmn.common.result.Result;
 import com.lgmn.common.result.ResultEnum;
 import com.lgmn.common.utils.ObjectTransfer;
 import com.lgmn.swcy.basic.entity.*;
+import com.lgmn.swcy.basic.service.PerformanceCalculationService;
 import com.lgmn.swcyapi.dto.order.GetOrderPageByStoreIdDto;
 import com.lgmn.swcyapi.dto.order.OrderDetailDto;
 import com.lgmn.swcyapi.dto.order.OrderPageDto;
@@ -72,6 +74,9 @@ public class OrderService {
 
     @Autowired
     SwcyReceivingAddressApiService swcyReceivingAddressApiService;
+
+    @Reference(version = "${demo.service.version}")
+    PerformanceCalculationService performanceCalculationService;
 
 
     @Value("${wxparame.appid}")
@@ -308,6 +313,8 @@ public class OrderService {
         swcyFlowEntity.setResult(0);
         swcyFlowEntity.setPayeeId(storeUid);
         swcyFlowEntity.setPayeeMoney(new BigDecimal(0));
+        swcyFlowEntity.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        swcyFlowEntity.setType(0);
         return swcyFlowApiService.save(swcyFlowEntity);
     }
 
@@ -324,11 +331,17 @@ public class OrderService {
                 System.out.println(map.get("out_trade_no").toString());
 
                 SwcyFlowEntity swcyFlowEntity = swcyFlowApiService.getFlowByPayNo(map.get("out_trade_no").toString());
-                SwcyOrderEntity swcyOrderEntity = sOrderService.getOrderById(swcyFlowEntity.getOrderId());
-                swcyFlowEntity.setResult(1);
-                swcyFlowApiService.save(swcyFlowEntity);
-                swcyOrderEntity.setStatus(1);
-                sOrderService.save(swcyOrderEntity);
+                if (swcyFlowEntity.getResult() == 0) {
+                    SwcyOrderEntity swcyOrderEntity = sOrderService.getOrderById(swcyFlowEntity.getOrderId());
+                    swcyFlowEntity.setResult(1);
+                    swcyFlowApiService.save(swcyFlowEntity);
+                    swcyOrderEntity.setStatus(1);
+                    swcyOrderEntity.setPayTime(new Timestamp(System.currentTimeMillis()));
+                    sOrderService.save(swcyOrderEntity);
+
+                    // 平台提成计算
+                    performanceCalculationService.updatePerformance_shop(swcyOrderEntity.getUid(), swcyOrderEntity.getStoreId(), swcyFlowEntity.getId());
+                }
             }
         }
         String str = returnXML(map.get("return_code").toString());
