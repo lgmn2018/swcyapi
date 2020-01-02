@@ -105,6 +105,7 @@ public class StoreService {
             swcyStoreEntity = new SwcyStoreEntity();
             swcyStoreEntity.setUid(lgmnUserInfo.getId());
             swcyStoreEntity.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            swcyStoreEntity.setIsChecked(3);
         } else {
             swcyStoreEntity = sStoreService.getStoreById(addStoreForUnlicensedDto.getId());
         }

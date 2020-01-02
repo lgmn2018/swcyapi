@@ -140,6 +140,7 @@ public class MpController {
                 registerDto.setPuid("");
                 registerDto.setType(0);
                 registerDto.setAvatar(user.getHeadImgUrl());
+                registerDto.setGender(user.getSex());
                 result = mpUserService.register(registerDto);
                 if(result.getCode().equals("200")) {
                     result = loginService.login(loginDto);
