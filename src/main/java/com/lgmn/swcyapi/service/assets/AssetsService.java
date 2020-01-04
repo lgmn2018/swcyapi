@@ -22,4 +22,8 @@ public class AssetsService {
         }
         return list.get(0);
     }
+
+    public SwcyAssetsEntity save(SwcyAssetsEntity swcyAssetsEntity) {
+        return swcyAssetsService.saveEntity(swcyAssetsEntity);
+    }
 }

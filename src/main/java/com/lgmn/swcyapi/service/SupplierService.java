@@ -7,6 +7,7 @@ import com.lgmn.common.result.ResultEnum;
 import com.lgmn.swcy.basic.entity.*;
 import com.lgmn.swcyapi.dto.supplier.*;
 import com.lgmn.swcyapi.service.address.SwcyReceivingAddressApiService;
+import com.lgmn.swcyapi.service.assets.AssetsService;
 import com.lgmn.swcyapi.service.flow.SwcyFlowApiService;
 import com.lgmn.swcyapi.service.industry.IndustryService;
 import com.lgmn.swcyapi.service.store.SStoreService;
@@ -61,6 +62,9 @@ public class SupplierService {
 
     @Autowired
     SwcyFlowApiService swcyFlowApiService;
+
+    @Autowired
+    AssetsService assetsService;
 
     @Value("${wxparame.appid}")
     private String appid;
@@ -195,6 +199,7 @@ public class SupplierService {
     }
 
     private SwcySupplierOrderEntity saveSupplierOrder(BigDecimal sunPrice, String orderNo, SupplierUnifiedOrderDto unifiedOrderDto, LgmnUserInfo lgmnUserInfo) {
+        SwcySupplierEntity swcySupplierEntity = swcySupplierAPIService.getSupplierById(unifiedOrderDto.getSupplierId());
         SwcySupplierOrderEntity swcySupplierOrderEntity = new SwcySupplierOrderEntity();
         swcySupplierOrderEntity.setStatus(0);
         swcySupplierOrderEntity.setMoney(sunPrice);
@@ -204,6 +209,7 @@ public class SupplierService {
         swcySupplierOrderEntity.setStoreOwnerId(lgmnUserInfo.getId());
         swcySupplierOrderEntity.setStoreId(unifiedOrderDto.getStoreId());
         swcySupplierOrderEntity.setAddressId(unifiedOrderDto.getAddressId());
+        swcySupplierOrderEntity.setOrderTime(new Timestamp(System.currentTimeMillis()));
         return swcySupplierOrderAPIService.save(swcySupplierOrderEntity);
     }
 
@@ -237,12 +243,32 @@ public class SupplierService {
                 // 修改订单支付状态
                 System.out.println(map.get("out_trade_no").toString());
                 SwcyFlowEntity swcyFlowEntity = swcyFlowApiService.getFlowByPayNo(map.get("out_trade_no").toString());
-                SwcySupplierOrderEntity swcySupplierOrderEntity = swcySupplierOrderAPIService.getSupplierOrderById(swcyFlowEntity.getOrderId());
-                swcySupplierOrderEntity.setStatus(2);
-                swcySupplierOrderEntity.setPayTime(new Timestamp(System.currentTimeMillis()));
-                swcySupplierOrderAPIService.save(swcySupplierOrderEntity);
-                swcyFlowEntity.setResult(1);
-                swcyFlowApiService.save(swcyFlowEntity);
+                if (swcyFlowEntity.getResult() == 0) {
+                    SwcySupplierOrderEntity swcySupplierOrderEntity = swcySupplierOrderAPIService.getSupplierOrderById(swcyFlowEntity.getOrderId());
+                    swcySupplierOrderEntity.setStatus(2);
+                    swcySupplierOrderEntity.setPayTime(new Timestamp(System.currentTimeMillis()));
+                    swcySupplierOrderAPIService.save(swcySupplierOrderEntity);
+                    swcyFlowEntity.setResult(1);
+                    swcyFlowApiService.save(swcyFlowEntity);
+
+                    // 更新供应商资产
+                    SwcySupplierEntity swcySupplierEntity = swcySupplierAPIService.getSupplierById(swcySupplierOrderEntity.getSupplierId());
+                    SwcyAssetsEntity swcyAssetsEntity = assetsService.getAsstesByUid(swcySupplierEntity.getUid());
+                    if (swcyAssetsEntity == null) {
+                        SwcyAssetsEntity newAssets = new SwcyAssetsEntity();
+                        newAssets.setUid(swcySupplierEntity.getUid());
+                        newAssets.setAssets(swcySupplierOrderEntity.getMoney());
+                        newAssets.setMoney(new BigDecimal(0));
+                        newAssets.setCommission(new BigDecimal(0));
+                        newAssets.setFinance(new BigDecimal(0));
+                        newAssets.setCreditLine(new BigDecimal(0));
+                        assetsService.save(newAssets);
+                    } else {
+                        swcyAssetsEntity.setAssets(swcyAssetsEntity.getAssets().add(swcySupplierOrderEntity.getMoney()));
+                        assetsService.save(swcyAssetsEntity);
+                    }
+
+                }
             }
         }
         String str = returnXML(map.get("return_code").toString());

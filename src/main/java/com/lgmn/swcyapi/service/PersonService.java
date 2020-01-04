@@ -248,6 +248,7 @@ public class PersonService {
         LgmnComplaintsEntity lgmnComplaintsEntity = new LgmnComplaintsEntity();
         lgmnComplaintsEntity.setContext(complaintsDto.getContext());
         lgmnComplaintsEntity.setUid(lgmnUserInfo.getId());
+        lgmnComplaintsEntity.setStatus(0);
         complaintsService.save(lgmnComplaintsEntity);
         return Result.success("投诉成功");
     }
