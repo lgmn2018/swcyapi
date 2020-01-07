@@ -29,17 +29,15 @@ public class SubscribeHandler extends AbstractHandler {
                                     WxSessionManager sessionManager) throws WxErrorException {
         String openid = wxMessage.getFromUser();
         this.logger.info("新关注用户 OPENID: " + openid);
-
-        //获取推荐人unionid
-        String recommender = wxMessage.getEventKey();
-
-        // 获取微信用户基本信息
         try {
+            // 获取微信用户基本信息
             WxMpUser userWxInfo = weixinService.getUserService()
                 .userInfo(wxMessage.getFromUser(), null);
             if (userWxInfo != null) {
 //                this.logger.info("user_info"+userWxInfo);
                 // TODO 可以添加关注用户到本地数据库
+                //获取推荐人unionid
+                String recommender = userWxInfo.getQrSceneStr();
                 String unionid = userWxInfo.getUnionId();
                 MpRegisterDto registerDto = new MpRegisterDto();
                 registerDto.setAccount(unionid);

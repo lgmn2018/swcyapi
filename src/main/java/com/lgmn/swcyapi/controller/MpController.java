@@ -4,6 +4,7 @@ import com.lgmn.common.result.Result;
 import com.lgmn.swcyapi.dto.login.LoginDto;
 import com.lgmn.swcyapi.dto.login.MpRegisterDto;
 import com.lgmn.swcyapi.dto.login.WxLoginDto;
+import com.lgmn.swcyapi.dto.mp.CommendQrcodeDto;
 import com.lgmn.swcyapi.service.LoginService;
 import com.lgmn.swcyapi.service.MpUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -155,17 +156,20 @@ public class MpController {
     }
 
 
-   @GetMapping("/ccommendqrcode")
-   public String genCommendQrcode(){
+   @PostMapping("/commendQrcode")
+   public String genCommendQrcode(@RequestBody CommendQrcodeDto commendQrcodeDto){
         String qrcodeUrl = "";
        try {
-           WxMpQrCodeTicket ticket = wxMpService.getQrcodeService().qrCodeCreateLastTicket("tjm");
+           String appid = "wxc16c319d5aee2286";
+           if (!this.wxMpService.switchover(appid)) {
+               throw new IllegalArgumentException(String.format("未找到对应appid=[%s]的配置，请核实！", appid));
+           }
+           WxMpQrCodeTicket ticket = wxMpService.getQrcodeService().qrCodeCreateLastTicket(commendQrcodeDto.getUid());
            qrcodeUrl = wxMpService.getQrcodeService().qrCodePictureUrl(ticket.getTicket(),true);
        } catch (WxErrorException e) {
            e.printStackTrace();
-       }finally {
-           return qrcodeUrl;
        }
+       return qrcodeUrl;
    }
 
     @GetMapping(produces = "text/plain;charset=utf-8")
