@@ -56,13 +56,13 @@ justauth:
     WECHAT:
       client-id: wx6135b0ad2c35654c
       client-secret: 0ad25062707c8e928e590dbb57f27ea3
-      redirect-uri: http://test.tunnel.uma511.com/oauth/qq/callback
+      redirect-uri: https://xjb.tunnel.uma511.com/oauth/qq/callback
   cache:
     type: default
 
 wx:
   mp:
-    redirect-uri: http://mj.tunnel.uma511.com/mp/accesstoken
+    redirect-uri: https://xjb.tunnel.uma511.com/mp/accesstoken
     configs:
       - appId: wxc16c319d5aee2286
         secret: 5294ff5324380be6e277eae203660383
