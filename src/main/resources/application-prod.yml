@@ -1,3 +1,67 @@
+#server:
+#  port: 8086
+#management: 8082
+#demo:
+#  service:
+#    version: 1.0.0
+#nacos:
+#  config:
+#    server-addr: nacos-standalone-mysql:8848
+#spring:
+#  application:
+#    name: swcyapi
+#  autoconfigure:
+#    exclude: org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration,org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration
+#  jackson:
+#    date-format: yyyy-MM-dd HH:mm:ss
+#    time-zone: GMT+8
+#dubbo:
+#  application:
+#    id: swcyapi
+#    name: swcyapi
+#  protocol:
+#    id: dubbo
+#    name: dubbo
+#  registry:
+#    id: swcyapi-registry
+#    address: nacos://nacos-standalone-mysql:8848
+#security:
+#  oauth2:
+#    resource:
+#      id: swcyapi
+#      user-info-uri: http://authserver:8088/api/member
+#      prefer-token-info: false
+#lgmn:
+#  token-url: http://authserver:8088/oauth/token
+#  exitLogin-url: http://authserver:8088/api/exit
+#logging:
+#  path: /lgmn/shandian/log
+#yzx:
+#  service:
+#    appid: 69f904bf709c434fb8923ed44af1154c
+#    sid: c87d5001668c2bd825a8239ee283de7d
+#    templateid: 472275
+#    token: a140b7aafb3714828f6c5a46ad30719e
+#qiniu:
+#  service:
+#    bucket: shandian
+#    access-key: JIDgvq8Sy7bNvW5wDFePtMfv_UEqXvz3DGhw9aUQ
+#    secret-key: ZbggGQuuvcBwj_pmSo1wOCuGGKXFyw0h0xfHZFXq
+#    url: http://qncdn.gdsdec.com/
+#juhe:
+#  service:
+#    real-name-key: f3b009b89f1b23f41d6751e743b691cb
+#
+#justauth:
+#  enabled: true
+#  type:
+#    WECHAT:
+#      client-id: wx6135b0ad2c35654c
+#      client-secret: 0ad25062707c8e928e590dbb57f27ea3
+#      redirect-uri: http://oauth.xkcoding.com/oauth/qq/callback
+#  cache:
+#    type: default
+
 server:
   port: 8086
 management: 8082
@@ -29,19 +93,17 @@ security:
   oauth2:
     resource:
       id: swcyapi
-      user-info-uri: http://authserver:8088/api/member
+      user-info-uri: authserver:8088/api/member
       prefer-token-info: false
-lgmn:
-  token-url: http://authserver:8088/oauth/token
-  exitLogin-url: http://authserver:8088/api/exit
-logging:
-  path: /lgmn/shandian/log
 yzx:
   service:
     appid: 69f904bf709c434fb8923ed44af1154c
     sid: c87d5001668c2bd825a8239ee283de7d
     templateid: 472275
     token: a140b7aafb3714828f6c5a46ad30719e
+lgmn:
+  token-url: authserver:8088/oauth/token
+  exitLogin-url: authserver:8088/api/exit
 qiniu:
   service:
     bucket: shandian
@@ -58,6 +120,39 @@ justauth:
     WECHAT:
       client-id: wx6135b0ad2c35654c
       client-secret: 0ad25062707c8e928e590dbb57f27ea3
-      redirect-uri: http://oauth.xkcoding.com/oauth/qq/callback
+      redirect-uri: http://www.swcy.top/oauth/qq/callback
   cache:
     type: default
+
+wx:
+  mp:
+    redirect-uri: http://www.swcy.top/mp/accesstoken
+    configs:
+      - appId: wxc16c319d5aee2286
+        secret: 5294ff5324380be6e277eae203660383
+        token: lgmn_swcy_mp
+        aesKey: e2vNqiORECUydCmdbH3DVEL0eJB6kfN5AU3w2rCueot
+      - appId: wx6135b0ad2c35654c
+        secret: 0ad25062707c8e928e590dbb57f27ea3
+        token: lgmn_swcy_mp
+        aesKey: e2vNqiORECUydCmdbH3DVEL0eJB6kfN5AU3w2rCueot
+
+  pay:
+    appId: wx6135b0ad2c35654c
+    mchId: 1556355751
+    mchKey: sanweichuangyeapp201900000000000
+    subAppId:
+    subMchId:
+    keyPath:
+wxparame:
+  appid: wx6135b0ad2c35654c
+  mchid: 1556355751
+  key: LgmnSwcy201900000000000000000000
+  notifyurl: http://www.swcy.top/wxApi/wxPayCallBack
+  supplier_notifyurl: http://www.swcy.top/wxApi/supplierWxPayCallBack
+
+ngrok:
+  server-address: tunnel.uma511.com
+  server-port: 4443
+  subdomain: xjb
+  proto: https
