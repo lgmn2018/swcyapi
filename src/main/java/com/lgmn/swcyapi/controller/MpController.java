@@ -180,6 +180,8 @@ public class MpController {
 
         log.info("\n接收到来自微信服务器的认证消息：[{}, {}, {}, {}]", signature,
                 timestamp, nonce, echostr);
+        String token = wxMpService.getWxMpConfigStorage().getToken();
+        log.info("token:{}",token);
         if (StringUtils.isAnyBlank(signature, timestamp, nonce, echostr)) {
             throw new IllegalArgumentException("请求参数非法，请核实!");
         }
