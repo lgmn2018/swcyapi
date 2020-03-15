@@ -342,6 +342,14 @@ public class OrderService {
 
                     // 平台提成计算
                     performanceCalculationService.updatePerformance_shop(swcyOrderEntity.getUid(), swcyOrderEntity.getStoreId(), swcyFlowEntity.getId());
+
+                    // 减少库存
+                    List<SwcyOrderDetailEntity> orderDetails = sOrderDetailService.getOrderDetailsByOrderId(swcyOrderEntity.getId());
+                    for (SwcyOrderDetailEntity swcyOrderDetailEntity : orderDetails) {
+                        SwcyCommodityEntity swcyCommodityEntity = swcyCommodityApiService.getCommodityById(swcyOrderDetailEntity.getCommodityId());
+                        swcyCommodityEntity.setStock(swcyCommodityEntity.getStock() - swcyOrderDetailEntity.getNum());
+                        swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
+                    }
                 }
             }
         }

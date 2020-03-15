@@ -200,7 +200,7 @@ public class StoreController {
         }
     }
 
-    @ApiOperation(value = "获取关注门店列表")
+    @ApiOperation(value = "获取店列表")
     @PostMapping("/newsGetPageStore")
     public Result newsGetPageStore (@RequestBody NewsGetPageStoreDto newsGetPageStoreDto) {
         try {

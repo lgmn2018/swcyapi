@@ -56,13 +56,13 @@ justauth:
     WECHAT:
       client-id: wx6135b0ad2c35654c
       client-secret: 0ad25062707c8e928e590dbb57f27ea3
-      redirect-uri: https://xjb.tunnel.uma511.com/oauth/qq/callback
+      redirect-uri: https://xjb1.tunnel.uma511.com/oauth/qq/callback
   cache:
     type: default
 
 wx:
   mp:
-    redirect-uri: https://xjb.tunnel.uma511.com/mp/accesstoken
+    redirect-uri: https://xjb1.tunnel.uma511.com/mp/accesstoken
     configs:
       - appId: wxc16c319d5aee2286
         secret: 5294ff5324380be6e277eae203660383
@@ -84,11 +84,11 @@ wxparame:
   appid: wx6135b0ad2c35654c
   mchid: 1556355751
   key: LgmnSwcy201900000000000000000000
-  notifyurl: https://xjb.tunnel.uma511.com/wxApi/wxPayCallBack
-  supplier_notifyurl: https://xjb.tunnel.uma511.com/wxApi/supplierWxPayCallBack
+  notifyurl: https://xjb1.tunnel.uma511.com/wxApi/wxPayCallBack
+  supplier_notifyurl: https://xjb1.tunnel.uma511.com/wxApi/supplierWxPayCallBack
 
 ngrok:
   server-address: tunnel.uma511.com
   server-port: 4443
-  subdomain: xjb
+  subdomain: xjb1
   proto: https

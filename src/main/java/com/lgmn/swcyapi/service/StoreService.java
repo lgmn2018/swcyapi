@@ -151,6 +151,7 @@ public class StoreService {
         ObjectTransfer.transValue(addCommodityDto, swcyCommodityEntity);
         swcyCommodityEntity.setStatus(1);
         swcyCommodityEntity.setDelFlag(0);
+        swcyCommodityEntity.setCreateTime(new Timestamp(System.currentTimeMillis()));
         swcyCommodityEntity.setStarCode(swcyStoreEntity.getStarCode());
         SwcyCommodityEntity newCommodity = swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
         return Result.success(newCommodity);
