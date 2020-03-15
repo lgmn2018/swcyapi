@@ -191,22 +191,34 @@ public class PersonService {
         for (SwcyAppUserEntity swcyAppUserEntity : swcyAppUserEntities) {
             ids.add(swcyAppUserEntity.getUid());
         }
-        List<SwcyOrderEntity> swcyOrderEntities = sOrderService.getAllByUid(ids);
+//        List<SwcyOrderEntity> swcyOrderEntities = sOrderService.getAllByUid(ids);
         BigDecimal teamAchievement = new BigDecimal(0.0);
-        for (SwcyOrderEntity swcyOrderEntity : swcyOrderEntities) {
-            teamAchievement.add(swcyOrderEntity.getMoney());
+//        for (SwcyOrderEntity swcyOrderEntity : swcyOrderEntities) {
+//            teamAchievement.add(swcyOrderEntity.getMoney());
+//        }
+
+        for (SwcyAppUserEntity swcyAppUserEntity : swcyAppUserEntities) {
+            teamAchievement.add(swcyAppUserEntity.getConsumptionAmount());
         }
         TeamAchievementVo teamAchievementVo = new TeamAchievementVo();
-        teamAchievementVo.setTeamSum(swcyAppUserEntities.size() + 1);
+        teamAchievementVo.setTeamSum(swcyAppUserEntities.size());
         teamAchievementVo.setTeamAchievement(teamAchievement);
         return Result.success(teamAchievementVo);
     }
 
     public Result getMyTeam (LgmnUserInfo lgmnUserInfo, MyTeamDto myTeamDto) throws Exception {
-        SwcyAppUserEntity swcyAppUserEntity = appUserService.getAppUserByUid(lgmnUserInfo.getId());
-        LgmnPage<SwcyAppUserEntity> swcyAppUserEntities = appUserService.getAppUserPageByPuid(lgmnUserInfo.getId(), myTeamDto.getPageNumber(), myTeamDto.getPageSize());
-        swcyAppUserEntities.getList().add(swcyAppUserEntity);
-        LgmnPage<MyTeamVo> myTeamVoLgmnPage = new MyTeamVo().getVoPage(swcyAppUserEntities, MyTeamVo.class);
+//        SwcyAppUserEntity swcyAppUserEntity = appUserService.getAppUserByUid(lgmnUserInfo.getId());
+//        LgmnPage<SwcyAppUserEntity> swcyAppUserEntities = appUserService.getAppUserPageByPuid(lgmnUserInfo.getId(), myTeamDto.getPageNumber(), myTeamDto.getPageSize());
+//        swcyAppUserEntities.getList().add(swcyAppUserEntity);
+        List<SwcyAppUserEntity> swcyAppUserEntities = appUserService.getAppUserListByPuid(lgmnUserInfo.getId());
+        LgmnPage<SwcyAppUserEntity> swcyAppUserEntityPage = new LgmnPage<>();
+        swcyAppUserEntityPage.setList(swcyAppUserEntities);
+        swcyAppUserEntityPage.setCount(Integer.toUnsignedLong(swcyAppUserEntities.size()));
+        swcyAppUserEntityPage.setPageNumber(0);
+        swcyAppUserEntityPage.setPageSize(swcyAppUserEntities.size());
+        swcyAppUserEntityPage.setTotalPage(1);
+
+        LgmnPage<MyTeamVo> myTeamVoLgmnPage = new MyTeamVo().getVoPage(swcyAppUserEntityPage, MyTeamVo.class);
         for (MyTeamVo myTeamVo : myTeamVoLgmnPage.getList()) {
             LgmnUserEntity lgmnUserEntity = userService.getUserById(myTeamVo.getUid());
             List<String> ids = new ArrayList<>();

@@ -26,9 +26,10 @@ public class AppUserService {
     }
 
     public List<SwcyAppUserEntity> getAppUserListByPuid (String puid) throws Exception {
-        SwcyAppUserDto swcyAppUserDto = new SwcyAppUserDto();
-        swcyAppUserDto.setPuid(puid);
-        return swcyAppUserService.getListByDto(swcyAppUserDto);
+//        SwcyAppUserDto swcyAppUserDto = new SwcyAppUserDto();
+//        swcyAppUserDto.setPuid(puid);
+//        return swcyAppUserService.getListByDto(swcyAppUserDto);
+        return swcyAppUserService.getUnderUsers(puid);
     }
 
     public LgmnPage<SwcyAppUserEntity> getAppUserPageByPuid (String puid, Integer pageNumber, Integer pageSize) throws Exception {
