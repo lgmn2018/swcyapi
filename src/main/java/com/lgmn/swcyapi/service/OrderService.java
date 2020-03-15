@@ -334,14 +334,14 @@ public class OrderService {
                 if (swcyFlowEntity.getResult() == 0) {
                     SwcyOrderEntity swcyOrderEntity = sOrderService.getOrderById(swcyFlowEntity.getOrderId());
 
-                    // 平台提成计算
-                    performanceCalculationService.updatePerformance_shop(swcyOrderEntity.getUid(), swcyOrderEntity.getStoreId(), swcyFlowEntity.getId());
-
                     swcyFlowEntity.setResult(1);
-                    swcyFlowApiService.save(swcyFlowEntity);
+//                    swcyFlowApiService.save(swcyFlowEntity);
                     swcyOrderEntity.setStatus(1);
                     swcyOrderEntity.setPayTime(new Timestamp(System.currentTimeMillis()));
                     sOrderService.save(swcyOrderEntity);
+
+                    // 平台提成计算
+                    performanceCalculationService.updatePerformance_shop(swcyOrderEntity.getUid(), swcyOrderEntity.getStoreId(), swcyFlowEntity.getId());
                 }
             }
         }
