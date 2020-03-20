@@ -99,6 +99,7 @@ public class OrderService {
             List<SwcyOrderDetailEntity> orderDetailEntities = sOrderDetailService.getOrderDetailsByOrderId(orderPageVo.getId());
             SwcyReceivingAddressEntity swcyReceivingAddressEntity = swcyReceivingAddressApiService.getReceivingAddressById(orderPageVo.getAddressId());
             orderPageVo.setStoreName(swcyStoreEntity.getStoreName());
+            orderPageVo.setStoreType(swcyStoreEntity.getType());
             orderPageVo.setImageUrl(orderDetailEntities.get(0).getCover());
             orderPageVo.setAddress(swcyReceivingAddressEntity.getProvinceName() + swcyReceivingAddressEntity.getCityName() + swcyReceivingAddressEntity.getAreaName() + swcyReceivingAddressEntity.getAddress());
         }

@@ -79,4 +79,11 @@ public class SwcyCommodityApiService {
         return map;
     }
 
+    public List<SwcyCommodityEntity> getCommodityBySupplierCommodityIdAndTypeId(Integer supplierCommodityId, Integer typeId) throws Exception {
+        SwcyCommodityDto swcyCommodityDto = new SwcyCommodityDto();
+        swcyCommodityDto.setTypeId(typeId);
+        swcyCommodityDto.setSupplierCommodityId(supplierCommodityId);
+        return swcyCommodityService.getListByDto(swcyCommodityDto);
+    }
+
 }

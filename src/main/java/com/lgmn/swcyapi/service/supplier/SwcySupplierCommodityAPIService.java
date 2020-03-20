@@ -53,4 +53,8 @@ public class SwcySupplierCommodityAPIService {
         map.put("sunPrice", sunPrice);
         return map;
     }
+
+    public SwcySupplierCommodityEntity getSupplierCommodityById(Integer id) {
+        return swcySupplierCommodityService.findById(id);
+    }
 }

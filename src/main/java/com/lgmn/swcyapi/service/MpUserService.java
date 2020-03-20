@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -90,8 +91,8 @@ public class MpUserService {
         SwcyAppUserEntity swcyAppUserEntity = new SwcyAppUserEntity();
         swcyAppUserEntity.setUid(uid);
         swcyAppUserEntity.setPuid(puid);
-        swcyAppUserEntity.setGroupPower(0);
-        swcyAppUserEntity.setPersonPower(0);
+        swcyAppUserEntity.setGroupPower(new BigDecimal(0));
+        swcyAppUserEntity.setPersonPower(new BigDecimal(0));
         swcyAppUserEntity.setScore(0);
         swcyAppUserEntity.setUserType(0);
         swcyAppUserEntity.setStar(0);
