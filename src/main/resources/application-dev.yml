@@ -98,3 +98,8 @@ ngrok:
   server-port: 4443
   subdomain: xjb1
   proto: https
+
+swcyVersion:
+  version: 2.4.4
+  isMandatoryUpdate: true
+  updateMsg: 完善供应商、盟店等功能

@@ -73,12 +73,23 @@ public class SStoreService {
         swcyStoreDto.setUid(uid);
         swcyStoreDto.setPageNumber(pageNumber);
         swcyStoreDto.setPageSize(pageSize);
+        swcyStoreDto.setDelFlag(0);
+        LgmnOrder lgmnOrder2 = new LgmnOrder(Sort.Direction.DESC, "storeName");
+        LgmnOrder lgmnOrder1 = new LgmnOrder(Sort.Direction.DESC, "createTime");
+        List<LgmnOrder> lgmnOrders = new ArrayList<>();
+        lgmnOrders.add(lgmnOrder2);
+        lgmnOrders.add(lgmnOrder1);
+        swcyStoreDto.setOrders(lgmnOrders);
         return swcyStoreService.getPageByDtoWithPageRequet(swcyStoreDto);
     }
 
     public List<SwcyStoreEntity> getMyStoreListByUid(String uid) throws Exception {
         SwcyStoreDto swcyStoreDto = new SwcyStoreDto();
         swcyStoreDto.setUid(uid);
+        return swcyStoreService.getListByDto(swcyStoreDto);
+    }
+
+    public List<SwcyStoreEntity> getStoreListByDto (SwcyStoreDto swcyStoreDto) throws Exception {
         return swcyStoreService.getListByDto(swcyStoreDto);
     }
 }

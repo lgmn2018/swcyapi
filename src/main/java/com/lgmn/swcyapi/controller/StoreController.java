@@ -219,7 +219,11 @@ public class StoreController {
     @ApiOperation(value = "新建盟店")
     @PostMapping("/createLeagueStore")
     public Result createLeagueStore(@RequestHeader String Authorization, Principal principal, @RequestBody CreateLeagueStoreDto createLeagueStoreDto) {
-        return storeService.createLeagueStore(createLeagueStoreDto);
+        try {
+            return storeService.createLeagueStore(createLeagueStoreDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "盟店添加商品")
@@ -228,7 +232,16 @@ public class StoreController {
         try {
             return storeService.leagueStoreAddCommodity(leagueStoreAddCommodityDto);
         } catch (Exception e) {
-            e.printStackTrace();
+            return Result.serverError(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "删除共享店")
+    @PostMapping("/delStoreById")
+    public Result delStoreById(@RequestHeader String Authorization, Principal principal, @RequestBody DelStoreDto delStoreDto) {
+        try {
+            return storeService.delStoreById(delStoreDto);
+        } catch (Exception e) {
             return Result.serverError(e.getMessage());
         }
     }

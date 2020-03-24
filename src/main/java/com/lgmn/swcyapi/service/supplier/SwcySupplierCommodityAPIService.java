@@ -57,4 +57,10 @@ public class SwcySupplierCommodityAPIService {
     public SwcySupplierCommodityEntity getSupplierCommodityById(Integer id) {
         return swcySupplierCommodityService.findById(id);
     }
+
+    public List<SwcySupplierCommodityEntity> getSupplierCommoditysByCategoryId(Integer categoryId) throws Exception {
+        SwcySupplierCommodityDto swcySupplierCommodityDto = new SwcySupplierCommodityDto();
+        swcySupplierCommodityDto.setCategoryId(categoryId);
+        return swcySupplierCommodityService.getListByDto(swcySupplierCommodityDto);
+    }
 }

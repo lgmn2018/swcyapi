@@ -15,7 +15,7 @@ public class SwcySupplierAPIService {
     @Reference(version = "${demo.service.version}")
     SwcySupplierService swcySupplierService;
 
-    public LgmnPage<SwcySupplierEntity> getSupplierPageByIndustryId(Integer industryId, Integer pageNumber, Integer pageSize) throws Exception {
+    public LgmnPage<SwcySupplierEntity> getSupplierPageByIndustryId(List<Integer> industryId, Integer pageNumber, Integer pageSize) throws Exception {
         SwcySupplierDto swcySupplierDto = new SwcySupplierDto();
         swcySupplierDto.setIndustryId(industryId);
         swcySupplierDto.setStatus(1);
@@ -28,7 +28,7 @@ public class SwcySupplierAPIService {
         return swcySupplierService.findById(id);
     }
 
-    public List<SwcySupplierEntity> getSupplierListByIndustryId(Integer industryId) throws Exception {
+    public List<SwcySupplierEntity> getSupplierListByIndustryId(List<Integer> industryId) throws Exception {
         SwcySupplierDto swcySupplierDto = new SwcySupplierDto();
         swcySupplierDto.setIndustryId(industryId);
         swcySupplierDto.setStatus(1);

@@ -10,8 +10,8 @@ public class HomePageVo {
     private String id;
     private String avatar;
     private String nikeName;
-    private BigDecimal groupPower;
-    private BigDecimal personPower;
+    private BigDecimal personalCommission;
+    private BigDecimal teamCommission;
     private Integer score;
     List<HomeAdVo> homeAdType0Vos;
     List<HomeAdVo> homeAdType1Vos;

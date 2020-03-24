@@ -279,7 +279,7 @@
                     <to>
                         <image>docker.io/xiejibiao/swcy-api</image>
                         <tags>
-                            <tag>v1.0.4</tag>
+                            <tag>v1.0.6</tag>
                         </tags>
                         <auth>
                             <username>xiejibiao</username>
@@ -308,7 +308,7 @@
                     <to>
                         <image>docker.io/xiejibiao/swcy-api</image>
                         <tags>
-                            <tag>v1.0.4</tag>
+                            <tag>v1.0.6</tag>
                         </tags>
                     </to>
                     <container>

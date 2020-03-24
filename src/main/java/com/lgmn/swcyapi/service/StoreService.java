@@ -3,8 +3,10 @@ package com.lgmn.swcyapi.service;
 import com.lgmn.common.domain.LgmnPage;
 import com.lgmn.common.domain.LgmnUserInfo;
 import com.lgmn.common.result.Result;
+import com.lgmn.common.result.ResultEnum;
 import com.lgmn.common.utils.ObjectTransfer;
 import com.lgmn.qiniu.starter.service.QiNiu_UpLoad_Img_StarterService;
+import com.lgmn.swcy.basic.dto.SwcyStoreDto;
 import com.lgmn.swcy.basic.entity.*;
 import com.lgmn.swcyapi.dto.store.*;
 import com.lgmn.swcyapi.service.ad.AdService;
@@ -24,10 +26,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class StoreService {
@@ -65,6 +64,12 @@ public class StoreService {
     @Autowired
     SwcySupplierOrderDetailAPIService swcySupplierOrderDetailAPIService;
 
+    @Autowired
+    SwcySupplierAPIService swcySupplierAPIService;
+
+    @Autowired
+    SupplierService supplierService;
+
     public Result getStoreIndustryList() throws Exception {
         List<SwcyIndustryEntity> swcyIndustryEntities = industryService.getIndustryList();
 //        List<SwcyAdEntity> swcyAdEntities = adService.getAdListByType(2);
@@ -76,7 +81,15 @@ public class StoreService {
         return Result.success(storeIndustryVos);
     }
 
-    public Result getPageStore (StoreDto storeDto) {
+    public Result getPageStore (StoreDto storeDto) throws Exception {
+        if (storeDto.getIndustryId().get(0) == 0) {
+            List<Integer> industryIds = new ArrayList<>();
+            List<SwcyIndustryEntity> industryList = industryService.getIndustryList();
+            for (SwcyIndustryEntity swcyIndustryEntity : industryList) {
+                industryIds.add(swcyIndustryEntity.getId());
+            }
+            storeDto.setIndustryId(industryIds);
+        }
         LgmnPage<Map> swcyStoreEntityLgmnPage = sStoreService.getStoreByIndustryId(storeDto);
         return Result.success(swcyStoreEntityLgmnPage);
     }
@@ -123,6 +136,7 @@ public class StoreService {
             swcyStoreEntity.setIsChecked(3);
             swcyStoreEntity.setType(0);
             swcyStoreEntity.setStatus(0);
+            swcyStoreEntity.setDelFlag(0);
         } else {
             swcyStoreEntity = sStoreService.getStoreById(addStoreForUnlicensedDto.getId());
         }
@@ -240,9 +254,17 @@ public class StoreService {
     public Result newsGetPageStore(NewsGetPageStoreDto newsGetPageStoreDto) throws Exception {
         List<NewsGetPageStoreVo> newsGetPageStoreVos = new ArrayList<>();
         List<SwcyIndustryEntity> swcyIndustryEntities = industryService.getIndustryList();
-        for (SwcyIndustryEntity swcyIndustryEntity : swcyIndustryEntities) {
+        swcyIndustryEntities = industryService.getIndustryAll(swcyIndustryEntities);
+        List<Integer> industryIds = new ArrayList<>();
+        for (int i = 0; i < swcyIndustryEntities.size(); i++) {
             StoreDto storeDto = new StoreDto();
-            storeDto.setIndustryId(swcyIndustryEntity.getId());
+            if (swcyIndustryEntities.get(i).getId() != 0) {
+                List<Integer> tempIds = new ArrayList<>();
+                tempIds.add(swcyIndustryEntities.get(i).getId());
+                storeDto.setIndustryId(tempIds);
+            } else {
+                storeDto.setIndustryId(industryIds);
+            }
             storeDto.setPageNumber(0);
             storeDto.setPageSize(10);
             storeDto.setLat(newsGetPageStoreDto.getLat());
@@ -250,10 +272,15 @@ public class StoreService {
             LgmnPage<Map> lgmnPage = sStoreService.getStoreByIndustryId(storeDto);
 
             NewsGetPageStoreVo newsGetPageStoreTempVo = new NewsGetPageStoreVo();
-            newsGetPageStoreTempVo.setSwcyIndustryEntity(swcyIndustryEntity);
+            newsGetPageStoreTempVo.setSwcyIndustryEntity(swcyIndustryEntities.get(i));
             newsGetPageStoreTempVo.setStoreMap(lgmnPage);
             newsGetPageStoreTempVo.setNewsGetPageStoreDto(newsGetPageStoreDto);
-            newsGetPageStoreVos.add(newsGetPageStoreTempVo);
+            if (swcyIndustryEntities.get(i).getId() != 0) {
+                newsGetPageStoreVos.add(newsGetPageStoreTempVo);
+            } else {
+                newsGetPageStoreVos.add(0, newsGetPageStoreTempVo);
+            }
+            industryIds.add(swcyIndustryEntities.get(i).getId());
         }
         return Result.success(newsGetPageStoreVos);
     }
@@ -262,37 +289,33 @@ public class StoreService {
         return Result.success(sStoreService.getStoreById(shareStoreMsgDto.getId()));
     }
 
-    public Result createLeagueStore(CreateLeagueStoreDto createLeagueStoreDto) {
+    public Result createLeagueStore(CreateLeagueStoreDto createLeagueStoreDto) throws Exception {
         SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(createLeagueStoreDto.getStoreId());
-        SwcyStoreEntity leagueStore = new SwcyStoreEntity();
-        leagueStore.setUid(swcyStoreEntity.getUid());
-        leagueStore.setStoreName(swcyStoreEntity.getStoreName());
-        leagueStore.setAddress(swcyStoreEntity.getAddress());
-        leagueStore.setLat(swcyStoreEntity.getLat());
-        leagueStore.setLng(swcyStoreEntity.getLng());
-        leagueStore.setIndustryId(swcyStoreEntity.getIndustryId());
-        leagueStore.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        leagueStore.setPhoto(swcyStoreEntity.getPhoto());
-        leagueStore.setDescription(swcyStoreEntity.getDescription());
-        leagueStore.setIndustryName(swcyStoreEntity.getIndustryName());
-        leagueStore.setProvinceName(swcyStoreEntity.getProvinceName());
-        leagueStore.setCityName(swcyStoreEntity.getCityName());
-        leagueStore.setAreaName(swcyStoreEntity.getAreaName());
-        leagueStore.setLicenseCode(swcyStoreEntity.getLicenseCode());
-        leagueStore.setLicensePhoto(swcyStoreEntity.getLicensePhoto());
-        leagueStore.setLegalPerson(swcyStoreEntity.getLegalPerson());
-        leagueStore.setIsChecked(0);
-        leagueStore.setReason("");
-        leagueStore.setArea(swcyStoreEntity.getArea());
-        leagueStore.setPhone(swcyStoreEntity.getPhone());
-        leagueStore.setStarCode(swcyStoreEntity.getStarCode());
-        leagueStore.setStatus(0);
-        leagueStore.setBrief(swcyStoreEntity.getBrief());
-        leagueStore.setType(1);
+        if (swcyStoreEntity.getType() != 0) {
+            return Result.serverError("已存在盟店，请勿重复添加");
+        }
 
+        // 查找盟店对应供应商
+        List<Integer> industryIds = new ArrayList<>();
+        industryIds.add(swcyStoreEntity.getIndustryId());
+        List<SwcySupplierEntity> swcySupplierEntities = swcySupplierAPIService.getSupplierListByIndustryId(industryIds);
+        if (swcySupplierEntities.size() <= 0) {
+            return Result.serverError("未有此类型供应商，暂不允许创建");
+        }
+
+        SwcySupplierEntity swcySupplierEntity = swcySupplierEntities.get(0);
+
+        SwcyStoreEntity leagueStore = getLeagueStore(swcyStoreEntity, swcySupplierEntity.getDescription(), swcySupplierEntity.getBrief());
+        // 共享店修改为已有盟店状态
         swcyStoreEntity.setType(2);
         sStoreService.save(swcyStoreEntity);
+        // 创建盟店
         SwcyStoreEntity newLeagueStore = sStoreService.save(leagueStore);
+
+        // 盟店同步通硬伤类别以及商品
+        List<SwcySupplierCategoryEntity> swcySupplierCategoryEntities = swcySupplierCategoryAPIService.getSupplierCategoryListBySupplierId(swcySupplierEntity.getId());
+        saveCommodityType(swcySupplierCategoryEntities, newLeagueStore.getId(), newLeagueStore.getStarCode());
+
         return Result.success(newLeagueStore);
     }
 
@@ -336,5 +359,86 @@ public class StoreService {
         }
         swcySupplierOrderDetailAPIService.saveSupplierOrderDetails(saveSupplierOrderDetails);
         return Result.success("确定成功，请等待发货");
+    }
+
+    public Result delStoreById(DelStoreDto delStoreDto) throws Exception {
+        SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(delStoreDto.getStoreId());
+        swcyStoreEntity.setDelFlag(1);
+
+        SwcyStoreDto swcyStoreDto = new SwcyStoreDto();
+        swcyStoreDto.setUid(swcyStoreEntity.getUid());
+        swcyStoreDto.setStoreName(swcyStoreEntity.getStoreName());
+        swcyStoreDto.setLat(swcyStoreEntity.getLat());
+        swcyStoreDto.setLng(swcyStoreEntity.getLng());
+        swcyStoreDto.setType(2);
+        swcyStoreDto.setDelFlag(0);
+        swcyStoreDto.setIndustryId(swcyStoreEntity.getIndustryId());
+        swcyStoreDto.setLicenseCode(swcyStoreEntity.getLicenseCode());
+        List<SwcyStoreEntity> tempList = sStoreService.getStoreListByDto(swcyStoreDto);
+        if (tempList.size() > 0) {
+            SwcyStoreEntity storeEntity = tempList.get(0);
+            storeEntity.setType(0);
+            sStoreService.save(storeEntity);
+        }
+
+        sStoreService.save(swcyStoreEntity);
+        return Result.success("删除成功");
+    }
+
+    private SwcyStoreEntity getLeagueStore(SwcyStoreEntity swcyStoreEntity, String description, String brief) {
+        SwcyStoreEntity leagueStore = new SwcyStoreEntity();
+        leagueStore.setUid(swcyStoreEntity.getUid());
+        leagueStore.setStoreName(swcyStoreEntity.getStoreName());
+        leagueStore.setAddress(swcyStoreEntity.getAddress());
+        leagueStore.setLat(swcyStoreEntity.getLat());
+        leagueStore.setLng(swcyStoreEntity.getLng());
+        leagueStore.setIndustryId(swcyStoreEntity.getIndustryId());
+        leagueStore.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        leagueStore.setPhoto(swcyStoreEntity.getPhoto());
+        leagueStore.setDescription(description);
+        leagueStore.setIndustryName(swcyStoreEntity.getIndustryName());
+        leagueStore.setProvinceName(swcyStoreEntity.getProvinceName());
+        leagueStore.setCityName(swcyStoreEntity.getCityName());
+        leagueStore.setAreaName(swcyStoreEntity.getAreaName());
+        leagueStore.setLicenseCode(swcyStoreEntity.getLicenseCode());
+        leagueStore.setLicensePhoto(swcyStoreEntity.getLicensePhoto());
+        leagueStore.setLegalPerson(swcyStoreEntity.getLegalPerson());
+        leagueStore.setIsChecked(0);
+        leagueStore.setReason("");
+        leagueStore.setArea(swcyStoreEntity.getArea());
+        leagueStore.setPhone(swcyStoreEntity.getPhone());
+        leagueStore.setStarCode(swcyStoreEntity.getStarCode());
+        leagueStore.setStatus(0);
+        leagueStore.setBrief(brief);
+        leagueStore.setType(1);
+        leagueStore.setDelFlag(0);
+
+        return leagueStore;
+    }
+
+    private void saveCommodityType(List<SwcySupplierCategoryEntity> swcySupplierCategoryEntities, Integer storeId, Integer starCode) throws Exception {
+        for (SwcySupplierCategoryEntity swcySupplierCategoryEntity : swcySupplierCategoryEntities) {
+            List<SwcyCommodityTypeEntity> swcyCommodityTypeEntityList = swcyCommodityTypeApiService.getCommodityTypeByStoreIdAndSupplierCategoryId(storeId, swcySupplierCategoryEntity.getId());
+            List<SwcySupplierCommodityEntity> swcySupplierCommodityEntities = swcySupplierCommodityAPIService.getSupplierCommoditysByCategoryId(swcySupplierCategoryEntity.getId());
+            if (swcyCommodityTypeEntityList.size() <= 0) {
+                SwcyCommodityTypeEntity swcyCommodityTypeEntity = new SwcyCommodityTypeEntity();
+                swcyCommodityTypeEntity.setStoreId(storeId);
+                swcyCommodityTypeEntity.setName(swcySupplierCategoryEntity.getName());
+                swcyCommodityTypeEntity.setStatus(swcySupplierCategoryEntity.getStatus());
+                swcyCommodityTypeEntity.setSupplierCategoryId(swcySupplierCategoryEntity.getId());
+                SwcyCommodityTypeEntity newCommodityType = swcyCommodityTypeApiService.save(swcyCommodityTypeEntity);
+                saveCommodity(swcySupplierCommodityEntities, newCommodityType.getId(), starCode);
+            }
+        }
+    }
+
+    private void saveCommodity(List<SwcySupplierCommodityEntity> swcySupplierCommodityEntities, Integer commodityTypeId, Integer starCode) throws Exception {
+        for (SwcySupplierCommodityEntity swcySupplierCommodityEntity : swcySupplierCommodityEntities) {
+            List<SwcyCommodityEntity> swcyCommodityEntities = swcyCommodityApiService.getCommodityBySupplierCommodityIdAndTypeId(swcySupplierCommodityEntity.getId(), commodityTypeId);
+            if (swcyCommodityEntities.size() <= 0) {
+                SwcyCommodityEntity swcyCommodityEntity = supplierService.getCommodity(commodityTypeId, swcySupplierCommodityEntity, starCode, 0);
+                swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
+            }
+        }
     }
 }

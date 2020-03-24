@@ -91,19 +91,43 @@ public class SupplierService {
 
     public Result getSupplierPage() throws Exception {
         List<SwcyIndustryEntity> swcyIndustryEntities = industryService.getIndustryList();
+        swcyIndustryEntities = industryService.getIndustryAll(swcyIndustryEntities);
         List<GetSupplierPageVo> list = new ArrayList<>();
-        for (SwcyIndustryEntity swcyIndustryEntity : swcyIndustryEntities) {
-            GetSupplierPageVo getSupplierPageVo = new GetSupplierPageVo().getVo(swcyIndustryEntity, GetSupplierPageVo.class);
-            LgmnPage<SwcySupplierEntity> swcySupplierEntityLgmnPage = swcySupplierAPIService.getSupplierPageByIndustryId(swcyIndustryEntity.getId(), 0, 10);
+        List<Integer> tempIds = new ArrayList<>();
+        for (int i = 0; i < swcyIndustryEntities.size(); i++) {
+            GetSupplierPageVo getSupplierPageVo = new GetSupplierPageVo().getVo(swcyIndustryEntities.get(i), GetSupplierPageVo.class);
+            LgmnPage<SwcySupplierEntity> swcySupplierEntityLgmnPage;
+            if (swcyIndustryEntities.get(i).getId() == 0) {
+                swcySupplierEntityLgmnPage = swcySupplierAPIService.getSupplierPageByIndustryId(tempIds, 0, 10);
+            } else {
+                List<Integer> industryIds = new ArrayList<>();
+                industryIds.add(swcyIndustryEntities.get(i).getId());
+                swcySupplierEntityLgmnPage = swcySupplierAPIService.getSupplierPageByIndustryId(industryIds, 0, 10);
+            }
             LgmnPage<SupplierInfoVo> supplierInfoVoLgmnPage = new SupplierInfoVo().getVoPage(swcySupplierEntityLgmnPage, SupplierInfoVo.class);
             getSupplierPageVo.setInfoVoLgmnPage(supplierInfoVoLgmnPage);
-            list.add(getSupplierPageVo);
+
+            if (swcyIndustryEntities.get(i).getId() != 0) {
+                list.add(getSupplierPageVo);
+            } else {
+                list.add(0, getSupplierPageVo);
+            }
+            tempIds.add(swcyIndustryEntities.get(i).getId());
         }
         return Result.success(list);
     }
 
     public Result loadMoreSupplierPage(LoadMoreSupplierPageDto loadMoreSupplierPageDto) throws Exception {
-        LgmnPage<SwcySupplierEntity> swcySupplierEntityLgmnPage = swcySupplierAPIService.getSupplierPageByIndustryId(loadMoreSupplierPageDto.getIndustryId(), loadMoreSupplierPageDto.getPageNumber(), loadMoreSupplierPageDto.getPageSize());
+        List<Integer> industryIds = new ArrayList<>();
+        if (loadMoreSupplierPageDto.getIndustryId() == 0) {
+            List<SwcyIndustryEntity> swcyIndustryEntities = industryService.getIndustryList();
+            for (SwcyIndustryEntity swcyIndustryEntity : swcyIndustryEntities) {
+                industryIds.add(swcyIndustryEntity.getId());
+            }
+        } else {
+            industryIds.add(loadMoreSupplierPageDto.getIndustryId());
+        }
+        LgmnPage<SwcySupplierEntity> swcySupplierEntityLgmnPage = swcySupplierAPIService.getSupplierPageByIndustryId(industryIds, loadMoreSupplierPageDto.getPageNumber(), loadMoreSupplierPageDto.getPageSize());
         LgmnPage<SupplierInfoVo> supplierInfoVoLgmnPage = new SupplierInfoVo().getVoPage(swcySupplierEntityLgmnPage, SupplierInfoVo.class);
         return Result.success(supplierInfoVoLgmnPage);
     }
@@ -289,7 +313,9 @@ public class SupplierService {
     }
 
     public Result leagueStoreGetSupplier(LeagueStoreGetSupplierDto leagueStoreGetSupplierDto) throws Exception {
-        List<SwcySupplierEntity> list = swcySupplierAPIService.getSupplierListByIndustryId(leagueStoreGetSupplierDto.getIndustryId());
+        List<Integer> industryIds = new ArrayList<>();
+        industryIds.add(leagueStoreGetSupplierDto.getIndustryId());
+        List<SwcySupplierEntity> list = swcySupplierAPIService.getSupplierListByIndustryId(industryIds);
         if (list.size() > 0) {
             SwcySupplierEntity swcySupplierEntity = list.get(0);
             SupplierInfoVo supplierInfoVo = new SupplierInfoVo();
@@ -342,7 +368,7 @@ public class SupplierService {
                     swcyCommodityEntity.setStock(swcyCommodityEntity.getStock() + swcySupplierOrderDetailEntity.getNum());
                     swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
                 } else {
-                    SwcyCommodityEntity swcyCommodityEntity = getCommodity(swcyCommodityTypeEntity.getId(), swcySupplierCommodityEntity, swcyStoreEntity.getStarCode(), swcySupplierOrderDetailEntity.getNum(), swcySupplierCommodityEntity.getId());
+                    SwcyCommodityEntity swcyCommodityEntity = getCommodity(swcyCommodityTypeEntity.getId(), swcySupplierCommodityEntity, swcyStoreEntity.getStarCode(), swcySupplierOrderDetailEntity.getNum());
                     swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
                 }
             } else {
@@ -354,7 +380,7 @@ public class SupplierService {
                 swcyCommodityTypeEntity.setSupplierCategoryId(swcySupplierCommodityEntity.getCategoryId());
                 SwcyCommodityTypeEntity newCommodityType = swcyCommodityTypeApiService.save(swcyCommodityTypeEntity);
 
-                SwcyCommodityEntity swcyCommodityEntity = getCommodity(newCommodityType.getId(), swcySupplierCommodityEntity, swcyStoreEntity.getStarCode(), swcySupplierOrderDetailEntity.getNum(), swcySupplierCommodityEntity.getId());
+                SwcyCommodityEntity swcyCommodityEntity = getCommodity(newCommodityType.getId(), swcySupplierCommodityEntity, swcyStoreEntity.getStarCode(), swcySupplierOrderDetailEntity.getNum());
                 swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
             }
         }
@@ -399,7 +425,7 @@ public class SupplierService {
         return Result.success("确认收货，商品同步成功");
     }
 
-    private SwcyCommodityEntity getCommodity(Integer typeId, SwcySupplierCommodityEntity swcySupplierCommodityEntity, Integer starCode, Integer stock, Integer supplierCommodityId) {
+    public SwcyCommodityEntity getCommodity(Integer typeId, SwcySupplierCommodityEntity swcySupplierCommodityEntity, Integer starCode, Integer stock) {
         SwcyCommodityEntity swcyCommodityEntity = new SwcyCommodityEntity();
         BeanUtils.copyProperties(swcySupplierCommodityEntity,swcyCommodityEntity, "id");
         swcyCommodityEntity.setTypeId(typeId);
@@ -408,7 +434,7 @@ public class SupplierService {
         swcyCommodityEntity.setStarCode(starCode);
         swcyCommodityEntity.setStock(stock);
         swcyCommodityEntity.setPrice(swcySupplierCommodityEntity.getRetailPrice());
-        swcyCommodityEntity.setSupplierCommodityId(supplierCommodityId);
+        swcyCommodityEntity.setSupplierCommodityId(swcySupplierCommodityEntity.getId());
         return swcyCommodityEntity;
     }
 

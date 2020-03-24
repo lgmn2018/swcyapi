@@ -69,6 +69,9 @@ public class MpUserService {
         LgmnUserEntity userEntity = userService.save(lgmnUserEntity);
         if (type == 0) {
             SwcyAppUserEntity swcyAppUserEntity = getAppUser(userEntity.getId(), puid);
+            swcyAppUserEntity.setPersonalCommission(new BigDecimal(0));
+            swcyAppUserEntity.setTeamCommission(new BigDecimal(0));
+            swcyAppUserEntity.setConsumptionAmount(new BigDecimal(0));
             swcyAppUserEntity.setGender(gender);
             appUserService.save(swcyAppUserEntity);
         }
