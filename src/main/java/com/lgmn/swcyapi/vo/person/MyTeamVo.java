@@ -12,5 +12,5 @@ public class MyTeamVo extends LgmnVo<SwcyAppUserEntity, MyTeamVo> {
     private String avatar;
     private String nikeName;
     private String phone;
-    private BigDecimal achievement;
+    private BigDecimal personPower;
 }
