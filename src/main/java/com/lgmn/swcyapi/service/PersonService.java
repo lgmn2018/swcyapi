@@ -164,7 +164,9 @@ public class PersonService {
     }
 
     public Result upDatePassword (LgmnUserInfo lgmnUserInfo, UpDatePasswordDto upDatePasswordDto) {
-        if (!Pattern.matches(regxPass, upDatePasswordDto.getNewPassword()) || !upDatePasswordDto.getNewPassword().equals(upDatePasswordDto.getConfirmPassword())) return Result.error(ResultEnum.PASS_ERROR);
+        if (!Pattern.matches(regxPass, upDatePasswordDto.getNewPassword()) || !upDatePasswordDto.getNewPassword().equals(upDatePasswordDto.getConfirmPassword())) {
+            return Result.error(ResultEnum.PASS_ERROR);
+        }
         LoginDto loginDto = new LoginDto();
         loginDto.setPhone(lgmnUserInfo.getAccount());
         loginDto.setPassword(upDatePasswordDto.getPassword());
@@ -219,21 +221,21 @@ public class PersonService {
         swcyAppUserEntityPage.setTotalPage(1);
 
         LgmnPage<MyTeamVo> myTeamVoLgmnPage = new MyTeamVo().getVoPage(swcyAppUserEntityPage, MyTeamVo.class);
-        for (MyTeamVo myTeamVo : myTeamVoLgmnPage.getList()) {
-            LgmnUserEntity lgmnUserEntity = userService.getUserById(myTeamVo.getUid());
-            List<String> ids = new ArrayList<>();
-            ids.add(myTeamVo.getUid());
-            List<SwcyOrderEntity> swcyOrderEntityList = sOrderService.getAllByUid(ids);
-            BigDecimal achievement = new BigDecimal(0);
-            for (SwcyOrderEntity swcyOrderEntity : swcyOrderEntityList) {
-                achievement.add(swcyOrderEntity.getMoney());
-            }
-            myTeamVo.setAvatar(lgmnUserEntity.getAvatar());
-            myTeamVo.setNikeName(lgmnUserEntity.getNikeName());
-            myTeamVo.setPhone(myTeamVo.getPhone());
-            myTeamVo.setAchievement(achievement);
-
-        }
+//        for (MyTeamVo myTeamVo : myTeamVoLgmnPage.getList()) {
+////            LgmnUserEntity lgmnUserEntity = userService.getUserById(myTeamVo.getUid());
+////            List<String> ids = new ArrayList<>();
+////            ids.add(myTeamVo.getUid());
+////            List<SwcyOrderEntity> swcyOrderEntityList = sOrderService.getAllByUid(ids);
+////            BigDecimal achievement = new BigDecimal(0);
+////            for (SwcyOrderEntity swcyOrderEntity : swcyOrderEntityList) {
+////                achievement.add(swcyOrderEntity.getMoney());
+////            }
+////            myTeamVo.setAvatar(lgmnUserEntity.getAvatar());
+////            myTeamVo.setNikeName(lgmnUserEntity.getNikeName());
+////            myTeamVo.setPhone(myTeamVo.getPhone());
+////            myTeamVo.setAchievement(achievement);
+////
+////        }
         return Result.success(myTeamVoLgmnPage);
     }
 
