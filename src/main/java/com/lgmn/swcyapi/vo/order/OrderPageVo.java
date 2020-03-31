@@ -16,6 +16,7 @@ public class OrderPageVo extends LgmnVo<SwcyOrderEntity, OrderPageVo> {
     private Timestamp orderTime;
     private Integer storeId;
     private String storeName;
+    private Integer storeType;
     private String imageUrl;
     private Timestamp payTime;
     private String payChannel;

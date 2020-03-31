@@ -21,4 +21,5 @@ public class AddStoreForUnlicensedDto {
     private String lng;
     private String phone;
     private Integer starCode;
+    private String brief;
 }

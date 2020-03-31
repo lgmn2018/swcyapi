@@ -4,10 +4,14 @@ import com.lgmn.common.domain.LgmnPage;
 import com.lgmn.common.domain.LgmnUserInfo;
 import com.lgmn.common.result.Result;
 import com.lgmn.common.result.ResultEnum;
+import com.lgmn.common.utils.ObjectTransfer;
 import com.lgmn.swcy.basic.entity.*;
+import com.lgmn.swcyapi.dto.store.LeagueStoreGetSupplierDto;
 import com.lgmn.swcyapi.dto.supplier.*;
 import com.lgmn.swcyapi.service.address.SwcyReceivingAddressApiService;
 import com.lgmn.swcyapi.service.assets.AssetsService;
+import com.lgmn.swcyapi.service.commodity.SwcyCommodityApiService;
+import com.lgmn.swcyapi.service.commodity.SwcyCommodityTypeApiService;
 import com.lgmn.swcyapi.service.flow.SwcyFlowApiService;
 import com.lgmn.swcyapi.service.industry.IndustryService;
 import com.lgmn.swcyapi.service.store.SStoreService;
@@ -16,6 +20,7 @@ import com.lgmn.swcyapi.vo.order.ReceivingAddressVo;
 import com.lgmn.swcyapi.vo.supplier.*;
 import org.nutz.lang.util.NutMap;
 import org.nutz.weixin.util.WxPaySign;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -62,6 +67,12 @@ public class SupplierService {
 
     @Autowired
     SwcyFlowApiService swcyFlowApiService;
+
+    @Autowired
+    SwcyCommodityTypeApiService swcyCommodityTypeApiService;
+
+    @Autowired
+    SwcyCommodityApiService swcyCommodityApiService;
 
     @Autowired
     AssetsService assetsService;
@@ -275,5 +286,138 @@ public class SupplierService {
         response.getWriter().write(str);
         response.getWriter().flush();
         System.out.println("\n\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>微信回调结束>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n\n\n\n");
+    }
+
+    public Result leagueStoreGetSupplier(LeagueStoreGetSupplierDto leagueStoreGetSupplierDto) throws Exception {
+        List<SwcySupplierEntity> list = swcySupplierAPIService.getSupplierListByIndustryId(leagueStoreGetSupplierDto.getIndustryId());
+        if (list.size() > 0) {
+            SwcySupplierEntity swcySupplierEntity = list.get(0);
+            SupplierInfoVo supplierInfoVo = new SupplierInfoVo();
+            ObjectTransfer.transValue(swcySupplierEntity, supplierInfoVo);
+            return Result.success(supplierInfoVo);
+        } else {
+            return Result.serverError("暂无供应商可用");
+        }
+    }
+
+    public Result getLeagueStoreOrderPage(GetLeagueStoreOrderPageDto getLeagueStoreOrderPageDto) throws Exception {
+        LgmnPage<SwcySupplierOrderEntity> lgmnPage = swcySupplierOrderAPIService.getSupplierOrderPageByStoreId(getLeagueStoreOrderPageDto.getStoreId(), getLeagueStoreOrderPageDto.getPageNumber(), getLeagueStoreOrderPageDto.getPageSize());
+        LgmnPage<LeagueStoreOrderPageVo> leagueStoreOrderPageVoLgmnPage = new LgmnPage<>();
+        ObjectTransfer.transValue(lgmnPage, leagueStoreOrderPageVoLgmnPage);
+        List<LeagueStoreOrderPageVo> leagueStoreOrderPageVos = new ArrayList<>();
+        for (SwcySupplierOrderEntity swcySupplierOrderEntity : lgmnPage.getList()) {
+            LeagueStoreOrderPageVo leagueStoreOrderPageVo = new LeagueStoreOrderPageVo();
+            ObjectTransfer.transValue(swcySupplierOrderEntity, leagueStoreOrderPageVo);
+
+            List<SwcySupplierOrderDetailEntity> swcySupplierOrderDetailEntities = swcySupplierOrderDetailAPIService.getSupplierOrderDetailListByOrderId(swcySupplierOrderEntity.getId());
+            leagueStoreOrderPageVo.setList(swcySupplierOrderDetailEntities);
+            leagueStoreOrderPageVo.setCommTypeSum(swcySupplierOrderDetailEntities.size());
+            leagueStoreOrderPageVos.add(leagueStoreOrderPageVo);
+        }
+        leagueStoreOrderPageVoLgmnPage.setList(leagueStoreOrderPageVos);
+        return Result.success(leagueStoreOrderPageVoLgmnPage);
+    }
+
+    public Result leagueStoreOrderConfirmReceipt(SupplierOrderConfirmReceiptDto supplierOrderConfirmReceiptDto) throws Exception {
+        SwcySupplierOrderEntity swcySupplierOrderEntity = swcySupplierOrderAPIService.getSupplierOrderById(supplierOrderConfirmReceiptDto.getId());
+        swcySupplierOrderEntity.setStatus(4);
+        swcySupplierOrderAPIService.save(swcySupplierOrderEntity);
+        SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(swcySupplierOrderEntity.getStoreId());
+
+        List<SwcySupplierOrderDetailEntity> swcySupplierOrderDetailEntities = swcySupplierOrderDetailAPIService.getSupplierOrderDetailListByOrderId(swcySupplierOrderEntity.getId());
+        for (SwcySupplierOrderDetailEntity swcySupplierOrderDetailEntity : swcySupplierOrderDetailEntities) {
+            SwcySupplierCommodityEntity swcySupplierCommodityEntity = swcySupplierCommodityAPIService.getSupplierCommodityById(swcySupplierOrderDetailEntity.getCommodityId());
+            List<SwcyCommodityTypeEntity> swcyCommodityTypeEntityList = swcyCommodityTypeApiService.getCommodityTypeByStoreIdAndSupplierCategoryId(swcySupplierOrderEntity.getStoreId(), swcySupplierCommodityEntity.getCategoryId());
+            if (swcyCommodityTypeEntityList.size() > 0) {
+                SwcyCommodityTypeEntity swcyCommodityTypeEntity = swcyCommodityTypeEntityList.get(0);
+                List<SwcyCommodityEntity> swcyCommodityEntities = swcyCommodityApiService.getCommodityBySupplierCommodityIdAndTypeId(swcySupplierCommodityEntity.getId(), swcyCommodityTypeEntity.getId());
+                if (swcyCommodityEntities.size() > 0) {
+                    SwcyCommodityEntity swcyCommodityEntity = swcyCommodityEntities.get(0);
+                    swcyCommodityEntity.setName(swcySupplierCommodityEntity.getName());
+                    swcyCommodityEntity.setCover(swcySupplierCommodityEntity.getCover());
+                    swcyCommodityEntity.setDetail(swcySupplierCommodityEntity.getDetail());
+                    swcyCommodityEntity.setPrice(swcySupplierOrderDetailEntity.getPrice());
+                    swcyCommodityEntity.setSpecs(swcySupplierCommodityEntity.getSpecs());
+                    swcyCommodityEntity.setStatus(swcySupplierCommodityEntity.getStatus());
+                    swcyCommodityEntity.setStock(swcyCommodityEntity.getStock() + swcySupplierOrderDetailEntity.getNum());
+                    swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
+                } else {
+                    SwcyCommodityEntity swcyCommodityEntity = getCommodity(swcyCommodityTypeEntity.getId(), swcySupplierCommodityEntity, swcyStoreEntity.getStarCode(), swcySupplierOrderDetailEntity.getNum(), swcySupplierCommodityEntity.getId());
+                    swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
+                }
+            } else {
+                SwcySupplierCategoryEntity swcySupplierCategoryEntity = swcySupplierCategoryAPIService.getSupplierCategoryById(swcySupplierCommodityEntity.getCategoryId());
+                SwcyCommodityTypeEntity swcyCommodityTypeEntity = new SwcyCommodityTypeEntity();
+                swcyCommodityTypeEntity.setStoreId(swcySupplierOrderEntity.getStoreId());
+                swcyCommodityTypeEntity.setName(swcySupplierCategoryEntity.getName());
+                swcyCommodityTypeEntity.setStatus(1);
+                swcyCommodityTypeEntity.setSupplierCategoryId(swcySupplierCommodityEntity.getCategoryId());
+                SwcyCommodityTypeEntity newCommodityType = swcyCommodityTypeApiService.save(swcyCommodityTypeEntity);
+
+                SwcyCommodityEntity swcyCommodityEntity = getCommodity(newCommodityType.getId(), swcySupplierCommodityEntity, swcyStoreEntity.getStarCode(), swcySupplierOrderDetailEntity.getNum(), swcySupplierCommodityEntity.getId());
+                swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
+            }
+        }
+//        Set<Integer> mapKey = leagueStoreAddCommodityDto.getMap().keySet();
+//        List<Integer> supplierCommodityIds = new ArrayList<>();
+//        for (Integer key : mapKey) {
+//            supplierCommodityIds.add(key);
+//        }
+//        List<SwcySupplierCommodityEntity> swcySupplierCommodityEntitys = swcySupplierCommodityAPIService.getSupplierCommoditysByIds(supplierCommodityIds);
+//        for (SwcySupplierCommodityEntity swcySupplierCommodityEntity : swcySupplierCommodityEntitys) {
+//            List<SwcyCommodityTypeEntity> swcyCommodityTypeEntityList = swcyCommodityTypeApiService.getCommodityTypeByStoreIdAndSupplierCategoryId(leagueStoreAddCommodityDto.getStoreId(), swcySupplierCommodityEntity.getCategoryId());
+//            if (swcyCommodityTypeEntityList.size() > 0) {
+//                SwcyCommodityTypeEntity swcyCommodityTypeEntity = swcyCommodityTypeEntityList.get(0);
+//                List<SwcyCommodityEntity> swcyCommodityEntities = swcyCommodityApiService.getCommodityBySupplierCommodityIdAndTypeId(swcySupplierCommodityEntity.getId(), swcyCommodityTypeEntity.getId());
+//                if (swcyCommodityEntities.size() > 0) {
+//                    SwcyCommodityEntity swcyCommodityEntity = swcyCommodityEntities.get(0);
+//                    swcyCommodityEntity.setName(swcySupplierCommodityEntity.getName());
+//                    swcyCommodityEntity.setCover(swcySupplierCommodityEntity.getCover());
+//                    swcyCommodityEntity.setDetail(swcySupplierCommodityEntity.getDetail());
+//                    swcyCommodityEntity.setPrice(swcySupplierCommodityEntity.getRetailPrice());
+//                    swcyCommodityEntity.setSpecs(swcySupplierCommodityEntity.getSpecs());
+//                    swcyCommodityEntity.setStatus(swcySupplierCommodityEntity.getStatus());
+//                    swcyCommodityEntity.setStock(swcyCommodityEntity.getStock() + leagueStoreAddCommodityDto.getMap().get(swcySupplierCommodityEntity.getId()));
+//                    swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
+//                } else {
+//                    SwcyCommodityEntity swcyCommodityEntity = getCommodity(swcyCommodityTypeEntity.getId(), swcySupplierCommodityEntity, swcyStoreEntity.getStarCode(), leagueStoreAddCommodityDto.getMap().get(swcySupplierCommodityEntity.getId()), swcySupplierCommodityEntity.getId());
+//                    swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
+//                }
+//            } else {
+//                SwcySupplierCategoryEntity swcySupplierCategoryEntity = swcySupplierCategoryAPIService.getSupplierCategoryById(swcySupplierCommodityEntity.getCategoryId());
+//                SwcyCommodityTypeEntity swcyCommodityTypeEntity = new SwcyCommodityTypeEntity();
+//                swcyCommodityTypeEntity.setStoreId(leagueStoreAddCommodityDto.getStoreId());
+//                swcyCommodityTypeEntity.setName(swcySupplierCategoryEntity.getName());
+//                swcyCommodityTypeEntity.setStatus(1);
+//                swcyCommodityTypeEntity.setSupplierCategoryId(swcySupplierCommodityEntity.getCategoryId());
+//                SwcyCommodityTypeEntity newCommodityType = swcyCommodityTypeApiService.save(swcyCommodityTypeEntity);
+//
+//                SwcyCommodityEntity swcyCommodityEntity = getCommodity(newCommodityType.getId(), swcySupplierCommodityEntity, swcyStoreEntity.getStarCode(), leagueStoreAddCommodityDto.getMap().get(swcySupplierCommodityEntity.getId()), swcySupplierCommodityEntity.getId());
+//                swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
+//            }
+//        }
+        return Result.success("确认收货，商品同步成功");
+    }
+
+    private SwcyCommodityEntity getCommodity(Integer typeId, SwcySupplierCommodityEntity swcySupplierCommodityEntity, Integer starCode, Integer stock, Integer supplierCommodityId) {
+        SwcyCommodityEntity swcyCommodityEntity = new SwcyCommodityEntity();
+        BeanUtils.copyProperties(swcySupplierCommodityEntity,swcyCommodityEntity, "id");
+        swcyCommodityEntity.setTypeId(typeId);
+        swcyCommodityEntity.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        swcyCommodityEntity.setDelFlag(0);
+        swcyCommodityEntity.setStarCode(starCode);
+        swcyCommodityEntity.setStock(stock);
+        swcyCommodityEntity.setPrice(swcySupplierCommodityEntity.getRetailPrice());
+        swcyCommodityEntity.setSupplierCommodityId(supplierCommodityId);
+        return swcyCommodityEntity;
+    }
+
+    public Result getLeagueStoreOrderDetails(SupplierOrderConfirmReceiptDto supplierOrderConfirmReceiptDto) throws Exception {
+        SwcySupplierOrderEntity swcySupplierOrderEntity = swcySupplierOrderAPIService.getSupplierOrderById(supplierOrderConfirmReceiptDto.getId());
+        List<SwcySupplierOrderDetailEntity> swcySupplierOrderDetailEntities = swcySupplierOrderDetailAPIService.getSupplierOrderDetailListByOrderId(swcySupplierOrderEntity.getId());
+        GetLeagueStoreOrderDetailsVo getLeagueStoreOrderDetailsVo = new GetLeagueStoreOrderDetailsVo();
+        getLeagueStoreOrderDetailsVo.setSwcySupplierOrderEntity(swcySupplierOrderEntity);
+        getLeagueStoreOrderDetailsVo.setSwcySupplierOrderDetailEntities(swcySupplierOrderDetailEntities);
+        return Result.success(getLeagueStoreOrderDetailsVo);
     }
 }

@@ -7,6 +7,8 @@ import com.lgmn.swcy.basic.entity.SwcySupplierEntity;
 import com.lgmn.swcy.basic.service.SwcySupplierService;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class SwcySupplierAPIService {
 
@@ -24,5 +26,12 @@ public class SwcySupplierAPIService {
 
     public SwcySupplierEntity getSupplierById(Integer id) {
         return swcySupplierService.findById(id);
+    }
+
+    public List<SwcySupplierEntity> getSupplierListByIndustryId(Integer industryId) throws Exception {
+        SwcySupplierDto swcySupplierDto = new SwcySupplierDto();
+        swcySupplierDto.setIndustryId(industryId);
+        swcySupplierDto.setStatus(1);
+        return swcySupplierService.getListByDto(swcySupplierDto);
     }
 }

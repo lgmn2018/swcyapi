@@ -200,7 +200,7 @@ public class StoreController {
         }
     }
 
-    @ApiOperation(value = "获取关注门店列表")
+    @ApiOperation(value = "获取店列表")
     @PostMapping("/newsGetPageStore")
     public Result newsGetPageStore (@RequestBody NewsGetPageStoreDto newsGetPageStoreDto) {
         try {
@@ -214,5 +214,22 @@ public class StoreController {
     @PostMapping("/getShareStoreMsg")
     public Result getShareStoreMsg(@RequestBody ShareStoreMsgDto shareStoreMsgDto) {
         return storeService.getShareStoreMsg(shareStoreMsgDto);
+    }
+
+    @ApiOperation(value = "新建盟店")
+    @PostMapping("/createLeagueStore")
+    public Result createLeagueStore(@RequestHeader String Authorization, Principal principal, @RequestBody CreateLeagueStoreDto createLeagueStoreDto) {
+        return storeService.createLeagueStore(createLeagueStoreDto);
+    }
+
+    @ApiOperation(value = "盟店添加商品")
+    @PostMapping("/leagueStoreAddCommodity")
+    public Result leagueStoreAddCommodity(@RequestHeader String Authorization, Principal principal, @RequestBody LeagueStoreAddCommodityDto leagueStoreAddCommodityDto) {
+        try {
+            return storeService.leagueStoreAddCommodity(leagueStoreAddCommodityDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.serverError(e.getMessage());
+        }
     }
 }

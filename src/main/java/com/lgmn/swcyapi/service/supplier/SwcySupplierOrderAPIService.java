@@ -18,24 +18,8 @@ public class SwcySupplierOrderAPIService {
     SwcySupplierOrderService swcySupplierOrderService;
 
     public LgmnPage<SwcySupplierOrderEntity> getSupplierOrderPageByStoreOwnerId (String storeOwnerId, Integer pageNumber, Integer pageSize) throws Exception {
-        SwcySupplierOrderDto swcySupplierOrderDto = new SwcySupplierOrderDto();
-        List<Integer> statuss = new ArrayList<>();
-        statuss.add(1);
-        statuss.add(2);
-        statuss.add(3);
-        statuss.add(4);
-        statuss.add(5);
-        statuss.add(6);
-        swcySupplierOrderDto.setStatus(statuss);
+        SwcySupplierOrderDto swcySupplierOrderDto = getSupplierOrderDto(pageNumber, pageSize);
         swcySupplierOrderDto.setStoreOwnerId(storeOwnerId);
-        swcySupplierOrderDto.setPageNumber(pageNumber);
-        swcySupplierOrderDto.setPageSize(pageSize);
-        List<LgmnOrder> lgmnOrderList = new ArrayList<>();
-        LgmnOrder lgmnOrder = new LgmnOrder();
-        lgmnOrder.setProperty("orderTime");
-        lgmnOrder.setDirection(Sort.Direction.DESC);
-        lgmnOrderList.add(lgmnOrder);
-        swcySupplierOrderDto.setOrders(lgmnOrderList);
         return swcySupplierOrderService.getPageByDtoWithPageRequet(swcySupplierOrderDto);
     }
 
@@ -45,5 +29,33 @@ public class SwcySupplierOrderAPIService {
 
     public SwcySupplierOrderEntity save(SwcySupplierOrderEntity swcySupplierOrderEntity) {
         return swcySupplierOrderService.saveEntity(swcySupplierOrderEntity);
+    }
+
+    public LgmnPage<SwcySupplierOrderEntity> getSupplierOrderPageByStoreId(Integer storeId, Integer pageNumber, Integer pageSize) throws Exception {
+        SwcySupplierOrderDto swcySupplierOrderDto = getSupplierOrderDto(pageNumber, pageSize);
+        swcySupplierOrderDto.setStoreId(storeId);
+        return swcySupplierOrderService.getPageByDtoWithPageRequet(swcySupplierOrderDto);
+    }
+
+    private SwcySupplierOrderDto getSupplierOrderDto(Integer pageNumber, Integer pageSize) {
+        SwcySupplierOrderDto swcySupplierOrderDto = new SwcySupplierOrderDto();
+        List<Integer> statuss = new ArrayList<>();
+        statuss.add(1);
+        statuss.add(2);
+        statuss.add(3);
+        statuss.add(4);
+        statuss.add(5);
+        statuss.add(6);
+        swcySupplierOrderDto.setStatus(statuss);
+        swcySupplierOrderDto.setPageNumber(pageNumber);
+        swcySupplierOrderDto.setPageSize(pageSize);
+        List<LgmnOrder> lgmnOrderList = new ArrayList<>();
+        LgmnOrder lgmnOrder = new LgmnOrder();
+        lgmnOrder.setProperty("orderTime");
+        lgmnOrder.setDirection(Sort.Direction.DESC);
+        lgmnOrderList.add(lgmnOrder);
+        swcySupplierOrderDto.setOrders(lgmnOrderList);
+
+        return swcySupplierOrderDto;
     }
 }

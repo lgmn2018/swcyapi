@@ -28,6 +28,7 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.List;
@@ -159,10 +160,10 @@ public class LoginService {
     private SwcyAppUserEntity getAppUser (String uid, String puid) {
         SwcyAppUserEntity swcyAppUserEntity = new SwcyAppUserEntity();
         swcyAppUserEntity.setUid(uid);
-//        swcyAppUserEntity.setPuid(puid);
-        swcyAppUserEntity.setPuid("402881e86b26a9cb016b26b2e7410001");
-        swcyAppUserEntity.setGroupPower(0);
-        swcyAppUserEntity.setPersonPower(0);
+        swcyAppUserEntity.setPuid(puid);
+//        swcyAppUserEntity.setPuid("402881e86b26a9cb016b26b2e7410001");
+        swcyAppUserEntity.setGroupPower(new BigDecimal(0));
+        swcyAppUserEntity.setPersonPower(new BigDecimal(0));
         swcyAppUserEntity.setScore(0);
         swcyAppUserEntity.setUserType(0);
         swcyAppUserEntity.setStar(0);

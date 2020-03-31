@@ -34,4 +34,11 @@ public class SwcyCommodityTypeApiService {
         SwcyCommodityTypeEntity swcyCommodityTypeEntity = swcyCommodityTypeService.findById(id);
         return swcyCommodityTypeEntity;
     }
+
+    public List<SwcyCommodityTypeEntity> getCommodityTypeByStoreIdAndSupplierCategoryId(Integer storeId, Integer supplierCategoryId) throws Exception {
+        SwcyCommodityTypeDto swcyCommodityTypeDto = new SwcyCommodityTypeDto();
+        swcyCommodityTypeDto.setStoreId(storeId);
+        swcyCommodityTypeDto.setSupplierCategoryId(supplierCategoryId);
+        return swcyCommodityTypeService.getListByDto(swcyCommodityTypeDto);
+    }
 }

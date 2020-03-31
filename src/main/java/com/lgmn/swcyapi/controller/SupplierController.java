@@ -2,6 +2,7 @@ package com.lgmn.swcyapi.controller;
 
 import com.lgmn.common.domain.LgmnUserInfo;
 import com.lgmn.common.result.Result;
+import com.lgmn.swcyapi.dto.store.LeagueStoreGetSupplierDto;
 import com.lgmn.swcyapi.dto.supplier.*;
 import com.lgmn.swcyapi.service.SupplierService;
 import com.lgmn.userservices.basic.util.UserUtil;
@@ -96,5 +97,45 @@ public class SupplierController {
         return supplierService.applyForReturn(lgmnUserInfo, applyForReturnDto);
     }
 
+    @ApiOperation(value = "盟店获取相同类型的供应商")
+    @PostMapping("/leagueStoreGetSupplier")
+    public Result leagueStoreGetSupplier(@RequestHeader String Authorization, Principal principal, @RequestBody LeagueStoreGetSupplierDto leagueStoreGetSupplierDto) {
+        try {
+            return supplierService.leagueStoreGetSupplier(leagueStoreGetSupplierDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.serverError(e.getMessage());
+        }
+    }
 
+    @ApiOperation(value = "获取盟店订单")
+    @PostMapping("/getLeagueStoreOrderPage")
+    public Result getLeagueStoreOrderPage (@RequestHeader String Authorization, Principal principal, @RequestBody GetLeagueStoreOrderPageDto getLeagueStoreOrderPageDto) {
+        try {
+            return supplierService.getLeagueStoreOrderPage(getLeagueStoreOrderPageDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "获取盟店订单详情")
+    @PostMapping("/getLeagueStoreOrderDetails")
+    public Result getLeagueStoreOrderDetails (@RequestHeader String Authorization, Principal principal, @RequestBody SupplierOrderConfirmReceiptDto supplierOrderConfirmReceiptDto) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        try {
+            return supplierService.getLeagueStoreOrderDetails(supplierOrderConfirmReceiptDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "盟店订单确认收货")
+    @PostMapping("/leagueStoreOrderConfirmReceipt")
+    public Result leagueStoreOrderConfirmReceipt(@RequestHeader String Authorization, Principal principal, @RequestBody SupplierOrderConfirmReceiptDto supplierOrderConfirmReceiptDto) {
+        try {
+            return supplierService.leagueStoreOrderConfirmReceipt(supplierOrderConfirmReceiptDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
 }

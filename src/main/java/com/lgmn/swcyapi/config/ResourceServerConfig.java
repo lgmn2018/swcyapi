@@ -36,11 +36,17 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                                                     "/store/getMyStorePage",
                                                     "/store/followAndCleanFollow",
                                                     "/store/getMyFollowPage",
+                                                    "/store/createLeagueStore",
+                                                    "/store/leagueStoreAddCommodity",
                                                     "/wxApi/wxPay",
                                                     "/wxApi/supplierUnifiedOrderWxPay",
                                                     "/supplier/getSupplierOrderPage",
                                                     "/supplier/supplierOrderConfirmReceipt",
-                                                    "/supplier/applyForReturn")
+                                                    "/supplier/applyForReturn",
+                                                    "/supplier/leagueStoreGetSupplier",
+                                                    "/supplier/getLeagueStoreOrderPage",
+                                                    "/supplier/getLeagueStoreOrderDetails",
+                                                    "/supplier/leagueStoreOrderConfirmReceipt")
                 .and()
                 .authorizeRequests()
                 .antMatchers( "/auth/**/api/**",
@@ -53,11 +59,17 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                                             "/store/getMyStorePage",
                                             "/store/followAndCleanFollow",
                                             "/store/getMyFollowPage",
+                                            "/store/createLeagueStore",
+                                            "/store/leagueStoreAddCommodity",
                                             "/wxApi/wxPay",
                                             "/wxApi/supplierUnifiedOrderWxPay",
                                             "/supplier/getSupplierOrderPage",
                                             "/supplier/supplierOrderConfirmReceipt",
-                                            "/supplier/applyForReturn").authenticated()
+                                            "/supplier/applyForReturn",
+                                            "/supplier/leagueStoreGetSupplier",
+                                            "/supplier/getLeagueStoreOrderPage",
+                                            "/supplier/getLeagueStoreOrderDetails",
+                                            "/supplier/leagueStoreOrderConfirmReceipt").authenticated()
                 .and()
                 .httpBasic();
     }

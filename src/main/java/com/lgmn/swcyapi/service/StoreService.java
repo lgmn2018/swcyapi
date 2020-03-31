@@ -13,10 +13,12 @@ import com.lgmn.swcyapi.service.commodity.SwcyCommodityTypeApiService;
 import com.lgmn.swcyapi.service.follow.SwcyFollowApiService;
 import com.lgmn.swcyapi.service.industry.IndustryService;
 import com.lgmn.swcyapi.service.store.SStoreService;
+import com.lgmn.swcyapi.service.supplier.*;
 import com.lgmn.swcyapi.vo.person.QiNiuTokenVo;
 import com.lgmn.swcyapi.vo.store.NewsGetPageStoreVo;
 import com.lgmn.swcyapi.vo.store.ShopTypeAndEssentialMessageVo;
 import com.lgmn.swcyapi.vo.store.StoreIndustryVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +27,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Component
 public class StoreService {
@@ -49,6 +52,18 @@ public class StoreService {
 
     @Autowired
     QiNiu_UpLoad_Img_StarterService qiNiu_upLoad_img_starterService;
+
+    @Autowired
+    SwcySupplierCommodityAPIService swcySupplierCommodityAPIService;
+
+    @Autowired
+    SwcySupplierCategoryAPIService swcySupplierCategoryAPIService;
+
+    @Autowired
+    SwcySupplierOrderAPIService swcySupplierOrderAPIService;
+
+    @Autowired
+    SwcySupplierOrderDetailAPIService swcySupplierOrderDetailAPIService;
 
     public Result getStoreIndustryList() throws Exception {
         List<SwcyIndustryEntity> swcyIndustryEntities = industryService.getIndustryList();
@@ -106,6 +121,8 @@ public class StoreService {
             swcyStoreEntity.setUid(lgmnUserInfo.getId());
             swcyStoreEntity.setCreateTime(new Timestamp(System.currentTimeMillis()));
             swcyStoreEntity.setIsChecked(3);
+            swcyStoreEntity.setType(0);
+            swcyStoreEntity.setStatus(0);
         } else {
             swcyStoreEntity = sStoreService.getStoreById(addStoreForUnlicensedDto.getId());
         }
@@ -151,6 +168,7 @@ public class StoreService {
         ObjectTransfer.transValue(addCommodityDto, swcyCommodityEntity);
         swcyCommodityEntity.setStatus(1);
         swcyCommodityEntity.setDelFlag(0);
+        swcyCommodityEntity.setCreateTime(new Timestamp(System.currentTimeMillis()));
         swcyCommodityEntity.setStarCode(swcyStoreEntity.getStarCode());
         SwcyCommodityEntity newCommodity = swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
         return Result.success(newCommodity);
@@ -242,5 +260,81 @@ public class StoreService {
 
     public Result getShareStoreMsg(ShareStoreMsgDto shareStoreMsgDto) {
         return Result.success(sStoreService.getStoreById(shareStoreMsgDto.getId()));
+    }
+
+    public Result createLeagueStore(CreateLeagueStoreDto createLeagueStoreDto) {
+        SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(createLeagueStoreDto.getStoreId());
+        SwcyStoreEntity leagueStore = new SwcyStoreEntity();
+        leagueStore.setUid(swcyStoreEntity.getUid());
+        leagueStore.setStoreName(swcyStoreEntity.getStoreName());
+        leagueStore.setAddress(swcyStoreEntity.getAddress());
+        leagueStore.setLat(swcyStoreEntity.getLat());
+        leagueStore.setLng(swcyStoreEntity.getLng());
+        leagueStore.setIndustryId(swcyStoreEntity.getIndustryId());
+        leagueStore.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        leagueStore.setPhoto(swcyStoreEntity.getPhoto());
+        leagueStore.setDescription(swcyStoreEntity.getDescription());
+        leagueStore.setIndustryName(swcyStoreEntity.getIndustryName());
+        leagueStore.setProvinceName(swcyStoreEntity.getProvinceName());
+        leagueStore.setCityName(swcyStoreEntity.getCityName());
+        leagueStore.setAreaName(swcyStoreEntity.getAreaName());
+        leagueStore.setLicenseCode(swcyStoreEntity.getLicenseCode());
+        leagueStore.setLicensePhoto(swcyStoreEntity.getLicensePhoto());
+        leagueStore.setLegalPerson(swcyStoreEntity.getLegalPerson());
+        leagueStore.setIsChecked(0);
+        leagueStore.setReason("");
+        leagueStore.setArea(swcyStoreEntity.getArea());
+        leagueStore.setPhone(swcyStoreEntity.getPhone());
+        leagueStore.setStarCode(swcyStoreEntity.getStarCode());
+        leagueStore.setStatus(0);
+        leagueStore.setBrief(swcyStoreEntity.getBrief());
+        leagueStore.setType(1);
+
+        swcyStoreEntity.setType(2);
+        sStoreService.save(swcyStoreEntity);
+        SwcyStoreEntity newLeagueStore = sStoreService.save(leagueStore);
+        return Result.success(newLeagueStore);
+    }
+
+    public Result leagueStoreAddCommodity(LeagueStoreAddCommodityDto leagueStoreAddCommodityDto) throws Exception {
+        SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(leagueStoreAddCommodityDto.getStoreId());
+        Set<Integer> mapKey = leagueStoreAddCommodityDto.getMap().keySet();
+        List<Integer> supplierCommodityIds = new ArrayList<>();
+        for (Integer key : mapKey) {
+            supplierCommodityIds.add(key);
+        }
+        List<SwcySupplierCommodityEntity> swcySupplierCommodityEntitys = swcySupplierCommodityAPIService.getSupplierCommoditysByIds(supplierCommodityIds);
+        BigDecimal retailPrice = new BigDecimal(0);
+        for (SwcySupplierCommodityEntity swcySupplierCommodityEntity : swcySupplierCommodityEntitys) {
+            retailPrice = retailPrice.add(swcySupplierCommodityEntity.getRetailPrice());
+        }
+
+        SwcySupplierOrderEntity swcySupplierOrderEntity = new SwcySupplierOrderEntity();
+        swcySupplierOrderEntity.setStatus(2);
+        swcySupplierOrderEntity.setMoney(retailPrice);
+        swcySupplierOrderEntity.setOrderTime(new Timestamp(System.currentTimeMillis()));
+        swcySupplierOrderEntity.setPayTime(new Timestamp(System.currentTimeMillis()));
+        swcySupplierOrderEntity.setPayChannel("免支付");
+        swcySupplierOrderEntity.setPayNum("免支付");
+        swcySupplierOrderEntity.setSupplierId(leagueStoreAddCommodityDto.getSupplierId());
+        swcySupplierOrderEntity.setStoreOwnerId(swcyStoreEntity.getUid());
+        swcySupplierOrderEntity.setStoreId(leagueStoreAddCommodityDto.getStoreId());
+        SwcySupplierOrderEntity newSupplierOrder = swcySupplierOrderAPIService.save(swcySupplierOrderEntity);
+
+        List<SwcySupplierOrderDetailEntity> saveSupplierOrderDetails = new ArrayList<>();
+        for (SwcySupplierCommodityEntity swcySupplierCommodityEntity : swcySupplierCommodityEntitys) {
+            SwcySupplierCategoryEntity swcySupplierCategoryEntity = swcySupplierCategoryAPIService.getSupplierCategoryById(swcySupplierCommodityEntity.getCategoryId());
+            SwcySupplierOrderDetailEntity swcySupplierOrderDetailEntity = new SwcySupplierOrderDetailEntity();
+            swcySupplierOrderDetailEntity.setOrderId(newSupplierOrder.getId());
+            swcySupplierOrderDetailEntity.setCommodityId(swcySupplierCommodityEntity.getId());
+            swcySupplierOrderDetailEntity.setCommodityName(swcySupplierCommodityEntity.getName());
+            swcySupplierOrderDetailEntity.setCommodityType(swcySupplierCategoryEntity.getName());
+            swcySupplierOrderDetailEntity.setCover(swcySupplierCommodityEntity.getCover());
+            swcySupplierOrderDetailEntity.setPrice(swcySupplierCommodityEntity.getRetailPrice());
+            swcySupplierOrderDetailEntity.setNum(leagueStoreAddCommodityDto.getMap().get(swcySupplierCommodityEntity.getId()));
+            saveSupplierOrderDetails.add(swcySupplierOrderDetailEntity);
+        }
+        swcySupplierOrderDetailAPIService.saveSupplierOrderDetails(saveSupplierOrderDetails);
+        return Result.success("确定成功，请等待发货");
     }
 }

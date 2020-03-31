@@ -71,7 +71,7 @@ public class SubscribeHandler extends AbstractHandler {
         }
 
         try {
-            return new TextBuilder().build("感谢关注", wxMessage, weixinService);
+            return new TextBuilder().build("感谢关注，请点击<a href=\"http://web.swcy.top\">下载App</a>", wxMessage, weixinService);
         } catch (Exception e) {
             this.logger.error(e.getMessage(), e);
         }

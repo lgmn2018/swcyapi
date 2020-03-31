@@ -99,6 +99,7 @@ public class OrderService {
             List<SwcyOrderDetailEntity> orderDetailEntities = sOrderDetailService.getOrderDetailsByOrderId(orderPageVo.getId());
             SwcyReceivingAddressEntity swcyReceivingAddressEntity = swcyReceivingAddressApiService.getReceivingAddressById(orderPageVo.getAddressId());
             orderPageVo.setStoreName(swcyStoreEntity.getStoreName());
+            orderPageVo.setStoreType(swcyStoreEntity.getType());
             orderPageVo.setImageUrl(orderDetailEntities.get(0).getCover());
             orderPageVo.setAddress(swcyReceivingAddressEntity.getProvinceName() + swcyReceivingAddressEntity.getCityName() + swcyReceivingAddressEntity.getAreaName() + swcyReceivingAddressEntity.getAddress());
         }
@@ -342,6 +343,14 @@ public class OrderService {
 
                     // 平台提成计算
                     performanceCalculationService.updatePerformance_shop(swcyOrderEntity.getUid(), swcyOrderEntity.getStoreId(), swcyFlowEntity.getId());
+
+                    // 减少库存
+                    List<SwcyOrderDetailEntity> orderDetails = sOrderDetailService.getOrderDetailsByOrderId(swcyOrderEntity.getId());
+                    for (SwcyOrderDetailEntity swcyOrderDetailEntity : orderDetails) {
+                        SwcyCommodityEntity swcyCommodityEntity = swcyCommodityApiService.getCommodityById(swcyOrderDetailEntity.getCommodityId());
+                        swcyCommodityEntity.setStock(swcyCommodityEntity.getStock() - swcyOrderDetailEntity.getNum());
+                        swcyCommodityApiService.saveCommodity(swcyCommodityEntity);
+                    }
                 }
             }
         }
