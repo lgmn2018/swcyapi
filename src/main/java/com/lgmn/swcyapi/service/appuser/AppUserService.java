@@ -39,4 +39,10 @@ public class AppUserService {
         swcyAppUserDto.setPageSize(pageSize);
         return swcyAppUserService.getPageByDtoWithPageRequet(swcyAppUserDto);
     }
+
+    public List<SwcyAppUserEntity> getAppUserByPhone(String phone) throws Exception {
+        SwcyAppUserDto swcyAppUserDto = new SwcyAppUserDto();
+        swcyAppUserDto.setPhone(phone);
+        return swcyAppUserService.getListByDto(swcyAppUserDto);
+    }
 }

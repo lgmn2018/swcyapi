@@ -127,7 +127,7 @@ public class StoreService {
         return Result.success(list);
     }
 
-    public Result addStore(LgmnUserInfo lgmnUserInfo, AddStoreForUnlicensedDto addStoreForUnlicensedDto) {
+    public Result addStore(LgmnUserInfo lgmnUserInfo, AddStoreForUnlicensedDto addStoreForUnlicensedDto) throws Exception {
         SwcyStoreEntity swcyStoreEntity;
         if (addStoreForUnlicensedDto.getId() == null) {
             swcyStoreEntity = new SwcyStoreEntity();
@@ -143,6 +143,26 @@ public class StoreService {
         ObjectTransfer.transValue(addStoreForUnlicensedDto, swcyStoreEntity);
         swcyStoreEntity.setArea(new BigDecimal(addStoreForUnlicensedDto.getArea()));
         SwcyStoreEntity newStore = sStoreService.save(swcyStoreEntity);
+
+        SwcyStoreDto swcyStoreDto = new SwcyStoreDto();
+        swcyStoreDto.setDelFlag(0);
+        swcyStoreDto.setStoreId(newStore.getId());
+        List<SwcyStoreEntity> stores = sStoreService.getStoreListByDto(swcyStoreDto);
+        for (SwcyStoreEntity item : stores) {
+            item.setStoreName(newStore.getStoreName());
+            item.setAddress(newStore.getAddress());
+            item.setLat(newStore.getLat());
+            item.setLng(newStore.getLng());
+            item.setIndustryId(newStore.getIndustryId());
+            item.setPhoto(newStore.getPhoto());
+            item.setIndustryName(newStore.getIndustryName());
+            item.setProvinceName(newStore.getProvinceName());
+            item.setCityName(newStore.getCityName());
+            item.setAreaName(newStore.getAreaName());
+            item.setArea(newStore.getArea());
+            item.setPhone(newStore.getPhone());
+            sStoreService.save(item);
+        }
         return Result.success(newStore);
     }
 
@@ -305,7 +325,7 @@ public class StoreService {
 
         SwcySupplierEntity swcySupplierEntity = swcySupplierEntities.get(0);
 
-        SwcyStoreEntity leagueStore = getLeagueStore(swcyStoreEntity, swcySupplierEntity.getDescription(), swcySupplierEntity.getBrief());
+        SwcyStoreEntity leagueStore = getLeagueStore(swcyStoreEntity, swcySupplierEntity.getDescription(), swcySupplierEntity.getBrief(), swcySupplierEntity.getStarCode());
         // 共享店修改为已有盟店状态
         swcyStoreEntity.setType(2);
         sStoreService.save(swcyStoreEntity);
@@ -365,27 +385,26 @@ public class StoreService {
         SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(delStoreDto.getStoreId());
         swcyStoreEntity.setDelFlag(1);
 
-        SwcyStoreDto swcyStoreDto = new SwcyStoreDto();
-        swcyStoreDto.setUid(swcyStoreEntity.getUid());
-        swcyStoreDto.setStoreName(swcyStoreEntity.getStoreName());
-        swcyStoreDto.setLat(swcyStoreEntity.getLat());
-        swcyStoreDto.setLng(swcyStoreEntity.getLng());
-        swcyStoreDto.setType(2);
-        swcyStoreDto.setDelFlag(0);
-        swcyStoreDto.setIndustryId(swcyStoreEntity.getIndustryId());
-        swcyStoreDto.setLicenseCode(swcyStoreEntity.getLicenseCode());
-        List<SwcyStoreEntity> tempList = sStoreService.getStoreListByDto(swcyStoreDto);
-        if (tempList.size() > 0) {
-            SwcyStoreEntity storeEntity = tempList.get(0);
-            storeEntity.setType(0);
-            sStoreService.save(storeEntity);
+        if (swcyStoreEntity.getType() == 1) {
+            SwcyStoreEntity store = sStoreService.getStoreById(swcyStoreEntity.getStoreId());
+            store.setType(0);
+            sStoreService.save(store);
+        } else {
+            SwcyStoreDto swcyStoreDto = new SwcyStoreDto();
+            swcyStoreDto.setStoreId(swcyStoreEntity.getId());
+            swcyStoreDto.setDelFlag(0);
+            List<SwcyStoreEntity> tempList = sStoreService.getStoreListByDto(swcyStoreDto);
+            for (SwcyStoreEntity item : tempList) {
+                item.setDelFlag(1);
+                sStoreService.save(item);
+            }
         }
 
         sStoreService.save(swcyStoreEntity);
         return Result.success("删除成功");
     }
 
-    private SwcyStoreEntity getLeagueStore(SwcyStoreEntity swcyStoreEntity, String description, String brief) {
+    private SwcyStoreEntity getLeagueStore(SwcyStoreEntity swcyStoreEntity, String description, String brief, Integer starCode) {
         SwcyStoreEntity leagueStore = new SwcyStoreEntity();
         leagueStore.setUid(swcyStoreEntity.getUid());
         leagueStore.setStoreName(swcyStoreEntity.getStoreName());
@@ -407,11 +426,12 @@ public class StoreService {
         leagueStore.setReason("");
         leagueStore.setArea(swcyStoreEntity.getArea());
         leagueStore.setPhone(swcyStoreEntity.getPhone());
-        leagueStore.setStarCode(swcyStoreEntity.getStarCode());
+        leagueStore.setStarCode(starCode);
         leagueStore.setStatus(0);
         leagueStore.setBrief(brief);
         leagueStore.setType(1);
         leagueStore.setDelFlag(0);
+        leagueStore.setStoreId(swcyStoreEntity.getId());
 
         return leagueStore;
     }

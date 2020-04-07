@@ -96,14 +96,22 @@ public class StoreController {
     @PostMapping("/addStoreForUnlicensed")
     public Result addStoreForUnlicensed(@RequestHeader String Authorization, Principal principal, @RequestBody AddStoreForUnlicensedDto addStoreForUnlicensedDto) {
         LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
-        return storeService.addStore(lgmnUserInfo, addStoreForUnlicensedDto);
+        try {
+            return storeService.addStore(lgmnUserInfo, addStoreForUnlicensedDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "添加有证共享店")
     @PostMapping("/addStore")
     public Result addStore(@RequestHeader String Authorization, Principal principal, @RequestBody AddStoreDto addStoreDto) {
         LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
-        return storeService.addStore(lgmnUserInfo, addStoreDto);
+        try {
+            return storeService.addStore(lgmnUserInfo, addStoreDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "认证共享店")

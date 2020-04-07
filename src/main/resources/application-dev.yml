@@ -99,7 +99,19 @@ ngrok:
   subdomain: xjb1
   proto: https
 
+#swcyVersion:
+#  version: 2.4.4
+#  isMandatoryUpdate: true
+#  updateMsg: 完善供应商、盟店等功能
+#swcyVersion:
+#  version: 2.4.5
+#  isMandatoryUpdate: false
+#  updateMsg: 完善商家标识，请到三维创业公众号下载更新
+#swcyVersion:
+#  version: 2.4.6
+#  isMandatoryUpdate: true
+#  updateMsg: 完善三维创业
 swcyVersion:
-  version: 2.4.4
+  version: 2.4.7
   isMandatoryUpdate: true
-  updateMsg: 完善供应商、盟店等功能
+  updateMsg: 完善三维创业,请到三维创业公众号下载更新

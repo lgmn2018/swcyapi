@@ -188,11 +188,11 @@ public class PersonService {
 
     public Result getMyTeamAchievement (LgmnUserInfo lgmnUserInfo) throws Exception {
         List<SwcyAppUserEntity> swcyAppUserEntities = appUserService.getAppUserListByPuid(lgmnUserInfo.getId());
-        List<String> ids = new ArrayList<>();
-        ids.add(lgmnUserInfo.getId());
-        for (SwcyAppUserEntity swcyAppUserEntity : swcyAppUserEntities) {
-            ids.add(swcyAppUserEntity.getUid());
-        }
+//        List<String> ids = new ArrayList<>();
+//        ids.add(lgmnUserInfo.getId());
+//        for (SwcyAppUserEntity swcyAppUserEntity : swcyAppUserEntities) {
+//            ids.add(swcyAppUserEntity.getUid());
+//        }
 //        List<SwcyOrderEntity> swcyOrderEntities = sOrderService.getAllByUid(ids);
         BigDecimal teamAchievement = new BigDecimal(0.0);
 //        for (SwcyOrderEntity swcyOrderEntity : swcyOrderEntities) {
@@ -200,7 +200,7 @@ public class PersonService {
 //        }
 
         for (SwcyAppUserEntity swcyAppUserEntity : swcyAppUserEntities) {
-            teamAchievement.add(swcyAppUserEntity.getConsumptionAmount());
+            teamAchievement = teamAchievement.add(swcyAppUserEntity.getConsumptionAmount());
         }
         TeamAchievementVo teamAchievementVo = new TeamAchievementVo();
         teamAchievementVo.setTeamSum(swcyAppUserEntities.size());
@@ -221,6 +221,13 @@ public class PersonService {
         swcyAppUserEntityPage.setTotalPage(1);
 
         LgmnPage<MyTeamVo> myTeamVoLgmnPage = new MyTeamVo().getVoPage(swcyAppUserEntityPage, MyTeamVo.class);
+        for (MyTeamVo myTeamVo : myTeamVoLgmnPage.getList()) {
+            LgmnUserEntity lgmnUserEntity = userService.getUserById(myTeamVo.getUid());
+            myTeamVo.setAvatar(lgmnUserEntity.getAvatar());
+            myTeamVo.setNikeName(lgmnUserEntity.getNikeName());
+            myTeamVo.setPhone(myTeamVo.getPhone());
+        }
+
 //        for (MyTeamVo myTeamVo : myTeamVoLgmnPage.getList()) {
 ////            LgmnUserEntity lgmnUserEntity = userService.getUserById(myTeamVo.getUid());
 ////            List<String> ids = new ArrayList<>();
@@ -296,6 +303,10 @@ public class PersonService {
     }
 
     public Result authenticationPhone(LgmnUserInfo lgmnUserInfo, AuthenticationPhoneDto authenticationPhoneDto) throws Exception {
+        List<SwcyAppUserEntity> userList = appUserService.getAppUserByPhone(authenticationPhoneDto.getPhone());
+        if (userList.size() > 0) {
+            return Result.serverError("此手机号已认证，请更换手机号");
+        }
         List<LgmnSmsCodeEntity> lgmnSmsCodes = smsCodeService.getByPhone(authenticationPhoneDto.getPhone());
         if (lgmnSmsCodes.size() <= 0) return Result.error(ResultEnum.MSG_CODE_ERROR);
         LgmnSmsCodeEntity lgmnSmsCode = lgmnSmsCodes.get(0);
