@@ -75,7 +75,7 @@ public class SStoreService {
         swcyStoreDto.setPageSize(pageSize);
         swcyStoreDto.setDelFlag(0);
         LgmnOrder lgmnOrder2 = new LgmnOrder(Sort.Direction.DESC, "storeName");
-        LgmnOrder lgmnOrder1 = new LgmnOrder(Sort.Direction.DESC, "createTime");
+        LgmnOrder lgmnOrder1 = new LgmnOrder(Sort.Direction.ASC, "createTime");
         List<LgmnOrder> lgmnOrders = new ArrayList<>();
         lgmnOrders.add(lgmnOrder2);
         lgmnOrders.add(lgmnOrder1);

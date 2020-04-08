@@ -20,7 +20,7 @@ public class SwcyCommodityApiService {
     @Reference(version = "${demo.service.version}")
     private SwcyCommodityService swcyCommodityService;
 
-    public LgmnPage<SwcyCommodityEntity> getCommodityPageByCommodityTypeId(Integer commodityTypeId, Integer pageNumber, Integer pageSize, Boolean isAdmin) throws Exception {
+    public LgmnPage<SwcyCommodityEntity> getCommodityPageByCommodityTypeId(List<Integer> commodityTypeId, Integer pageNumber, Integer pageSize, Boolean isAdmin) throws Exception {
         SwcyCommodityDto swcyCommodityDto = new SwcyCommodityDto();
         if(!isAdmin) {
             swcyCommodityDto.setStatus(1);
@@ -80,8 +80,10 @@ public class SwcyCommodityApiService {
     }
 
     public List<SwcyCommodityEntity> getCommodityBySupplierCommodityIdAndTypeId(Integer supplierCommodityId, Integer typeId) throws Exception {
+        List<Integer> typeIds = new ArrayList<>();
+        typeIds.add(typeId);
         SwcyCommodityDto swcyCommodityDto = new SwcyCommodityDto();
-        swcyCommodityDto.setTypeId(typeId);
+        swcyCommodityDto.setTypeId(typeIds);
         swcyCommodityDto.setSupplierCommodityId(supplierCommodityId);
         return swcyCommodityService.getListByDto(swcyCommodityDto);
     }

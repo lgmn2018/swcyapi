@@ -101,6 +101,15 @@ public class StoreService {
     public Result getShopTypeAndEssentialMessage(String userId, ShopTypeAndEssentialMessageDto shopTypeAndEssentialMessageDto) throws Exception {
         SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(shopTypeAndEssentialMessageDto.getId());
         List<SwcyCommodityTypeEntity> commodityTypeList = swcyCommodityTypeApiService.getCommodityTypeByStoreId(swcyStoreEntity.getId());
+        if (commodityTypeList.size() > 0) {
+            SwcyCommodityTypeEntity allCommodityType = new SwcyCommodityTypeEntity();
+            allCommodityType.setId(0);
+            allCommodityType.setName("全部");
+            allCommodityType.setStatus(1);
+            allCommodityType.setSupplierCategoryId(0);
+            allCommodityType.setStoreId(commodityTypeList.get(0).getStoreId());
+            commodityTypeList.add(0, allCommodityType);
+        }
         boolean isFollow = swcyFollowApiService.isFollow(userId, swcyStoreEntity.getId());
         ShopTypeAndEssentialMessageVo shopTypeAndEssentialMessageVo = new ShopTypeAndEssentialMessageVo();
         shopTypeAndEssentialMessageVo.setSwcyStoreEntity(swcyStoreEntity);
@@ -118,7 +127,18 @@ public class StoreService {
     }
 
     public Result getCommodityPageByCommodityTypeId(CommodityPageByCommodityTypeDto commodityPageByCommodityTypeDto) throws Exception {
-        LgmnPage<SwcyCommodityEntity> lgmnPage = swcyCommodityApiService.getCommodityPageByCommodityTypeId(commodityPageByCommodityTypeDto.getCommodityTypeId(), commodityPageByCommodityTypeDto.getPageNumber(), commodityPageByCommodityTypeDto.getPageSize(), commodityPageByCommodityTypeDto.getIsAdmin());
+        List<Integer> typeIds = new ArrayList<>();
+        if (commodityPageByCommodityTypeDto.getCommodityTypeId() == 0) {
+            List<SwcyCommodityTypeEntity> typeList = swcyCommodityTypeApiService.getCommodityTypeByStoreId(commodityPageByCommodityTypeDto.getStoreId());
+            for (SwcyCommodityTypeEntity swcyCommodityTypeEntity : typeList) {
+                typeIds.add(swcyCommodityTypeEntity.getId());
+            }
+
+            LgmnPage<SwcyCommodityEntity> lgmnPage = swcyCommodityApiService.getCommodityPageByCommodityTypeId(typeIds, commodityPageByCommodityTypeDto.getPageNumber(), commodityPageByCommodityTypeDto.getPageSize(), commodityPageByCommodityTypeDto.getIsAdmin());
+            return Result.success(lgmnPage);
+        }
+        typeIds.add(commodityPageByCommodityTypeDto.getCommodityTypeId());
+        LgmnPage<SwcyCommodityEntity> lgmnPage = swcyCommodityApiService.getCommodityPageByCommodityTypeId(typeIds, commodityPageByCommodityTypeDto.getPageNumber(), commodityPageByCommodityTypeDto.getPageSize(), commodityPageByCommodityTypeDto.getIsAdmin());
         return Result.success(lgmnPage);
     }
 
