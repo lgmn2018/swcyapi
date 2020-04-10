@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1072b904-4e61-4234-9bf1-bd273e2b6198" name="Default Changelist" comment="" />
+    <list default="true" id="1072b904-4e61-4234-9bf1-bd273e2b6198" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-prod.yml" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -10,75 +17,168 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="192.168.1.127" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="192.168.1.127" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="192.168.1.127" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="swcy: schema" type="76f4a085:MysqlImplModel$Schema" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+            <state relative-caret-position="169">
+              <caret line="281" column="40" selection-start-line="281" selection-start-column="40" selection-end-line="281" selection-end-column="40" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/config/ApplicationConfig.java">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application-dev.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/registry.conf">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="13" selection-start-line="13" selection-end-line="13" />
+            <state relative-caret-position="312">
+              <caret line="115" column="26" selection-start-line="115" selection-start-column="26" selection-end-line="115" selection-end-column="26" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/config/ResourceServerConfig.java">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application-prod.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="24" selection-start-column="24" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/config/WebConfig.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="14" column="26" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/swagger/Swagger.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="29" column="21" selection-start-line="29" selection-start-column="21" selection-end-line="29" selection-end-column="21" />
+            <state relative-caret-position="462">
+              <caret line="184" selection-start-line="184" selection-end-line="187" selection-end-column="45" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>getLeagueStoreOrderPage</find>
+      <find>supplierOrderConfirmReceipt</find>
+      <find>applyForReturn</find>
+      <find>applogin</find>
+      <find>类型</find>
+      <find>v1.0.</find>
+      <find>v1.0.4</find>
+      <find>getStoreIndustryList</find>
+      <find>getPageStore</find>
+      <find>new</find>
+      <find>SwcySupplierAPIService</find>
+      <find>saveCommodityType</find>
+      <find>setDescr</find>
+      <find>v1.0.5</find>
+      <find>v1.0.6</find>
+      <find>修改</find>
+      <find>编辑</find>
+      <find>获取我的</find>
+      <find>status</find>
+      <find>v1.0.7</find>
+      <find>v1.0.8</find>
+      <find>手机</find>
+      <find>v1.0.9</find>
+      <find>getMyTeam</find>
+      <find>v1.0.10</find>
+      <find>我的</find>
+      <find>获取门店</find>
+      <find>v1.0.11</find>
+      <find>v1.0.12</find>
+      <find>v1.0.13</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/vo/supplier/SupplierOrderDetailInfoVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/vo/supplier/SupplierOrderPageVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/vo/person/PersonAndAdVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/vo/supplier/SupplierCommodityLatestPriceVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/controller/SettingController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/SettingService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/SSettingService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/setting/SettingService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/store/ShareStoreMsgDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/vo/home/HomeAdVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/assets/AssetsService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/mp/CommendQrcodeDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/handler/SubscribeHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/store/AddStoreForUnlicensedDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/store/AddCommodityDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/store/CreateLeagueStoreDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/LoginService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/commodity/SwcyCommodityTypeApiService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/store/LeagueStoreGetSupplierDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/vo/order/OrderPageVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/OrderService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/store/LeagueStoreAddCommodityDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/supplier/GetLeagueStoreOrderPageDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/vo/supplier/GetLeagueStoreOrderDetailsVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/controller/SupplierController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/supplier/SwcySupplierOrderAPIService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/supplier/SwcySupplierOrderDetailAPIService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/vo/supplier/LeagueStoreOrderPageVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/controller/MpController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/MpUserService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/store/DelStoreDto.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/config/ResourceServerConfig.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/config/WebConfig.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/swagger/Swagger.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/vo/home/HomePageVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/vo/supplier/SupplierInfoVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/store/StoreDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/supplier/SwcySupplierAPIService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/industry/IndustryService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/supplier/SwcySupplierCommodityAPIService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/controller/HomeController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/SupplierService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/controller/StoreController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/appuser/AppUserService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/controller/PersonController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/PersonService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/store/SStoreService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/store/CommodityPageByCommodityTypeDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/commodity/SwcyCommodityApiService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/StoreService.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/application-prod.yml" />
+        <option value="$PROJECT_DIR$/src/main/resources/application-dev.yml" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/config/ApplicationConfig.java" />
       </list>
     </option>
   </component>
@@ -91,9 +191,9 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="localRepository" value="D:\develop\.m2\repository" />
-        <option name="mavenHome" value="$PROJECT_DIR$/../../apache-maven-3.5.0" />
-        <option name="userSettingsFile" value="D:\develop\.m2\settings.xml" />
+        <option name="localRepository" value="$USER_HOME$/Desktop/DevelopmentToot/maven_repository" />
+        <option name="mavenHome" value="$USER_HOME$/Desktop/DevelopmentToot/apache-maven-3.6.1" />
+        <option name="userSettingsFile" value="$USER_HOME$/Desktop/DevelopmentToot/apache-maven-3.6.1/conf/settings.xml" />
       </MavenGeneralSettings>
     </option>
     <option name="importingSettings">
@@ -119,18 +219,17 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1066" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="175" />
+    <option name="y" value="46" />
+    <option name="width" value="1745" />
+    <option name="height" value="999" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -154,82 +253,53 @@
               <item name="swcyapi" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swcyapi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="swcyapi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="swcyapi" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swcyapi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="swcyapi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="swcyapi" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swcyapi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="swcyapi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="swcyapi" type="462c0819:PsiDirectoryNode" />
-              <item name="controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swcyapi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="swcyapi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="swcyapi" type="462c0819:PsiDirectoryNode" />
-              <item name="swagger" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swcyapi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="swcyapi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="swcyapi" type="462c0819:PsiDirectoryNode" />
-              <item name="swcy-apiApplication.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
-            </path>
-            <path>
-              <item name="swcyapi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="swcyapi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="C:/Program Files/nodejs/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="com.sjhy.plugin.ui.TemplateSettingPanel" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/excel" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi" />
       <recent name="D:\develop\gitReps\swcyapi\src\main\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi" />
     </key>
   </component>
   <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
     <option name="ruleStates">
       <list>
         <RuleState>
@@ -240,10 +310,25 @@
         </RuleState>
       </list>
     </option>
+    <option name="contentProportion" value="0.24585126" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.SwcyApiApplication">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PersonService" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.lgmn.swcyapi.service.PersonService" />
+      <module name="swcy-api" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lgmn.swcyapi.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -255,12 +340,22 @@
       </method>
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SwcyApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="swcy-api" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lgmn.swcyapi.SwcyApiApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <properties />
       <listeners />
@@ -277,6 +372,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.PersonService" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SshConsoleOptionsProvider">
+    <option name="myEncoding" value="UTF-8" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -291,17 +394,122 @@
       <workItem from="1558605833863" duration="1139000" />
       <workItem from="1558927370759" duration="1910000" />
       <workItem from="1558946440143" duration="551000" />
+      <workItem from="1559033945134" duration="199000" />
+      <workItem from="1559034165238" duration="6918000" />
+      <workItem from="1559101641096" duration="1586000" />
+      <workItem from="1559103895036" duration="15570000" />
+      <workItem from="1559267874874" duration="3468000" />
+      <workItem from="1559526955457" duration="6764000" />
+      <workItem from="1559545212186" duration="4735000" />
+      <workItem from="1559555758210" duration="6672000" />
+      <workItem from="1559611237248" duration="24514000" />
+      <workItem from="1559649712043" duration="1568000" />
+      <workItem from="1559708270727" duration="1006000" />
+      <workItem from="1559715644897" duration="8012000" />
+      <workItem from="1559727757965" duration="3072000" />
+      <workItem from="1559790170573" duration="2877000" />
+      <workItem from="1559871608993" duration="1832000" />
+      <workItem from="1559956928014" duration="14811000" />
+      <workItem from="1560042285744" duration="15385000" />
+      <workItem from="1560129987325" duration="525000" />
+      <workItem from="1560239593946" duration="2473000" />
+      <workItem from="1560303759854" duration="3179000" />
+      <workItem from="1560307724336" duration="273000" />
+      <workItem from="1560308433946" duration="2606000" />
+      <workItem from="1560321508553" duration="101000" />
+      <workItem from="1560325887457" duration="1021000" />
+      <workItem from="1560391320357" duration="1845000" />
+      <workItem from="1560409142330" duration="6070000" />
+      <workItem from="1560494778145" duration="584000" />
+      <workItem from="1560564355267" duration="1713000" />
+      <workItem from="1560588202455" duration="1122000" />
+      <workItem from="1560908667691" duration="1162000" />
+      <workItem from="1561625467279" duration="4015000" />
+      <workItem from="1561696495323" duration="16033000" />
+      <workItem from="1563674564758" duration="561000" />
+      <workItem from="1565768000079" duration="4571000" />
+      <workItem from="1565786299563" duration="577000" />
+      <workItem from="1565787288375" duration="109000" />
+      <workItem from="1566529230573" duration="2212000" />
+      <workItem from="1566533370959" duration="2912000" />
+      <workItem from="1566726726617" duration="3147000" />
+      <workItem from="1566982099359" duration="3776000" />
+      <workItem from="1567062263089" duration="3122000" />
+      <workItem from="1567662960750" duration="507000" />
+      <workItem from="1567842245754" duration="7566000" />
+      <workItem from="1567924394776" duration="2278000" />
+      <workItem from="1568194606149" duration="371000" />
+      <workItem from="1568795435834" duration="1811000" />
+      <workItem from="1568950258480" duration="4609000" />
+      <workItem from="1569058736454" duration="1135000" />
+      <workItem from="1569124686196" duration="48000" />
+      <workItem from="1569124788008" duration="161000" />
+      <workItem from="1569125418135" duration="4284000" />
+      <workItem from="1569397102914" duration="5351000" />
+      <workItem from="1569479938171" duration="10299000" />
+      <workItem from="1569574334174" duration="7212000" />
+      <workItem from="1569641300843" duration="3346000" />
+      <workItem from="1569827372147" duration="14276000" />
+      <workItem from="1569900555032" duration="3191000" />
+      <workItem from="1569906491482" duration="5293000" />
+      <workItem from="1569988262709" duration="5516000" />
+      <workItem from="1570072492039" duration="12484000" />
+      <workItem from="1570252815051" duration="4338000" />
+      <workItem from="1570416943636" duration="1056000" />
+      <workItem from="1570613180788" duration="872000" />
+      <workItem from="1570675810385" duration="10804000" />
+      <workItem from="1571208862540" duration="2204000" />
+      <workItem from="1573095350938" duration="4803000" />
+      <workItem from="1573201528131" duration="5840000" />
+      <workItem from="1573262607410" duration="8435000" />
+      <workItem from="1573348593567" duration="1281000" />
+      <workItem from="1573436922892" duration="23703000" />
+      <workItem from="1573527563691" duration="5980000" />
+      <workItem from="1573625466211" duration="3134000" />
+      <workItem from="1573694963718" duration="2754000" />
+      <workItem from="1573808886695" duration="2354000" />
+      <workItem from="1573890987379" duration="3373000" />
+      <workItem from="1574247103110" duration="21000" />
+      <workItem from="1577754215956" duration="28445000" />
+      <workItem from="1577932843351" duration="5380000" />
+      <workItem from="1578021832738" duration="11710000" />
+      <workItem from="1578107988801" duration="5641000" />
+      <workItem from="1578187800093" duration="4000" />
+      <workItem from="1578208524322" duration="17082000" />
+      <workItem from="1578484760618" duration="16349000" />
+      <workItem from="1579503210211" duration="7912000" />
+      <workItem from="1581047342051" duration="586000" />
+      <workItem from="1582100556125" duration="1413000" />
+      <workItem from="1582107503322" duration="157000" />
+      <workItem from="1582126885653" duration="801000" />
+      <workItem from="1583138787074" duration="1093000" />
+      <workItem from="1583245304020" duration="51000" />
+      <workItem from="1583253656534" duration="259000" />
+      <workItem from="1583477109017" duration="9269000" />
+      <workItem from="1583654921107" duration="3821000" />
+      <workItem from="1583825108038" duration="1555000" />
+      <workItem from="1584255922296" duration="57372000" />
+      <workItem from="1584864036401" duration="23819000" />
+      <workItem from="1584968926067" duration="7215000" />
+      <workItem from="1585126027135" duration="6429000" />
+      <workItem from="1585383397853" duration="879000" />
+      <workItem from="1585639166497" duration="10553000" />
+      <workItem from="1585829980282" duration="344000" />
+      <workItem from="1586147243501" duration="7662000" />
+      <workItem from="1586251205999" duration="6669000" />
+      <workItem from="1586336968744" duration="5244000" />
+      <workItem from="1586418219803" duration="2032000" />
+      <workItem from="1586524114113" duration="257000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3600000" />
+    <option name="totallyTimeSpent" value="596991000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="7" />
-    <editor active="true" />
+    <frame x="175" y="46" width="1745" height="999" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2553305" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4992272" visible="true" weight="0.23605402" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -309,82 +517,475 @@
       <window_info id="UI Designer" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info id="Alibaba Cloud Explorer" order="7" />
-      <window_info id="Web" order="8" side_tool="true" />
+      <window_info id="Web" order="8" sideWeight="0.5007728" side_tool="true" weight="0.37174723" />
+      <window_info id="JRebel" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3290461" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3284974" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32953367" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="FindBugs-IDEA" order="7" />
       <window_info anchor="bottom" id="Spring" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.34068358" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="12" weight="0.3290461" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.325477" />
       <window_info anchor="bottom" id="Java Enterprise" order="13" />
-      <window_info anchor="bottom" id="Database Changes" order="14" />
+      <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="15" />
-      <window_info anchor="bottom" id="Alibaba Cloud View" order="16" />
+      <window_info anchor="bottom" id="Alibaba Cloud View" order="16" weight="0.32642487" />
+      <window_info anchor="bottom" id="Run Dashboard" order="17" weight="0.32745314" />
+      <window_info anchor="bottom" id="Thumbnails" order="18" weight="0.32953367" />
+      <window_info anchor="bottom" id="JRebel Console" order="19" side_tool="true" />
+      <window_info anchor="bottom" id="JRebel Executor" order="20" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Maven" order="3" visible="true" weight="0.32995737" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24973376" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.15276146" />
+      <window_info anchor="right" id="Maven" order="3" weight="0.21139166" />
       <window_info anchor="right" id="Palette" order="4" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
-      <window_info anchor="right" id="Database" order="6" />
+      <window_info anchor="right" id="Database" order="6" weight="0.24733475" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
-      <window_info anchor="right" id="Bean Validation" order="9" />
+      <window_info anchor="right" id="Bean Validation" order="9" weight="0.32960597" />
+      <window_info anchor="right" id="Alibaba Function Compute" order="10" />
+      <window_info anchor="right" id="Alibaba Log Console" order="11" />
+      <window_info anchor="right" id="JRebel Setup Guide" order="12" weight="0.32706988" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4992272" visible="true" weight="0.2577951" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info id="Alibaba Cloud Explorer" order="7" />
+      <window_info id="Web" order="8" sideWeight="0.5007728" side_tool="true" weight="0.37174723" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3284974" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32953367" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="FindBugs-IDEA" order="7" />
+      <window_info anchor="bottom" id="Spring" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32953367" />
+      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.3284974" />
+      <window_info anchor="bottom" id="Java Enterprise" order="13" />
+      <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="15" />
+      <window_info anchor="bottom" id="Alibaba Cloud View" order="16" weight="0.32642487" />
+      <window_info anchor="bottom" id="Run Dashboard" order="17" visible="true" weight="0.3962704" />
+      <window_info anchor="bottom" id="Thumbnails" order="18" weight="0.32953367" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24973376" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="3" weight="0.21375267" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Database" order="6" weight="0.24733475" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+      <window_info anchor="right" id="Bean Validation" order="9" weight="0.32960597" />
+      <window_info anchor="right" id="Alibaba Function Compute" order="10" />
+      <window_info anchor="right" id="Alibaba Log Console" order="11" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/common/1.0.2/common-1.0.2.jar!/com/lgmn/common/domain/LgmnPageRequest.class</url>
+          <line>63</line>
+          <properties />
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/vo/home/HomePageVo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
+        <state relative-caret-position="225">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/swcy-basic/1.0/swcy-basic-1.0.jar!/com/lgmn/swcy/basic/entity/SwcyAppUserEntity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="45" column="37" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/HomeService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="27" column="19" selection-start-line="27" selection-start-column="19" selection-end-line="27" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/config/ResourceServerConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="37" column="77" selection-start-line="37" selection-start-column="77" selection-end-line="37" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/common/1.0.2/common-1.0.2.jar!/com/lgmn/common/result/Result.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
+          <folding>
+            <element signature="e#1369#1370#0" expanded="true" />
+            <element signature="e#1430#1431#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/common/1.0.2/common-1.0.2.jar!/com/lgmn/common/result/ResultEnum.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="13" column="4" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/vo/supplier/SupplierInfoVo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="10" column="27" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/swcy-basic/1.0/swcy-basic-1.0.jar!/com/lgmn/swcy/basic/entity/SwcySupplierEntity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="34" column="31" lean-forward="true" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/swcy-basic/1.0/swcy-basic-1.0.jar!/com/lgmn/swcy/basic/service/SwcyStoreService.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/org/springframework/spring-web/5.1.3.RELEASE/spring-web-5.1.3.RELEASE-sources.jar!/org/springframework/web/method/support/InvocableHandlerMethod.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="197" selection-start-line="197" selection-end-line="197" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_231.jdk/Contents/Home/src.zip!/java/util/List.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="237" column="12" selection-start-line="237" selection-start-column="12" selection-end-line="237" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/vo/supplier/GetSupplierPageVo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/swcy-basic/1.0/swcy-basic-1.0.jar!/com/lgmn/swcy/basic/dto/SwcySupplierDto.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="24" column="14" lean-forward="true" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/supplier/LoadMoreSupplierPageDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="38" lean-forward="true" selection-start-column="38" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/swcy-basic/1.0/swcy-basic-1.0.jar!/com/lgmn/swcy/basic/entity/SwcyStoreEntity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-387">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/industry/IndustryService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="32" column="50" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/supplier/SwcySupplierAPIService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="30" column="35" selection-start-line="30" selection-start-column="11" selection-end-line="30" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/supplier/SwcySupplierCategoryAPIService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="16" column="43" lean-forward="true" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/swcy-basic/1.0/swcy-basic-1.0.jar!/com/lgmn/swcy/basic/dto/SwcySupplierCommodityDto.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/swcy-basic/1.0/swcy-basic-1.0.jar!/com/lgmn/swcy/basic/entity/SwcySupplierCommodityEntity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/supplier/SwcySupplierCommodityAPIService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="60" column="44" selection-start-line="60" selection-start-column="11" selection-end-line="60" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/store/LeagueStoreAddCommodityDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
           <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/config/ApplicationConfig.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/controller/SupplierController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+        <state relative-caret-position="165">
+          <caret line="22" column="36" selection-start-line="21" selection-start-column="4" selection-end-line="22" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/swcy-basic/1.0/swcy-basic-1.0.jar!/com/lgmn/swcy/basic/entity/SwcySupplierCategoryEntity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="27" column="41" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/store/CreateLeagueStoreDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/common/1.0.2/common-1.0.2.jar!/com/lgmn/common/domain/LgmnOrder.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="17" column="11" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/controller/HomeController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="50" column="50" lean-forward="true" selection-start-line="50" selection-start-column="50" selection-end-line="50" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/swcy-basic/1.0/swcy-basic-1.0.jar!/com/lgmn/swcy/basic/dto/SwcyStoreDto.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="333" column="16" selection-start-line="333" selection-start-column="16" selection-end-line="333" selection-end-column="16" />
+          <folding>
+            <element signature="e#6724#6725#0" expanded="true" />
+            <element signature="e#6762#6763#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/SupplierService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="431" column="85" selection-start-line="431" selection-start-column="85" selection-end-line="431" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/controller/LoginController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="25" column="14" lean-forward="true" selection-start-line="25" selection-start-column="14" selection-end-line="25" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/common/1.0.2/common-1.0.2.jar!/com/lgmn/common/domain/LgmnUserInfo.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/PersonService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="197" column="69" lean-forward="true" selection-start-line="197" selection-start-column="69" selection-end-line="197" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/appuser/AppUserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="27" column="52" selection-start-line="27" selection-start-column="52" selection-end-line="27" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/swcy-basic/1.0/swcy-basic-1.0.jar!/com/lgmn/swcy/basic/service/SwcyAppUserService.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="22" column="41" selection-start-line="22" selection-start-column="28" selection-end-line="22" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/store/NewsGetPageStoreDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/store/StoreDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="13" column="23" lean-forward="true" selection-start-line="9" selection-start-column="4" selection-end-line="13" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/controller/RootController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/controller/PersonController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1630">
+          <caret line="126" column="33" selection-start-line="126" selection-start-column="33" selection-end-line="126" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/store/SStoreService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="81" column="43" lean-forward="true" selection-start-line="81" selection-start-column="43" selection-end-line="81" selection-end-column="43" />
+          <folding>
+            <element signature="e#2982#2983#0" expanded="true" />
+            <element signature="e#3034#3035#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/dto/store/CommodityPageByCommodityTypeDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/swcy-basic/1.0/swcy-basic-1.0.jar!/com/lgmn/swcy/basic/entity/SwcyCommodityEntity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/StoreService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="386">
+          <caret line="118" column="5" lean-forward="true" selection-start-line="118" selection-start-column="5" selection-end-line="118" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/config/ResourceServerConfig.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/controller/StoreController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="24" selection-start-column="24" selection-end-column="24" />
+        <state relative-caret-position="210">
+          <caret line="57" column="45" selection-start-line="57" selection-start-column="45" selection-end-line="57" selection-end-column="45" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/config/WebConfig.java">
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/swcy-basic/1.0/swcy-basic-1.0.jar!/com/lgmn/swcy/basic/entity/SwcyCommodityTypeEntity.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="14" column="26" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
+        <state relative-caret-position="180">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/swagger/Swagger.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/commodity/SwcyCommodityTypeApiService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="29" column="21" selection-start-line="29" selection-start-column="21" selection-end-line="29" selection-end-column="21" />
+        <state relative-caret-position="135">
+          <caret line="15" column="41" selection-start-line="15" selection-start-column="11" selection-end-line="15" selection-end-column="41" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/registry.conf">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/lgmn/swcyapi/service/commodity/SwcyCommodityApiService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        <state relative-caret-position="114">
+          <caret line="66" column="50" selection-start-line="66" selection-start-column="50" selection-end-line="66" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/DevelopmentToot/maven_repository/com/lgmn/swcy-basic/1.0/swcy-basic-1.0.jar!/com/lgmn/swcy/basic/dto/SwcyCommodityDto.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="640">
+          <caret line="104" column="16" selection-start-line="104" selection-start-column="16" selection-end-line="104" selection-end-column="16" />
+          <folding>
+            <element signature="e#2030#2031#0" expanded="true" />
+            <element signature="e#2066#2067#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application-prod.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="184" selection-start-line="184" selection-end-line="187" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application-dev.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="115" column="26" selection-start-line="115" selection-start-column="26" selection-end-line="115" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="281" column="40" selection-start-line="281" selection-start-column="40" selection-end-line="281" selection-end-column="40" />
         </state>
       </provider>
     </entry>
@@ -392,6 +993,29 @@
   <component name="masterDetails">
     <states>
       <state key="ArquillianSettingsConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
         <settings>
           <splitter-proportions>
             <option name="proportions">
@@ -420,6 +1044,19 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>swcy-api</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

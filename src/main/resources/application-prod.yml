@@ -174,7 +174,15 @@ ngrok:
 #  version: 2.4.7
 #  isMandatoryUpdate: true
 #  updateMsg: 完善三维创业,请到三维创业公众号下载更新
+#swcyVersion:
+#  version: 2.4.8
+#  isMandatoryUpdate: true
+#  updateMsg: 更新 2.4.8 版本，完善共享店分类,请到三维创业公众号下载更新
+#swcyVersion:
+#  version: 2.4.9
+#  isMandatoryUpdate: true
+#  updateMsg: 更新 2.4.9 版本，完善共享店分类,请到三维创业公众号下载更新
 swcyVersion:
-  version: 2.4.8
+  version: 2.4.10
   isMandatoryUpdate: true
-  updateMsg: 更新 2.4.8 版本，完善共享店分类,请到三维创业公众号下载更新
+  updateMsg: 更新 2.4.10 版本，完善购物车,请到三维创业公众号下载更新
