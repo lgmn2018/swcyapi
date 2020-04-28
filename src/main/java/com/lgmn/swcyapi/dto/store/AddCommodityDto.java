@@ -12,4 +12,5 @@ public class AddCommodityDto {
     private String cover;
     private String specs;
     private BigDecimal price;
+    private String notes;
 }

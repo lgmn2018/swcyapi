@@ -17,4 +17,5 @@ public class SupplierCommodityInfoVo extends LgmnVo<SwcySupplierCommodityEntity,
     private String detail;
     private BigDecimal retailPrice;
     private String specs;
+    private String notes;
 }

@@ -101,14 +101,16 @@ public class StoreService {
     public Result getShopTypeAndEssentialMessage(String userId, ShopTypeAndEssentialMessageDto shopTypeAndEssentialMessageDto) throws Exception {
         SwcyStoreEntity swcyStoreEntity = sStoreService.getStoreById(shopTypeAndEssentialMessageDto.getId());
         List<SwcyCommodityTypeEntity> commodityTypeList = swcyCommodityTypeApiService.getCommodityTypeByStoreId(swcyStoreEntity.getId());
-        if (commodityTypeList.size() > 0) {
-            SwcyCommodityTypeEntity allCommodityType = new SwcyCommodityTypeEntity();
-            allCommodityType.setId(0);
-            allCommodityType.setName("全部");
-            allCommodityType.setStatus(1);
-            allCommodityType.setSupplierCategoryId(0);
-            allCommodityType.setStoreId(commodityTypeList.get(0).getStoreId());
-            commodityTypeList.add(0, allCommodityType);
+        if (!shopTypeAndEssentialMessageDto.getIsAdmin()) {
+            if (commodityTypeList.size() > 0) {
+                SwcyCommodityTypeEntity allCommodityType = new SwcyCommodityTypeEntity();
+                allCommodityType.setId(0);
+                allCommodityType.setName("全部");
+                allCommodityType.setStatus(1);
+                allCommodityType.setSupplierCategoryId(0);
+                allCommodityType.setStoreId(commodityTypeList.get(0).getStoreId());
+                commodityTypeList.add(0, allCommodityType);
+            }
         }
         boolean isFollow = swcyFollowApiService.isFollow(userId, swcyStoreEntity.getId());
         ShopTypeAndEssentialMessageVo shopTypeAndEssentialMessageVo = new ShopTypeAndEssentialMessageVo();

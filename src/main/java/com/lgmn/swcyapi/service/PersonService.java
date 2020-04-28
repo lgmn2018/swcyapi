@@ -18,6 +18,7 @@ import com.lgmn.swcyapi.service.address.SwcyReceivingAddressApiService;
 import com.lgmn.swcyapi.service.appuser.AppUserService;
 import com.lgmn.swcyapi.service.assets.AssetsService;
 import com.lgmn.swcyapi.service.complaints.ComplaintsService;
+import com.lgmn.swcyapi.service.flow.SwcyFlowApiService;
 import com.lgmn.swcyapi.service.message.MessageService;
 import com.lgmn.swcyapi.service.order.SOrderService;
 import com.lgmn.swcyapi.service.sms.SmsCodeService;
@@ -85,6 +86,9 @@ public class PersonService {
 
     @Autowired
     SStoreService sStoreService;
+
+    @Autowired
+    SwcyFlowApiService swcyFlowApiService;
 
     public Result getPersonAndAdList(LgmnUserInfo lgmnUserInfo) throws Exception {
         SwcyAppUserEntity swcyAppUserEntity = appUserService.getAppUserByUid(lgmnUserInfo.getId());
@@ -188,6 +192,7 @@ public class PersonService {
 
     public Result getMyTeamAchievement (LgmnUserInfo lgmnUserInfo) throws Exception {
         List<SwcyAppUserEntity> swcyAppUserEntities = appUserService.getAppUserListByPuid(lgmnUserInfo.getId());
+//        List<SwcyAppUserEntity> swcyAppUserEntities = appUserService.getAppUserListByPuid("2c93808570f857670170f931352c0002");
 //        List<String> ids = new ArrayList<>();
 //        ids.add(lgmnUserInfo.getId());
 //        for (SwcyAppUserEntity swcyAppUserEntity : swcyAppUserEntities) {
@@ -213,6 +218,7 @@ public class PersonService {
 //        LgmnPage<SwcyAppUserEntity> swcyAppUserEntities = appUserService.getAppUserPageByPuid(lgmnUserInfo.getId(), myTeamDto.getPageNumber(), myTeamDto.getPageSize());
 //        swcyAppUserEntities.getList().add(swcyAppUserEntity);
         List<SwcyAppUserEntity> swcyAppUserEntities = appUserService.getAppUserListByPuid(lgmnUserInfo.getId());
+//        List<SwcyAppUserEntity> swcyAppUserEntities = appUserService.getAppUserListByPuid("2c93808570f857670170f931352c0002");
         LgmnPage<SwcyAppUserEntity> swcyAppUserEntityPage = new LgmnPage<>();
         swcyAppUserEntityPage.setList(swcyAppUserEntities);
         swcyAppUserEntityPage.setCount(Integer.toUnsignedLong(swcyAppUserEntities.size()));
@@ -321,5 +327,9 @@ public class PersonService {
         smsCodeService.saveBySmsCode(lgmnSmsCode);
         appUserService.save(swcyAppUserEntity);
         return Result.success("认证成功");
+    }
+
+    public Result getStoreFlowing(LgmnUserInfo lgmnUserInfo, StoreFlowingDto storeFlowingDto) throws Exception {
+        return Result.success(swcyFlowApiService.getStoreFlowingByPayeeId(lgmnUserInfo.getId(), storeFlowingDto.getPageNumber(), storeFlowingDto.getPageSize()));
     }
 }

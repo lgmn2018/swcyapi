@@ -202,4 +202,15 @@ public class PersonController {
         }
     }
 
+    @ApiOperation(value = "获取共享店收益流水")
+    @PostMapping("/getStoreFlowing")
+    public Result getStoreFlowing(@RequestHeader String Authorization, Principal principal, @RequestBody StoreFlowingDto storeFlowingDto) {
+        LgmnUserInfo lgmnUserInfo = UserUtil.getCurrUser(principal);
+        try {
+            return personService.getStoreFlowing(lgmnUserInfo, storeFlowingDto);
+        } catch (Exception e) {
+            return Result.serverError(e.getMessage());
+        }
+    }
+
 }

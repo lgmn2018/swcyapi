@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class ShopTypeAndEssentialMessageDto {
     private Integer id;
+    private Boolean isAdmin;
 }

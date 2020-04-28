@@ -436,6 +436,7 @@ public class SupplierService {
         swcyCommodityEntity.setPrice(swcySupplierCommodityEntity.getRetailPrice());
         swcyCommodityEntity.setSupplierCommodityId(swcySupplierCommodityEntity.getId());
         swcyCommodityEntity.setStatus(swcySupplierCommodityEntity.getStatus());
+        swcyCommodityEntity.setNotes(swcySupplierCommodityEntity.getNotes());
         return swcyCommodityEntity;
     }
 
