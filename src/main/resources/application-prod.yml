@@ -128,8 +128,8 @@ wx:
   mp:
     redirect-uri: http://api.swcy.top/mp/accesstoken
     configs:
-      - appId: wxc16c319d5aee2286
-        secret: 5294ff5324380be6e277eae203660383
+      - appId: wx709959ed36160c3b
+        secret: fc7d22dc699f038fe4532ff42ee27315
         token: lgmn_swcy_mp
         aesKey: e2vNqiORECUydCmdbH3DVEL0eJB6kfN5AU3w2rCueot
       - appId: wx6135b0ad2c35654c

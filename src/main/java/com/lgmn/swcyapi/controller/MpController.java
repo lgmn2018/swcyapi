@@ -69,7 +69,7 @@ public class MpController {
                         + " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ",
                 openid, signature, encType, msgSignature, timestamp, nonce, requestBody);
 
-        String appid = "wxc16c319d5aee2286";
+        String appid = "wx709959ed36160c3b";
         if (!this.wxMpService.switchover(appid)) {
             throw new IllegalArgumentException(String.format("未找到对应appid=[%s]的配置，请核实！", appid));
         }
@@ -160,7 +160,7 @@ public class MpController {
    public String genCommendQrcode(@RequestBody CommendQrcodeDto commendQrcodeDto){
         String qrcodeUrl = "";
        try {
-           String appid = "wxc16c319d5aee2286";
+           String appid = "wx709959ed36160c3b";
            if (!this.wxMpService.switchover(appid)) {
                throw new IllegalArgumentException(String.format("未找到对应appid=[%s]的配置，请核实！", appid));
            }
