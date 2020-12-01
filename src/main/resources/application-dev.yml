@@ -135,7 +135,11 @@ ngrok:
 #  version: 2.4.12
 #  isMandatoryUpdate: true
 #  updateMsg: 更新 2.4.12 版本，完善三维创业,请到三维创业公众号下载更新
+#swcyVersion:
+#  version: 2.4.13
+#  isMandatoryUpdate: true
+#  updateMsg: 更新 2.4.13 版本，完善三维创业,请到三维创业公众号下载更新
 swcyVersion:
-  version: 2.4.13
+  version: 2.4.14
   isMandatoryUpdate: true
-  updateMsg: 更新 2.4.13 版本，完善三维创业,请到三维创业公众号下载更新
+  updateMsg: 更新 2.4.14 版本，修复二维码失效问题,请到三维创业公众号下载更新
