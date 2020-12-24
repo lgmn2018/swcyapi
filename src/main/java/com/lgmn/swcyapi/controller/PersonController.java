@@ -4,6 +4,7 @@ import com.lgmn.common.domain.LgmnUserInfo;
 import com.lgmn.common.result.Result;
 import com.lgmn.swcyapi.dto.person.*;
 import com.lgmn.swcyapi.service.PersonService;
+import com.lgmn.userservices.basic.service.LgmnUserService;
 import com.lgmn.userservices.basic.util.UserUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -86,7 +86,14 @@ public class SStoreService {
     public List<SwcyStoreEntity> getMyStoreListByUid(String uid) throws Exception {
         SwcyStoreDto swcyStoreDto = new SwcyStoreDto();
         swcyStoreDto.setUid(uid);
-        return swcyStoreService.getListByDto(swcyStoreDto);
+        swcyStoreDto.setDelFlag(0);
+        List<SwcyStoreEntity> list = null;
+        try {
+            list = swcyStoreService.getListByDto(swcyStoreDto);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
     }
 
     public List<SwcyStoreEntity> getStoreListByDto (SwcyStoreDto swcyStoreDto) throws Exception {

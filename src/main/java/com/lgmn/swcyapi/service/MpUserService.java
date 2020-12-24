@@ -7,6 +7,7 @@ import com.lgmn.swcyapi.dto.login.MpRegisterDto;
 import com.lgmn.swcyapi.service.appuser.AppUserService;
 import com.lgmn.swcyapi.service.user.UserService;
 import com.lgmn.userservices.basic.entity.LgmnUserEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Component
+@Slf4j
 public class MpUserService {
 
     @Autowired
@@ -53,6 +55,8 @@ public class MpUserService {
 
         // 保存用户
         saveUser(lgmnUserEntity, registerDto.getPuid(), registerDto.getType(),gender);
+        log.info("\n\n注册用户成功.info....\n\n");
+        log.error("\n\n注册用户成功.error....\n\n");
         return Result.success(msg);
     }
 

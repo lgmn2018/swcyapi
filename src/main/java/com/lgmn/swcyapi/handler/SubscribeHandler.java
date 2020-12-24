@@ -33,6 +33,7 @@ public class SubscribeHandler extends AbstractHandler {
             // 获取微信用户基本信息
             WxMpUser userWxInfo = weixinService.getUserService()
                 .userInfo(wxMessage.getFromUser(), null);
+            this.logger.info("\n\n userWxInfo..." + userWxInfo + "\n\n");
             if (userWxInfo != null) {
 //                this.logger.info("user_info"+userWxInfo);
                 // TODO 可以添加关注用户到本地数据库

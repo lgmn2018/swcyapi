@@ -93,8 +93,8 @@ public class PersonService {
     public Result getPersonAndAdList(LgmnUserInfo lgmnUserInfo) throws Exception {
         SwcyAppUserEntity swcyAppUserEntity = appUserService.getAppUserByUid(lgmnUserInfo.getId());
         List<SwcyAdEntity> swcyAdEntities = adService.getAdListByType(3);
-        List<SwcyStoreEntity> swcyStoreEntities = sStoreService.getMyStoreListByUid(lgmnUserInfo.getId());
         List<HomeAdVo> homeAdVos = new HomeAdVo().getVoList(swcyAdEntities, HomeAdVo.class);
+        List<SwcyStoreEntity> swcyStoreEntities = sStoreService.getMyStoreListByUid(lgmnUserInfo.getId());
         PersonAndAdVo personAndAdVo = new PersonAndAdVo();
         personAndAdVo.setHomeAdVo(homeAdVos);
         personAndAdVo.setLgmnUserInfo(lgmnUserInfo);
